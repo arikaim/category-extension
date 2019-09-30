@@ -1,7 +1,7 @@
 {
     "name": "arikaim/category-extension",
-    "description": "Arikaim Category extension",
-    "keywords": ["Extension", "Arikaim Category extension"],
+    "description": "Arikaim CMS Category extension",
+    "keywords": ["Extension", "Arikaim CMS Category extension"],
     "type": "arikaim-extension",
     "license": "GPL-3.0-or-later",
     "authors": [{
