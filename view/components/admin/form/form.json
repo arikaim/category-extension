@@ -1,0 +1,24 @@
+{
+    "title": {
+        "label": "Title",               
+        "placeholder": "Category title"
+        
+    },
+    "description": {
+        "label": "Description",
+        "placeholder": ""
+    },
+    "parent": {
+        "label": "Parent",
+        "placeholder": "",
+        "root": "Root"
+    },   
+    "labels": {
+        "language": "Language"      
+    },
+    "buttons": {
+        "save": {
+            "content": "Save"
+        }       
+    }
+}

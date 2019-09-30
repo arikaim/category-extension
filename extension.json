@@ -1,0 +1,18 @@
+{
+    "title": "Categories",
+    "icon": "list",
+    "class": "Category",
+    "type": "user",
+    "description": "Add, edit, remove site categories.",
+    "short_description": "Manage site categories.",
+    "version": "1.0",
+    "position": "2",
+    "admin_menu": {        
+        "title": "Categories",
+        "icon": "list",
+        "page_title": "Categories",
+        "page_icon": "list",
+        "sub_title": "Add,Edit,Remove,View",
+        "component": "category::admin"
+    }
+}

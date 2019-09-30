@@ -1,0 +1,17 @@
+{% set parent_id = parent_id|default(null) %}
+{% set model = createModel('Category','category') %}
+{% set items = model.where('parent_id','=',parent_id)  %}
+{% set items = paginate(items,'category') %}
+{% if items is empty %}
+    {% if parent_id is null %}
+    <div class="ui message">
+        {{ messages.empty }}
+    </div>    
+    {% endif %}       
+{% else %}
+    <div class="{{ parent_id|ifthen(null,'ui') }} accordion fluid m-0 p-0" {{ uuid|attr('id') }}>
+        {% for item in items.rows %}
+            {{ component("category::admin.view.item",{ category: item, language: language }) }}
+        {% endfor %}
+    </div>
+{% endif %}

@@ -1,0 +1,11 @@
+{
+    "title": {
+        "content": "View",
+        "icon": "list"              
+    },
+
+    "messages": {
+        "empty": "No categories"
+    } ,
+    "sub": "View sub categories"
+}
