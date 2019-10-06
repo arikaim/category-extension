@@ -1,4 +1,7 @@
 {% component 'components:tabs.vertical.content' %}
+{% if uuid is not empty %}
+    {% set category = createModel('Category','category').findById(uuid) %}
+{% endif %}
 <div class="ui equal width form mt-4">
     <div class="ui segment mt-4">
         <div class="field">
@@ -15,9 +18,9 @@
         </div>
     </div>    
 </div>
-<div class="ui mt-4" id="form_content">   
+<div class="mt-8" id="form_content">
     {% if uuid is not empty %}
-        {{ component('category::admin.form',{ uuid: uuid, language: language }) }}
+    {{ component('system:admin.orm.relations',{ extension: 'category', model: 'CategoryRelations' ,id: category.id }) }}
     {% endif %}
-</div>   
+</div>
 {% endcomponent %}

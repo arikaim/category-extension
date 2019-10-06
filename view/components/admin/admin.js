@@ -43,6 +43,15 @@ function CategoryControlPanel() {
         });          
     };
 
+    this.loadCategoryRelations = function(uuid, language) {
+        arikaim.ui.setActiveTab('#relations','.category-tab-item')      
+        arikaim.page.loadContent({
+            id: 'category_content',
+            component: 'category::admin.relations',
+            params: { uuid: uuid, language: language }
+        });  
+    };
+
     this.loadEditCategory = function(uuid, language) {
         arikaim.ui.setActiveTab('#edit_category','.category-tab-item')      
         arikaim.page.loadContent({

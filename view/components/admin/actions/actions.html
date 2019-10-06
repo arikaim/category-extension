@@ -25,5 +25,9 @@
             {{ buttons.enable.content }}
         </div>
         {% endif %}
+        <div class="item relations-button" uuid="{{ category.uuid }}" {{ buttons.relations.title|attr('title') }} language="{{ language }}">
+            <i class="icon linkify"></i>
+            {{ buttons.relations.content }}
+        </div>
     </div>
 </div>     

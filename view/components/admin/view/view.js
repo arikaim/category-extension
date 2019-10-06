@@ -74,6 +74,12 @@ function CategoryView() {
             });
         }); 
         
+        arikaim.ui.button('.relations-button',function(element) {
+            var uuid = $(element).attr('uuid');
+            var language = $(element).attr('language');
+            category.loadCategoryRelations(uuid,language);     
+        });
+
         this.initAccordion();
     };
 
