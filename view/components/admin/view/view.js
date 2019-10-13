@@ -13,11 +13,13 @@ function CategoryView() {
     var self = this;
 
     this.init = function() {
+        paginator.init('category_rows');
+        this.initRows();
+    };
+
+    this.initRows = function() {
         var component = arikaim.component.get('category::admin');
         var remove_message = component.getProperty('messages.remove.content');
-      
-        paginator.init('category_rows');
-
         $('.actions-dropdown').dropdown();
         
         arikaim.ui.button('.add-button',function(element) {

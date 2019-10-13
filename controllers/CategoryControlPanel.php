@@ -50,8 +50,7 @@ class CategoryControlPanel extends ApiController
             } else {
                 $result = false;
             }
-            $this->setResponse($result,function() use($model,$data) {       
-                // execute event handler                                   
+            $this->setResponse($result,function() use($model,$data) {                                                       
                 Arikaim::event()->trigger('category.create',$data->toArray());            
                 $this
                     ->message('add')
@@ -144,8 +143,8 @@ class CategoryControlPanel extends ApiController
             $result = $model->setStatus($status); 
             $model->setChildStatus($uuid,$status);
 
-            Arikaim::event()->trigger('status',$data->toArray()); 
-            $this->setResponse($result,function() use($uuid,$status) {              
+            $this->setResponse($result,function() use($uuid,$status,$data) {             
+                Arikaim::event()->trigger('category.status',$data->toArray());  
                 $this
                     ->message('status')
                     ->field('uuid',$uuid)

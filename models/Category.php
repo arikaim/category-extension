@@ -195,10 +195,9 @@ class Category extends Model
     {
         $result = [];
         foreach ($items as $key => $value) {                    
-            $model = $this->findCategory($value,$parent_id);
+            $model = $this->findTranslation('title',$value);
 
-            if (is_object($model) == false) {       
-               
+            if (is_object($model) == false) {                      
                 $model = $this->create(['parent_id' => $parent_id]);
                 $model->saveTranslation(['title' => $value], $language, null); 
             }

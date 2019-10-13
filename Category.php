@@ -41,7 +41,8 @@ class Category extends Extension
         $this->createDbTable('CategorySchema');
         $this->createDbTable('CategoryTranslationsSchema');
         $this->createDbTable('CategoryRelationsSchema');
-        
+        // console
+        $this->registerConsoleCommand('CategoryDelete');
         return true;
     }   
 }
