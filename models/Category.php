@@ -11,6 +11,7 @@ namespace Arikaim\Extensions\Category\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Arikaim\Core\Models\Users;
+use Arikaim\Core\Db\Model as DbModel;
 use Arikaim\Extensions\Category\Models\CategoryTranslations;
 
 use Arikaim\Core\Traits\Db\Uuid;
@@ -19,12 +20,16 @@ use Arikaim\Core\Traits\Db\Position;
 use Arikaim\Core\Traits\Db\Tree;
 use Arikaim\Core\Traits\Db\Find;
 use Arikaim\Core\Traits\Db\Status;
+use Arikaim\Core\Traits\Db\UserRelation;
 use Arikaim\Core\Traits\Db\Translations;
 
+/**
+ * Category class
+ */
 class Category extends Model  
 {
     use Uuid,
-        ToggleValue,
+        ToggleValue,        
         Position,
         Find,
         Status,
@@ -86,7 +91,10 @@ class Category extends Model
         $model = $this->findById($id);
         if (is_object($model) == false) {
             return false;
-        }    
+        }
+        $relations = DbModel::CategoryRelations('category');
+        $relations->deleteRelations($model->id);
+
         $model->removeTranslations();
 
         return $model->delete();      
@@ -115,9 +123,7 @@ class Category extends Model
         }
 
         foreach ($model as $item) {
-            $item->removeTranslations();
-            $this->removeChild($item->id);
-            $item->delete();
+            $item->remove($item->id);          
         }
       
         return true;

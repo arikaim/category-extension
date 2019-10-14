@@ -39,6 +39,7 @@ class CategoryDelete extends ConsoleCommand
     {       
         $this->style->writeLn('');
         $category = Model::Category('category')->all();
+        $relations = Model::CategoryRelations('category');
 
         $this->style->writeLn('Total categories: ' . $category->count());
         $this->style->writeLn('');
@@ -48,12 +49,19 @@ class CategoryDelete extends ConsoleCommand
             $this->style->writeLn('');
             $this->style->writeLn('Category: ' . Arrays::toString($item->getTitle()) );    
             $count = $item->translations()->count();
+            $rows = $relations->getRows($item->id);
+
             if ($count == 0) {
-                $this->style->writeLn('Delete ...');
+                $this->style->writeLn('delete ...');
                 $item->remove($item->id);
                 $deleted++;
             }
-    
+            
+            if ($rows->count() == 0) {               
+                $this->style->writeLn('No relations delete category');
+                $item->remove($item->id);
+                $deleted++;
+            }
         }
         $this->style->writeLn('Deleted categories: ' . $deleted);
         $this->style->writeLn('');
