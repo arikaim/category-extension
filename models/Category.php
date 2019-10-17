@@ -182,7 +182,7 @@ class Category extends Model
      *
      * @param string $title
      * @param integer|null $parent_id
-     * @return void
+     * @return Model|false
      */
     public function findCategory($title, $parent_id = null)
     {
@@ -197,18 +197,25 @@ class Category extends Model
         return false;
     }
 
+    /**
+     * Create categories from array
+     *
+     * @param array $items
+     * @param integer|null $parent_id
+     * @param string $language
+     * @return array
+     */
     public function createFromArray(array $items, $parent_id = null, $language = 'en')
     {
         $result = [];
-        foreach ($items as $key => $value) {                    
+        foreach ($items as $key => $value) {       
             $model = $this->findTranslation('title',$value);
-
-            if (is_object($model) == false) {                      
+            if (is_object($model) == false) {                                  
                 $model = $this->create(['parent_id' => $parent_id]);
                 $model->saveTranslation(['title' => $value], $language, null); 
             }
             $result[] = $model->id;            
-        }
+        }      
         return $result;
     }
 }

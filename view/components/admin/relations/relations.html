@@ -11,7 +11,7 @@
                     language: language, 
                     name: 'select_category', 
                     id: 'select_category',
-                    data_type: 'uuid',
+                    data_type: 'id',
                     class: 'basic'                    
                 }) 
             }}
@@ -20,7 +20,7 @@
 </div>
 <div class="mt-8" id="form_content">
     {% if uuid is not empty %}
-    {{ component('system:admin.orm.relations',{ extension: 'category', model: 'CategoryRelations' ,id: category.id }) }}
+    {{ component('system:admin.orm.relations',{ extension: 'category', model: 'CategoryRelations', id: category.id }) }}
     {% endif %}
 </div>
 {% endcomponent %}
