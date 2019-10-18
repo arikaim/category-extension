@@ -14,7 +14,8 @@
         "root": "Root"
     },   
     "labels": {
-        "language": "Language"      
+        "language": "Language",
+        "slug": "Slug"      
     },
     "buttons": {
         "save": {

@@ -33,6 +33,14 @@
     </div>                   
     <div class="field">
         {{ component('components:language.label',{ language: language, class: 'basic' }) }}       
+        {% if uuid is not empty %}
+        <div class="ui basic label">
+            {{ labels.slug }}
+            <div class="detail">
+                {{ category.translation(language).slug }}
+            </div>           
+        </div>
+        {% endif %}
     </div>
     {{ component('components:form.footer') }}   
 </form>
