@@ -50,8 +50,8 @@ class Category extends ApiController
     public function readListController($request, $response, $data)
     { 
         $this->onDataValid(function($data) {
-            $parent_id = $data->get('parent_id',null);
-            $category = Model::Category('category')->getList($parent_id);
+            $parentId = $data->get('parent_id',null);
+            $category = Model::Category('category')->getList($parentId);
             $this->setResult($category,true);
         });
                

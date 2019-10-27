@@ -17,6 +17,9 @@ use Arikaim\Core\Traits\Db\Uuid;
 use Arikaim\Core\Traits\Db\Find;
 use Arikaim\Core\Traits\Db\PolymorphicRelations;
 
+/**
+ * CategoryRelations class
+ */
 class CategoryRelations extends Model  
 {
     use 
@@ -24,6 +27,11 @@ class CategoryRelations extends Model
         PolymorphicRelations,
         Find;
        
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = "category_relations";
 
     protected $fillable = [
@@ -34,7 +42,17 @@ class CategoryRelations extends Model
    
     public $timestamps = false;
 
-    protected $relation_model_class = Category::class;
+    /**
+     * Relation model class
+     *
+     * @var string
+     */
+    protected $relationModelClass = Category::class;
 
-    protected $relation_attribute_name = 'category_id';
+    /**
+     * Reation column name
+     *
+     * @var string
+     */
+    protected $relationColumnName = 'category_id';
 }

@@ -24,13 +24,13 @@ class Category extends Extension
     public function install()
     {
         // Api Routes
-        $result = $this->addApiRoute('GET','/api/category/{id}','Category','read');  
-        $result = $this->addApiRoute('GET','/api/category/list/[{parent_id}]','Category','readList');   
+        $this->addApiRoute('GET','/api/category/{id}','Category','read');  
+        $this->addApiRoute('GET','/api/category/list/[{parent_id}]','Category','readList');   
         // Control Panel
-        $result = $this->addApiRoute('POST','/api/category/admin/add','CategoryControlPanel','add','session');   
-        $result = $this->addApiRoute('PUT','/api/category/admin/update','CategoryControlPanel','update','session');       
-        $result = $this->addApiRoute('DELETE','/api/category/admin/delete/{uuid}','CategoryControlPanel','delete','session');     
-        $result = $this->addApiRoute('PUT','/api/category/admin/status','CategoryControlPanel','setStatus','session'); 
+        $this->addApiRoute('POST','/api/category/admin/add','CategoryControlPanel','add','session');   
+        $this->addApiRoute('PUT','/api/category/admin/update','CategoryControlPanel','update','session');       
+        $this->addApiRoute('DELETE','/api/category/admin/delete/{uuid}','CategoryControlPanel','delete','session');     
+        $this->addApiRoute('PUT','/api/category/admin/status','CategoryControlPanel','setStatus','session'); 
             
         // Register events
         $this->registerEvent('category.create','Trigger after new category created');

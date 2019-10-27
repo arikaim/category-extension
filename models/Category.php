@@ -33,14 +33,30 @@ class Category extends Model
         Position,
         Find,
         Status,
+        UserRelation,
         Translations,
         Tree;
     
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = "category";
 
-    protected $translation_reference_attribute = 'category_id';
+    /**
+     * Translation column ref
+     *
+     * @var string
+     */
+    protected $translationReference = 'category_id';
 
-    protected $translation_model_class = CategoryTranslations::class;
+    /**
+     * Translatin model class
+     *
+     * @var string
+     */
+    protected $translationModelClass = CategoryTranslations::class;
 
     protected $fillable = [
         'position',       
@@ -61,11 +77,13 @@ class Category extends Model
         return $this->belongsTo(Category::class,'parent_id');
     }
     
-    public function user()
-    {
-        return $this->belongsTo(Users::class);
-    }
-
+    /**
+     * Set child category status
+     *
+     * @param integer $id
+     * @param integer $status
+     * @return void
+     */
     public function setChildStatus($id, $status)
     {
         $model = $this->findById($id);
@@ -83,9 +101,16 @@ class Category extends Model
         }   
     }
 
-    public function remove($id, $remove_child = true)
+    /**
+     * Delete category 
+     *
+     * @param integer $id
+     * @param boolean $removeChild
+     * @return void
+     */
+    public function remove($id, $removeChild = true)
     {
-        if ($remove_child == true) {
+        if ($removeChild == true) {
             $this->removeChild($id);
         }
         $model = $this->findById($id);
@@ -94,12 +119,17 @@ class Category extends Model
         }
         $relations = DbModel::CategoryRelations('category');
         $relations->deleteRelations($model->id);
-
         $model->removeTranslations();
 
         return $model->delete();      
     }
 
+    /**
+     * Return true if cateogry hav child categories
+     *
+     * @param integer $id
+     * @return boolean
+     */
     public function hasChild($id = null)
     {
         $id = (empty($id) == true) ? $this->id : $id;
@@ -108,9 +138,16 @@ class Category extends Model
         if (is_object($model) == true) {
             return ($model->count() > 0) ? true : false; 
         }
+
         return false;
     }
 
+    /**
+     * Remove child category
+     *
+     * @param integer $id
+     * @return boolean
+     */
     public function removeChild($id)
     {
         $model = $this->findById($id);
@@ -121,7 +158,6 @@ class Category extends Model
         if (is_object($model) == false) {
             return false;
         }
-
         foreach ($model as $item) {
             $item->remove($item->id);          
         }
@@ -135,7 +171,7 @@ class Category extends Model
      * @param integer|string $id
      * @param string|null $language
      * @param array $items
-     * @return array
+     * @return array|null
      */
     public function getTitle($id = null, $language = null, $items = [])
     {       
@@ -156,12 +192,25 @@ class Category extends Model
         return $result;
     }
 
-    public function getList($parent_id = null)
+    /**
+     *  Get categories list
+     *
+     * @param integer $parentId
+     * @return Model|null
+     */
+    public function getList($parentId = null)
     {      
-        $model = $this->where('parent_id','=',$parent_id)->get();
+        $model = $this->where('parent_id','=',$parentId)->get();
         return (is_object($model) == true) ? $model : null;           
     }
 
+    /**
+     * Get translation title
+     *
+     * @param string $language
+     * @param string|null $default
+     * @return string|null
+     */
     public function getTranslationTitle($language, $default = null)
     {
         $model = $this->translation($language);     
@@ -172,21 +221,28 @@ class Category extends Model
         return (isset($model->title) == true) ? $model->title : null;
     }
 
-    public function hasCategory($title, $parent_id = null)
+    /**
+     * Return true if category exist
+     *
+     * @param string $title
+     * @param integer|null $parentId
+     * @return boolean
+     */
+    public function hasCategory($title, $parentId = null)
     { 
-        return is_object($this->findCategory($title,$parent_id));
+        return is_object($this->findCategory($title,$parentId));
     }
 
     /**
      * Find category
      *
      * @param string $title
-     * @param integer|null $parent_id
+     * @param integer|null $parentId
      * @return Model|false
      */
-    public function findCategory($title, $parent_id = null)
+    public function findCategory($title, $parentId = null)
     {
-        $model = $this->where('parent_id','=',$parent_id)->get();
+        $model = $this->where('parent_id','=',$parentId)->get();
         foreach ($model as $item) {
             $translation = $item->translations()->getQuery()->where('title','=',$title)->first();   
             if (is_object($translation) == true) {
@@ -201,17 +257,17 @@ class Category extends Model
      * Create categories from array
      *
      * @param array $items
-     * @param integer|null $parent_id
+     * @param integer|null $parentId
      * @param string $language
      * @return array
      */
-    public function createFromArray(array $items, $parent_id = null, $language = 'en')
+    public function createFromArray(array $items, $parentId = null, $language = 'en')
     {
         $result = [];
         foreach ($items as $key => $value) {       
             $model = $this->findTranslation('title',$value);
             if (is_object($model) == false) {                                  
-                $model = $this->create(['parent_id' => $parent_id]);
+                $model = $this->create(['parent_id' => $parentId]);
                 $model->saveTranslation(['title' => $value], $language, null); 
             }
             $result[] = $model->id;            

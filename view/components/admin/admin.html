@@ -13,6 +13,7 @@
 
 {{  component('components:tabs',{ 
         items: items,
+        menu: { component: 'system:admin.extensions.menu.actions', extension: 'category' },
         content: { component: 'category::admin.menu', params: { language: language } } 
     })
 }}

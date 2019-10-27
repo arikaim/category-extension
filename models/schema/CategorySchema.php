@@ -21,7 +21,7 @@ class CategorySchema extends Schema
      *
      * @var string
      */
-    protected $table_name = "category";
+    protected $tableName = "category";
 
    /**
      * Create table

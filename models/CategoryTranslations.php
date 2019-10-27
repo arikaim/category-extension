@@ -36,6 +36,11 @@ class CategoryTranslations extends Model
    
     public $timestamps = false;
 
+    /**
+     * Category relation
+     *
+     * @return mixed
+     */
     public function category()
     {
         return $this->hasOne(Category::class,'id','category_id'); 
