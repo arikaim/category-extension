@@ -4,7 +4,7 @@
  *
  * @link        http://www.arikaim.com
  * @copyright   Copyright (c) 2016-2018 Konstantin Atanasov <info@arikaim.com>
- * @license     http://www.arikaim.com/license.html
+ * @license     http://www.arikaim.com/license
  * 
 */
 namespace Arikaim\Extensions\Category\Models;
@@ -122,24 +122,6 @@ class Category extends Model
         $model->removeTranslations();
 
         return $model->delete();      
-    }
-
-    /**
-     * Return true if cateogry hav child categories
-     *
-     * @param integer $id
-     * @return boolean
-     */
-    public function hasChild($id = null)
-    {
-        $id = (empty($id) == true) ? $this->id : $id;
-
-        $model = $this->findByColumn($this->id,'parent_id');
-        if (is_object($model) == true) {
-            return ($model->count() > 0) ? true : false; 
-        }
-
-        return false;
     }
 
     /**
