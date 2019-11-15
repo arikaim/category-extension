@@ -13,8 +13,7 @@ function CategoryView() {
     var self = this;
 
     this.init = function() {
-        paginator.init('category_rows');
-        this.initRows();
+        paginator.init('category_rows');      
     };
 
     this.initRows = function() {
@@ -99,4 +98,5 @@ var categoryView = new CategoryView();
 
 arikaim.page.onReady(function() {
     categoryView.init();   
+    categoryView.initRows();
 });

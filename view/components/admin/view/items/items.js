@@ -1,3 +1,5 @@
 $(document).ready(function(result) {
-    categoryView.initRows();   
+    safeCall('categoryView',function(obj) {
+        obj.initRows();
+    },true);  
 });
