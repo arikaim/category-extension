@@ -3,7 +3,7 @@
  * Arikaim
  *
  * @link        http://www.arikaim.com
- * @copyright   Copyright (c) 2016-2018 Konstantin Atanasov <info@arikaim.com>
+ * @copyright   Copyright (c)  Konstantin Atanasov <info@arikaim.com>
  * @license     http://www.arikaim.com/license
  * 
 */
@@ -11,7 +11,6 @@ namespace Arikaim\Extensions\Category\Controllers;
 
 use Arikaim\Core\Db\Model;
 use Arikaim\Core\Controllers\ApiController;
-use Arikaim\Core\View\Template;
 
 /**
  * Category api controler
@@ -29,7 +28,7 @@ class Category extends ApiController
     public function readController($request, $response, $data)
     {
         $this->onDataValid(function($data) {
-            $language = $data->get('language',Template::getLanguage());
+            $language = $data->get('language',null);
             $id = $data->get('id');
             $category = Model::Category('category')->findById($id);
             $translation = $category->translation($language);

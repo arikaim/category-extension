@@ -22,7 +22,11 @@ function CategoryControlPanel() {
      * @param int status  0 - disabled, 1 - active
      */
     this.setStatus = function(uuid, status ,onSuccess, onError) {           
-        var data = { uuid: uuid, status: status };
+        var data = { 
+            uuid: uuid, 
+            status: status 
+        };
+
         return arikaim.put('/api/category/admin/status',data,onSuccess,onError);      
     };
 
@@ -30,21 +34,30 @@ function CategoryControlPanel() {
         return arikaim.page.loadContent({
             id : element,
             component : 'category::admin.view.items',
-            params: { parent_id: parent_id, language: language, uuid: uuid }
+            params: { 
+                parent_id: parent_id,
+                language: language,
+                uuid: uuid 
+            }
         },onSuccess);
     };
 
     this.loadAddCategory = function(parent_id, language) {
-        arikaim.ui.setActiveTab('#add_category','.category-tab-item')   
+        arikaim.ui.setActiveTab('#add_category','.category-tab-item');
+
         arikaim.page.loadContent({
             id: 'category_content',
             component: 'category::admin.add',
-            params: { parent_id: parent_id, language: language }
+            params: { 
+                parent_id: parent_id,
+                language: language 
+            }
         });          
     };
 
     this.loadCategoryRelations = function(uuid, language) {
-        arikaim.ui.setActiveTab('#relations','.category-tab-item')      
+        arikaim.ui.setActiveTab('#relations','.category-tab-item');
+             
         arikaim.page.loadContent({
             id: 'category_content',
             component: 'category::admin.relations',

@@ -18,7 +18,7 @@ function CategoryView() {
 
     this.initRows = function() {
         var component = arikaim.component.get('category::admin');
-        var remove_message = component.getProperty('messages.remove.content');
+        var removeMessage = component.getProperty('messages.remove.content');
         $('.actions-dropdown').dropdown();
         
         arikaim.ui.button('.add-button',function(element) {
@@ -37,7 +37,7 @@ function CategoryView() {
             var uuid = $(element).attr('uuid');
             var title = $(element).attr('data-title');
 
-            var message = arikaim.ui.template.render(remove_message,{ title: title });
+            var message = arikaim.ui.template.render(removeMessage,{ title: title });
             modal.confirmDelete({ 
                 title: component.getProperty('messages.remove.title'),
                 description: message
@@ -51,12 +51,12 @@ function CategoryView() {
       
         arikaim.ui.button('.disable-button',function(element) {
             var uuid = $(element).attr('uuid');
-            var parent_uuid = $(element).attr('parent-uuid');
-            var parent_id = $(element).attr('parent-id');
+            var parentUuid = $(element).attr('parent-uuid');
+            var parentId = $(element).attr('parent-id');
             var language = $(element).attr('language');
 
             category.setStatus(uuid,0,function(result) {
-                category.loadList(parent_uuid,parent_id,uuid,language,function(result) {                  
+                category.loadList(parentUuid,parentId,uuid,language,function(result) {                  
                     self.init();                  
                 });
             });
@@ -64,12 +64,12 @@ function CategoryView() {
         
         arikaim.ui.button('.enable-button',function(element) {
             var uuid = $(element).attr('uuid');
-            var parent_uuid = $(element).attr('parent-uuid');
-            var parent_id = $(element).attr('parent-id');
+            var parentUuid = $(element).attr('parent-uuid');
+            var parentId = $(element).attr('parent-id');
             var language = $(element).attr('language');
           
             category.setStatus(uuid,1,function(result) {
-                category.loadList(parent_uuid,parent_id,uuid,language,function(result) {                   
+                category.loadList(parentUuid,parentId,uuid,language,function(result) {                   
                     self.init();                    
                 });
             });

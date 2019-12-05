@@ -3,25 +3,24 @@
  * Arikaim
  *
  * @link        http://www.arikaim.com
- * @copyright   Copyright (c) 2016-2018 Konstantin Atanasov <info@arikaim.com>
+ * @copyright   Copyright (c)  Konstantin Atanasov <info@arikaim.com>
  * @license     http://www.arikaim.com/license
  * 
 */
 namespace Arikaim\Extensions\Category\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Arikaim\Core\Models\Users;
 use Arikaim\Core\Db\Model as DbModel;
 use Arikaim\Extensions\Category\Models\CategoryTranslations;
 
-use Arikaim\Core\Traits\Db\Uuid;
-use Arikaim\Core\Traits\Db\ToggleValue;
-use Arikaim\Core\Traits\Db\Position;
-use Arikaim\Core\Traits\Db\Tree;
-use Arikaim\Core\Traits\Db\Find;
-use Arikaim\Core\Traits\Db\Status;
-use Arikaim\Core\Traits\Db\UserRelation;
-use Arikaim\Core\Traits\Db\Translations;
+use Arikaim\Core\Db\Traits\Uuid;
+use Arikaim\Core\Db\Traits\ToggleValue;
+use Arikaim\Core\Db\Traits\Position;
+use Arikaim\Core\Db\Traits\Tree;
+use Arikaim\Core\Db\Traits\Find;
+use Arikaim\Core\Db\Traits\Status;
+use Arikaim\Core\Db\Traits\UserRelation;
+use Arikaim\Core\Db\Traits\Translations;
 
 /**
  * Category class

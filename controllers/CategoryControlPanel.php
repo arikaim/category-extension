@@ -3,7 +3,7 @@
  * Arikaim
  *
  * @link        http://www.arikaim.com
- * @copyright   Copyright (c) 2016-2018 Konstantin Atanasov <info@arikaim.com>
+ * @copyright   Copyright (c)  Konstantin Atanasov <info@arikaim.com>
  * @license     http://www.arikaim.com/license
  * 
 */
@@ -11,7 +11,6 @@ namespace Arikaim\Extensions\Category\Controllers;
 
 use Arikaim\Core\Db\Model;
 use Arikaim\Core\Controllers\ApiController;
-use Arikaim\Core\Arikaim;
 
 /**
  * Category control panel controler
@@ -51,7 +50,7 @@ class CategoryControlPanel extends ApiController
                 $result = false;
             }
             $this->setResponse($result,function() use($model,$data) {                                                       
-                Arikaim::event()->dispatch('category.create',$data->toArray());            
+                $this->get('event')->dispatch('category.create',$data->toArray());            
                 $this
                     ->message('add')
                     ->field('id',$model->id)
@@ -86,7 +85,7 @@ class CategoryControlPanel extends ApiController
             $result = $model->saveTranslation($data->slice(['title','description']),$data['language']); 
          
             $this->setResponse($result,function() use($model) {
-                Arikaim::event()->dispatch('category.update',['uuid' => $model->uuid]);   
+                $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
                 $this
                     ->message('update')
                     ->field('uuid',$model->uuid);   
@@ -115,7 +114,7 @@ class CategoryControlPanel extends ApiController
             $result = Model::Category('category')->remove($uuid);
 
             $this->setResponse($result,function() use($uuid) {
-                Arikaim::event()->dispatch('category.delete',['uuid' => $uuid]); 
+                $this->get('event')->dispatch('category.delete',['uuid' => $uuid]); 
                 $this
                     ->message('delete')
                     ->field('uuid',$uuid);  
@@ -144,7 +143,7 @@ class CategoryControlPanel extends ApiController
             $model->setChildStatus($uuid,$status);
 
             $this->setResponse($result,function() use($uuid,$status,$data) {             
-                Arikaim::event()->dispatch('category.status',$data->toArray());  
+                $this->get('event')->dispatch('category.status',$data->toArray());  
                 $this
                     ->message('status')
                     ->field('uuid',$uuid)
