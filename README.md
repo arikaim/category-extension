@@ -1,6 +1,6 @@
-## Category extension
-[version: 1.0.0](https://img.shields.io/github/release/arikaim/category-extension.svg)
-[license: GPL3](https://img.shields.io/badge/License-GPLv3-blue.svg)
+### Category extension
+![version: 1.0.0](https://img.shields.io/github/release/arikaim/category-extension.svg)
+![license: GPL3](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
 
 

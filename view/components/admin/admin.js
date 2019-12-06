@@ -95,6 +95,7 @@ function CategoryControlPanel() {
                 });
             }
         }); 
+        arikaim.ui.tab();
     };
 }
 

@@ -2,7 +2,6 @@
     "title": "Categories",
     "name": "category",
     "package-type": "extension",
-    "class": "Category",
     "type": "user",
     "description": "Add, edit, remove site categories.",
     "short-description": "Manage site categories.",
