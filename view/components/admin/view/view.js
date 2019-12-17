@@ -1,19 +1,38 @@
 /**
  *  Arikaim
- *  
  *  @copyright  Copyright (c) Konstantin Atanasov <info@arikaim.com>
  *  @license    http://www.arikaim.com/license
  *  http://www.arikaim.com
- * 
- *  Extension: Category
- *  Component: category::admin.view
 */
 
 function CategoryView() {
     var self = this;
 
     this.init = function() {
-        paginator.init('category_rows');      
+        paginator.init('category_rows',{
+            name: 'category::admin.view.items',
+            params: {
+                namespace: 'category'
+            }
+        });      
+        $('#branch').dropdown({
+            onChange: function(branch, text, choice) { 
+                var language = $('#choose_language').dropdown('get value');
+                category.loadList('category_rows',null,null,language,branch,function(result) {                   
+                    self.initRows();  
+                    paginator.clear('category',function() {
+                        paginator.init('category_rows',{
+                            name: 'category::admin.view.items',
+                            params: {
+                                namespace: 'category',
+                                branch: branch
+                            }
+                        });     
+                        paginator.reload();     
+                    });   
+                });
+            }
+        });
     };
 
     this.initRows = function() {
@@ -54,9 +73,10 @@ function CategoryView() {
             var parentUuid = $(element).attr('parent-uuid');
             var parentId = $(element).attr('parent-id');
             var language = $(element).attr('language');
+            var branch = $(element).attr('branch');
 
             category.setStatus(uuid,0,function(result) {
-                category.loadList(parentUuid,parentId,uuid,language,function(result) {                  
+                category.loadList(parentUuid,parentId,uuid,language,branch,function(result) {                  
                     self.init();                  
                 });
             });
@@ -67,9 +87,10 @@ function CategoryView() {
             var parentUuid = $(element).attr('parent-uuid');
             var parentId = $(element).attr('parent-id');
             var language = $(element).attr('language');
-          
+            var branch = $(element).attr('branch');
+
             category.setStatus(uuid,1,function(result) {
-                category.loadList(parentUuid,parentId,uuid,language,function(result) {                   
+                category.loadList(parentUuid,parentId,uuid,language,branch,function(result) {                   
                     self.init();                    
                 });
             });

@@ -37,9 +37,12 @@ class CategorySchema extends Schema
         $table->prototype('uuid');       
         $table->status();
         $table->position();
+        $table->string('branch')->nullable(true);
         $table->userId();
         // foreign keys
         $table->foreign('parent_id')->references('id')->on('category')->onDelete('cascade');  
+        // index
+        $table->index('branch');
     }
 
     /**
@@ -49,6 +52,8 @@ class CategorySchema extends Schema
      * @return void
      */
     public function update($table) 
-    {              
+    {   
+        $table->string('branch')->nullable(true);   
+        $table->index('branch');        
     }
 }

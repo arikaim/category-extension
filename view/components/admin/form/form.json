@@ -6,7 +6,11 @@
     },
     "description": {
         "label": "Description",
-        "placeholder": ""
+        "placeholder": "Enter category description"
+    },
+    "branch": {
+        "label": "Branch",
+        "placeholder": "Enter category branch"
     },
     "parent": {
         "label": "Parent",

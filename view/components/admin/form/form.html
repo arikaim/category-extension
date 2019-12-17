@@ -30,6 +30,10 @@
     <div class="field">
         <label>{{ description.label }}</label>
         <textarea rows="4" cols="4" name="description" id="description" {{ description.placeholder|attr('placeholder') }}>{{ category.translation(language).description }}</textarea>
+    </div> 
+    <div class="field">
+        <label>{{ branch.label }}</label>
+        <input type="text" name="branch" id="branch" {{ branch.placeholder|attr('placeholder') }} value="{{ category.branch }}">  
     </div>                   
     <div class="field">
         {{ component('components:language.label',{ language: language, class: 'basic' }) }}       

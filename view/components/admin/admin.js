@@ -1,12 +1,8 @@
 /**
  *  Arikaim
- *  
  *  @copyright  Copyright (c) Konstantin Atanasov <info@arikaim.com>
  *  @license    http://www.arikaim.com/license
  *  http://www.arikaim.com
- * 
- *  Extension: Category
- *  Component: category:admin
  */
 
 function CategoryControlPanel() {
@@ -30,26 +26,27 @@ function CategoryControlPanel() {
         return arikaim.put('/api/category/admin/status',data,onSuccess,onError);      
     };
 
-    this.loadList = function(element, parent_id, uuid, language, onSuccess) { 
+    this.loadList = function(element, parentId, uuid, language, branch, onSuccess) { 
         return arikaim.page.loadContent({
             id : element,
             component : 'category::admin.view.items',
             params: { 
-                parent_id: parent_id,
+                parent_id: parentId,
                 language: language,
-                uuid: uuid 
+                uuid: uuid,
+                branch: branch 
             }
         },onSuccess);
     };
 
-    this.loadAddCategory = function(parent_id, language) {
+    this.loadAddCategory = function(parentId, language) {
         arikaim.ui.setActiveTab('#add_category','.category-tab-item');
 
         arikaim.page.loadContent({
             id: 'category_content',
             component: 'category::admin.add',
             params: { 
-                parent_id: parent_id,
+                parent_id: parentId,
                 language: language 
             }
         });          
@@ -61,7 +58,10 @@ function CategoryControlPanel() {
         arikaim.page.loadContent({
             id: 'category_content',
             component: 'category::admin.relations',
-            params: { uuid: uuid, language: language }
+            params: { 
+                uuid: uuid,
+                language: language 
+            }
         });  
     };
 
@@ -70,7 +70,10 @@ function CategoryControlPanel() {
         arikaim.page.loadContent({
             id: 'category_content',
             component: 'category::admin.edit',
-            params: { uuid: uuid, language: language }
+            params: { 
+                uuid: uuid,
+                language: language 
+            }
         });  
     };
 

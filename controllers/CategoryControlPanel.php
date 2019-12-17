@@ -41,7 +41,8 @@ class CategoryControlPanel extends ApiController
         
         $this->onDataValid(function($data) {
             $category = Model::Category('category');
-            $data['parent_id'] = $data->get('parent_id',null);                                             
+            $data['parent_id'] = $data->get('parent_id',null);   
+                                                      
             $model = $category->create($data->toArray());
 
             if (is_object($model) == true) {                      

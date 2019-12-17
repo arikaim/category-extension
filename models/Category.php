@@ -32,7 +32,6 @@ class Category extends Model
         Position,
         Find,
         Status,
-        UserRelation,
         Translations,
         Tree;
     
@@ -57,13 +56,24 @@ class Category extends Model
      */
     protected $translationModelClass = CategoryTranslations::class;
 
+    /**
+     * Fillable attributes
+     *
+     * @var array
+     */
     protected $fillable = [
         'position',       
         'status',
         'parent_id',
+        'branch',
         'user_id'
     ];
    
+    /**
+     * Disable timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
     
     /**
@@ -177,11 +187,14 @@ class Category extends Model
      *  Get categories list
      *
      * @param integer $parentId
+     * @param string|null $branch
      * @return Model|null
      */
-    public function getList($parentId = null)
-    {      
-        $model = $this->where('parent_id','=',$parentId)->get();
+    public function getList($parentId = null, $branch = null)
+    {   
+        $model = (empty($branch) == false) ? $this->where('branch','=',$branch) : $this;       
+        $model = $model->where('parent_id','=',$parentId)->get();
+
         return (is_object($model) == true) ? $model : null;           
     }
 
@@ -207,11 +220,12 @@ class Category extends Model
      *
      * @param string $title
      * @param integer|null $parentId
+     * @param string|null $branch
      * @return boolean
      */
-    public function hasCategory($title, $parentId = null)
+    public function hasCategory($title, $parentId = null, $branch = null)
     { 
-        return is_object($this->findCategory($title,$parentId));
+        return is_object($this->findCategory($title,$parentId,$branch));
     }
 
     /**
@@ -219,11 +233,14 @@ class Category extends Model
      *
      * @param string $title
      * @param integer|null $parentId
+     * @param string|null $branch
      * @return Model|false
      */
-    public function findCategory($title, $parentId = null)
+    public function findCategory($title, $parentId = null, $branch = null)
     {
-        $model = $this->where('parent_id','=',$parentId)->get();
+        $model = (empty($branch) == false) ? $this->where('branch','=',$branch) : $this;     
+        $model = $model->where('parent_id','=',$parentId)->get();
+
         foreach ($model as $item) {
             $translation = $item->translations()->getQuery()->where('title','=',$title)->first();   
             if (is_object($translation) == true) {
@@ -240,15 +257,19 @@ class Category extends Model
      * @param array $items
      * @param integer|null $parentId
      * @param string $language
+     * @param string|null $branch
      * @return array
      */
-    public function createFromArray(array $items, $parentId = null, $language = 'en')
+    public function createFromArray(array $items, $parentId = null, $language = 'en', $branch = null)
     {
         $result = [];
         foreach ($items as $key => $value) {       
             $model = $this->findTranslation('title',$value);
             if (is_object($model) == false) {                                  
-                $model = $this->create(['parent_id' => $parentId]);
+                $model = $this->create([
+                    'parent_id' => $parentId,
+                    'branch'    => $branch
+                ]);
                 $model->saveTranslation(['title' => $value], $language, null); 
             }
             $result[] = $model->id;            
