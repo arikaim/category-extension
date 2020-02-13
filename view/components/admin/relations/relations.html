@@ -19,8 +19,14 @@
     </div>    
 </div>
 <div class="mt-8" id="form_content">
-    {% if uuid is not empty %}
-    {{ component('system:admin.orm.relations',{ extension: 'category', model: 'CategoryRelations', id: category.id }) }}
+    {% if uuid is not empty %}   
+        {{  component('system:admin.orm.relations.view',{ 
+                uuid: uuid,
+                extension: 'category',
+                model: 'CategoryRelations',
+                id: category.id 
+            }) 
+        }}
     {% endif %}
 </div>
 {% endcomponent %}

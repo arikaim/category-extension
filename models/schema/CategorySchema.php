@@ -51,5 +51,8 @@ class CategorySchema extends Schema
      */
     public function update($table) 
     {       
+        if ($this->hasColumn('branch') == false) {
+            $table->string('branch')->nullable(true);
+        }
     }
 }

@@ -337,9 +337,9 @@ class Category extends Model
             $categoryTranslations = DbModel::create($this->translationModelClass,'category',function($model) use($categorySlug) {                
                 return $model->findBySlug($categorySlug);           
             });
-
+        
             $filterModel = $filterModel->whereHas('categories',function($query) use($categoryTranslations) {
-                $query->where('category_id','=',$categoryTranslations->id);
+                $query->where('category_id','=',$categoryTranslations->category_id);
             });
 
             return $filterModel;

@@ -6,9 +6,11 @@ $(document).ready(function() {
             var title = $(choice).attr('title');            
             $(this).children('.text').html(title);
             
+            console.log(value);
+
             arikaim.page.loadContent({
                 id: 'form_content',
-                component: 'system:admin.orm.relations',
+                component: 'system:admin.orm.relations.view',
                 params: { 
                     extension: 'category', 
                     model: 'CategoryRelations',                    

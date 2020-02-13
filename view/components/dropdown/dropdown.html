@@ -7,11 +7,14 @@
 
 
 {% set category = createModel('Category','category') %}
+{% if selected is not empty %}
+{% set selected_text = category.findById(selected).translation(language).title %}
+{% endif %}
 {% set items = category.getList() %}
 <div class="ui clearable icon top left pointing dropdown {{ class }}" id="{{ id }}">
     <input name="{{ name }}" id="{{ name }}" type="hidden" value="{{ selected }}">
     <i class="list icon"></i>
-    <div class="text">{{ default }}</div>    
+    <div class="text">{{ (selected_text is not empty) ? selected_text : default }}</div>    
     {{  component('category::dropdown.menu',{ 
             language: language, 
             selected: selected, 

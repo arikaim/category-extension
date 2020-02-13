@@ -24,8 +24,18 @@ class CategoryTranslations extends Model
         Slug,
         Find;
        
+    /**
+     * Db table name
+     *
+     * @var string
+     */
     protected $table = "category_translations";
 
+    /**
+     * Fillable attributes
+     *
+     * @var array
+     */
     protected $fillable = [
         'category_id',
         'title',
@@ -33,7 +43,12 @@ class CategoryTranslations extends Model
         'description',
         'language'
     ];
-   
+    
+    /**
+     * Disable timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
     /**
