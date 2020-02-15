@@ -4,6 +4,7 @@
  *  @license    http://www.arikaim.com/license
  *  http://www.arikaim.com
 */
+"use strict";
 
 function CategoryView() {
     var self = this;
@@ -41,9 +42,9 @@ function CategoryView() {
         $('.actions-dropdown').dropdown();
         
         arikaim.ui.button('.add-button',function(element) {
-            var parent_id = $(element).attr('parent-id');
+            var parentId = $(element).attr('parent-id');
             var language = $(element).attr('language');
-            category.loadAddCategory(parent_id,language); 
+            category.loadAddCategory(parentId,language); 
         });
       
         arikaim.ui.button('.edit-button',function(element) {

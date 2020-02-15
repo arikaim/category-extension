@@ -1,3 +1,5 @@
+"use strict";
+
 arikaim.page.onReady(function() {
     arikaim.ui.form.onSubmit("#category_form",function() {  
         return arikaim.post('/api/category/admin/add','#category_form');

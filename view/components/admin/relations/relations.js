@@ -1,3 +1,5 @@
+"use strict";
+
 $(document).ready(function() {
     $('#select_category').dropdown({
         allowCategorySelection: true,
@@ -6,8 +8,6 @@ $(document).ready(function() {
             var title = $(choice).attr('title');            
             $(this).children('.text').html(title);
             
-            console.log(value);
-
             arikaim.page.loadContent({
                 id: 'form_content',
                 component: 'system:admin.orm.relations.view',
@@ -16,8 +16,7 @@ $(document).ready(function() {
                     model: 'CategoryRelations',                    
                     id: value 
                 }
-            },function(result) {
-               
+            },function(result) {               
             });  
         }
     });

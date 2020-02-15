@@ -1,3 +1,5 @@
+"use strict";
+
 arikaim.page.onReady(function() {   
     category.initCategoryDropDown();
     arikaim.ui.form.addRules("#category_form",{
