@@ -82,7 +82,7 @@ class CategoryControlPanel extends ApiController
             $model = Model::Category('category')->findByid($uuid); 
             // save parent id
             $data['parent_id'] = $data->get('parent_id',null);                  
-            $result = $model->update($data->toArray());   
+            $result = $model->update($data->toArray());
             $result = $model->saveTranslation($data->slice(['title','description']),$data['language']); 
          
             $this->setResponse($result,function() use($model) {

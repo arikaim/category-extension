@@ -1,6 +1,7 @@
 {% set parent_id = parent_id|default(null) %}
 {% set id = id|default('category_dropdown') %}
 {% set page_url = page_url|default('') %}
+{% set language = language|default(current_language) %}
 
 {% set model = createModel('Category','category').getActive().where('parent_id','=',parent_id) %}
 {% if branch is not empty %}
@@ -21,8 +22,8 @@
     <i class="dropdown icon"></i>
     <div class="ui menu {{ menu_class }}"> 
         {% for item in items.get() %}  
-        {% set url = page_url|renderText({ slug: item.translation().slug }) %}
-        <a class="item {{ item_class }}" href="{{ url(url,true) }}">  
+        {% set url = page_url|renderText({ slug: item.getSlug() }) %}
+        <a class="item {{ item_class }}" href="{{ url(url,true,language) }}">  
             {{ item.getTitle(null,language)|string }}  
         </a>    
         {% endfor %}

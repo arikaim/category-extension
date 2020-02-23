@@ -76,7 +76,7 @@ class Category extends Model
         'translations',
         'user'
     ];
-
+    
     /**
      * Visible columns
      *
@@ -220,6 +220,16 @@ class Category extends Model
     }
 
     /**
+     * Get cateogry slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+       return $this->translation('en')->slug;      
+    }
+
+    /**
      *  Get categories list
      *
      * @param integer $parentId
@@ -249,16 +259,6 @@ class Category extends Model
         } 
         
         return (isset($model->title) == true) ? $model->title : null;
-    }
-
-    /**
-     * Title attribute
-     *
-     * @return string|null
-     */
-    public function getTitleAttribute()
-    {
-        return $this->getTranslationTitle();        
     }
 
     /**

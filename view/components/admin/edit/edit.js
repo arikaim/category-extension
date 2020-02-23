@@ -1,6 +1,23 @@
 "use strict";
 
-arikaim.page.onReady(function() {
+$(document).ready(function() {
+
+    $('#choose_language').dropdown({
+        onChange: function(value) {
+            var uuid = $('#select_category').dropdown('get value');           
+            arikaim.page.loadContent({
+                id: 'form_content',
+                component: 'category::admin.form',
+                params: { 
+                    uuid: uuid,
+                    language: value 
+                }
+            },function(result) {
+                initEditCategoryForm();
+            });   
+            $('#language').val(value);
+        }
+    }); 
 
     function initEditCategoryForm() {
         arikaim.ui.form.onSubmit("#category_form",function() {            
@@ -17,7 +34,10 @@ arikaim.page.onReady(function() {
             var title = $(choice).attr('title');
             var language = $(choice).attr('language');            
             $(this).children('.text').html(title);
-        
+            console.log('show');
+
+            arikaim.ui.show('#category_form_content');
+
             arikaim.page.loadContent({
                 id: 'form_content',
                 component: 'category::admin.form',

@@ -2,14 +2,11 @@
 
 {% set items = [{ 
         id: 'language_button',
-        icon: 'globe', 
+        icon: 'list', 
         active: true,
         component: 'category::admin.menu',
         params: { language: language },
-        content: { 
-            component: 'components:language.dropdown',
-            params: { name: 'language', id: 'choose_language', selected: language, class: 'inline search selection mini' } 
-        } 
+        title: labels.view           
     }
 ] %}
 

@@ -4,6 +4,7 @@
         "icon": "edit"
     },
     "labels": {
-        "category": "Category"
+        "category": "Category",
+        "language": "Language"
     }
 }

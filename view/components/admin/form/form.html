@@ -35,8 +35,7 @@
         <label>{{ branch.label }}</label>
         <input type="text" name="branch" id="branch" {{ branch.placeholder|attr('placeholder') }} value="{{ category.branch }}">  
     </div>                   
-    <div class="field">
-        {{ component('components:language.label',{ language: language, class: 'basic' }) }}       
+    <div class="field">       
         {% if uuid is not empty %}
         <div class="ui basic label">
             {{ labels.slug }}

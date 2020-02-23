@@ -1,6 +1,9 @@
 {   
     "title": {
         "content": "Add Category",
-        "icon": "plus"
+        "icon": "plus"        
+    },
+    "labels": {
+        "language": "Language"
     }
 }

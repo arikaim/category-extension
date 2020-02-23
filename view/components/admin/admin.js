@@ -90,15 +90,6 @@ function CategoryControlPanel() {
     };
 
     this.init = function() {    
-        $('#choose_language').dropdown({
-            onChange: function(value) {
-                arikaim.page.loadContent({
-                    id: 'tab_content',
-                    component: 'category::admin.menu',
-                    params: { language: value }
-                });
-            }
-        }); 
         arikaim.ui.tab();
     };
 }

@@ -15,9 +15,20 @@
         </div>
     </div>    
 </div>
-<div class="ui mt-4" id="form_content">   
-    {% if uuid is not empty %}
-        {{ component('category::admin.form',{ uuid: uuid, language: language }) }}
-    {% endif %}
-</div>   
+<div class="ui segment mt-4 {{ (uuid is empty) ? 'hidden' : '' }}" id="category_form_content">   
+    <h4>{{ labels.language }}</h4>
+    {{  component('components:language.dropdown',{
+            name: 'language',
+            id: 'choose_language',
+            selected: language,
+            class: 'inline search selection' 
+        })
+    }}   
+    <div class="mt-4" id="form_content">   
+        {% if uuid is not empty %}
+            {{ component('category::admin.form',{ uuid: uuid, language: language }) }}
+        {% endif %}
+    </div>   
+</div>
+
 {% endcomponent %}
