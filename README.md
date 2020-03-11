@@ -15,6 +15,7 @@ Arikaim CMS category extension
 
 
 #### Installation
+
 ```sh
 composer require arikaim/category-extension
 ```
