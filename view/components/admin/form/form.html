@@ -5,7 +5,7 @@
     {% set parent_id = category.parent_id|default(null) %}
 {% endif %}
 {% set parent_id = parent_id|default(null) %}
-{% set language = language|default(getLanguage()) %}  
+{% set language = language|default(current_language) %}  
 
 <form class="ui equal width form" id="category_form">  
     <input type="hidden" name="uuid" id="uuid" value="{{ uuid }}">  
@@ -26,24 +26,18 @@
     <div class="field required">
         <label>{{ title.label }}</label>
         <input type="text" name="title" id="title" {{ title.placeholder|attr('placeholder') }} value="{{ category.translation(language).title }}">  
-    </div>
-    <div class="field">
-        <label>{{ description.label }}</label>
-        <textarea rows="4" cols="4" name="description" id="description" {{ description.placeholder|attr('placeholder') }}>{{ category.translation(language).description }}</textarea>
-    </div> 
+    </div>   
+    {{  component('components:form.fields.slug',{ 
+            slug_source: 'title',
+            url_path: '',
+            label: 'Slug',
+            show_url: false  
+        }) 
+    }}  
     <div class="field">
         <label>{{ branch.label }}</label>
         <input type="text" name="branch" id="branch" {{ branch.placeholder|attr('placeholder') }} value="{{ category.branch }}">  
     </div>                   
-    <div class="field">       
-        {% if uuid is not empty %}
-        <div class="ui basic label">
-            {{ labels.slug }}
-            <div class="detail">
-                {{ category.translation(language).slug }}
-            </div>           
-        </div>
-        {% endif %}
-    </div>
+    
     {{ component('components:form.footer') }}   
 </form>

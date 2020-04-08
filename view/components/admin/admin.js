@@ -13,11 +13,6 @@ function CategoryControlPanel() {
         return arikaim.delete('/api/category/admin/delete/' + uuid,onSuccess,onError);          
     };
 
-    /**
-     * 
-     * @param string uuid 
-     * @param int status  0 - disabled, 1 - active
-     */
     this.setStatus = function(uuid, status ,onSuccess, onError) {           
         var data = { 
             uuid: uuid, 

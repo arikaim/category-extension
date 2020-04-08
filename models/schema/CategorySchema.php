@@ -38,7 +38,8 @@ class CategorySchema extends Schema
         $table->string('branch')->nullable(true);
         $table->status();
         $table->position();      
-        $table->userId();       
+        $table->userId();  
+        $table->string('thumbnail')->nullable(true);     
         // index
         $table->index('branch');
     }
@@ -53,6 +54,9 @@ class CategorySchema extends Schema
     {       
         if ($this->hasColumn('branch') == false) {
             $table->string('branch')->nullable(true);
+        }
+        if ($this->hasColumn('thumbnail') == false) {
+            $table->string('thumbnail')->nullable(true);
         }
     }
 }

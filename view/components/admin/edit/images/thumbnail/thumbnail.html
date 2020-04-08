@@ -1,0 +1,7 @@
+<div class="ui">
+    <h5>{{ labels.thumbnail }}</h5>
+    {{ component('components:image',{ url: (file_name is empty) ? null : url }) }} 
+    <div class="p-1">   
+        {{ file_name }}     
+    </div>     
+</div>

@@ -10,13 +10,16 @@
 namespace Arikaim\Extensions\Category\Controllers;
 
 use Arikaim\Core\Db\Model;
-use Arikaim\Core\Controllers\ApiController;
+use Arikaim\Core\Controllers\ControlPanelApiController;
+use Arikaim\Core\Controllers\Traits\FileUpload;
 
 /**
  * Category control panel controler
 */
-class CategoryControlPanel extends ApiController
+class CategoryControlPanel extends ControlPanelApiController
 {
+    use FileUpload;
+
     /**
      * Init controller
      *
@@ -26,19 +29,17 @@ class CategoryControlPanel extends ApiController
     {
         $this->loadMessages('category::admin.messages');
     }
-
+  
     /**
      * Add new category
      *
-     * @param object $request
-     * @param object $response
-     * @param object $data
-     * @return object
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
     */
     public function addController($request, $response, $data) 
-    {       
-        $this->requireControlPanelPermission();
-        
+    {         
         $this->onDataValid(function($data) {
             $category = Model::Category('category');
             $data['parent_id'] = $data->get('parent_id',null);   
@@ -55,6 +56,7 @@ class CategoryControlPanel extends ApiController
                 $this
                     ->message('add')
                     ->field('id',$model->id)
+                    ->field('language',$data['language'])
                     ->field('uuid',$model->uuid);           
             },'errors.add');
         });
@@ -66,17 +68,109 @@ class CategoryControlPanel extends ApiController
     }
 
     /**
+     * Upload category image
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
+    */
+    public function uploadImageController($request, $response, $data) 
+    {
+        $this->onDataValid(function($data) use($request) {         
+            $model = Model::Category('category')->findByid($data['uuid']);                
+          
+            if ($model->createImagesPath() === false) {
+                $this->error("Can't create category images directory");
+                return;
+            }
+            $destinationPath = $model->getImagesPath(true);
+            $files = $this->uploadFiles($request,$destinationPath);
+
+            // process uploaded image
+            $result = false;
+            foreach ($files as $item) {               
+                if (empty($item['error']) == false) {
+                    continue;
+                }
+                // set thumbnail image
+                $result = $model->update([
+                    'thumbnail' => $item['name']
+                ]); 
+            }
+
+            $this->setResponse($result,function() use($model) {              
+                $this
+                    ->message('upload')
+                    ->field('thumbnail',$model->thumbnail)
+                    ->field('url',$model->getImageUrl())
+                    ->field('uuid',$model->uuid);   
+            },'errors.upload');
+        });
+        $data->validate(); 
+    }
+
+    /**
+     * Save category dscription
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
+    */
+    public function updateDescriptionController($request, $response, $data) 
+    {
+        $this->onDataValid(function($data) {         
+            $model = Model::Category('category')->findByid($data['uuid']);                
+            $result = $model->saveTranslation($data->slice(['description']),$data['language']); 
+                    
+            $this->setResponse($result,function() use($model) {
+                $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
+                $this
+                    ->message('update')
+                    ->field('uuid',$model->uuid);   
+            },'errors.update');
+        });
+        $data->validate(); 
+    }
+
+    /**
+     * Update category meta tags
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
+    */
+    public function updateMetaTagsController($request, $response, $data) 
+    {
+        $this->onDataValid(function($data) {         
+            $model = Model::Category('category')->findByid($data['uuid']);      
+            $info = $data->slice(['meta_title','meta_description','meta_keywords']);
+            $result = $model->saveTranslation($info,$data['language']); 
+                    
+            $this->setResponse($result,function() use($model) {
+                $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
+                $this
+                    ->message('update')
+                    ->field('uuid',$model->uuid);   
+            },'errors.update');
+        });
+        $data                
+            ->addRule('text:min=2|max=2','language')
+            ->validate(); 
+    }
+
+    /**
      * Update category
      *
-     * @param object $request
-     * @param object $response
-     * @param object $data
-     * @return object
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
     */
     public function updateController($request, $response, $data) 
     {    
-        $this->requireControlPanelPermission();
-
         $this->onDataValid(function($data) {
             $uuid = $data->get('uuid');
             $model = Model::Category('category')->findByid($uuid); 
@@ -97,19 +191,17 @@ class CategoryControlPanel extends ApiController
             ->addRule('text:min=2|max=2','language')
             ->validate();    
     }
-
+  
     /**
      * Delete category
      *
-     * @param object $request
-     * @param object $response
-     * @param object $data
-     * @return object
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
     */
     public function deleteController($request, $response, $data)
     { 
-        $this->requireControlPanelPermission();
-
         $this->onDataValid(function($data) {
             $uuid = $data->get('uuid');
             $result = Model::Category('category')->remove($uuid);
@@ -123,19 +215,17 @@ class CategoryControlPanel extends ApiController
         }); 
         $data->validate();
     }
-    
+      
     /**
      * Enable/Disable category
      *
-     * @param object $request
-     * @param object $response
-     * @param object $data
-     * @return object
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
     */
     public function setStatusController($request, $response, $data)
     {
-        $this->requireControlPanelPermission();
-
         $this->onDataValid(function($data) {
             $status = $data->get('status',1);                
             $uuid = $data->get('uuid');

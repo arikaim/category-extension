@@ -16,12 +16,14 @@ use Arikaim\Extensions\Category\Models\Category;
 use Arikaim\Core\Db\Traits\Uuid;
 use Arikaim\Core\Db\Traits\Find;
 use Arikaim\Core\Db\Traits\Slug;
+use Arikaim\Core\Db\Traits\MetaTags;
 
 class CategoryTranslations extends Model  
 {
     use 
         Uuid,
         Slug,
+        MetaTags,
         Find;
        
     /**
@@ -41,6 +43,9 @@ class CategoryTranslations extends Model
         'title',
         'slug',
         'description',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
         'language'
     ];
     

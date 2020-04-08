@@ -28,10 +28,12 @@ class Category extends Extension
         $this->addApiRoute('GET','/api/category/list/[{parent_id}]','Category','readList');   
         // Control Panel
         $this->addApiRoute('POST','/api/category/admin/add','CategoryControlPanel','add','session');   
-        $this->addApiRoute('PUT','/api/category/admin/update','CategoryControlPanel','update','session');       
+        $this->addApiRoute('PUT','/api/category/admin/update','CategoryControlPanel','update','session'); 
+        $this->addApiRoute('POST','/api/category/admin/upload/image','CategoryControlPanel','uploadImage','session'); 
+        $this->addApiRoute('PUT','/api/category/admin/update/meta','CategoryControlPanel','updateMetaTags','session');       
+        $this->addApiRoute('PUT','/api/category/admin/update/description','CategoryControlPanel','updateDescription','session');       
         $this->addApiRoute('DELETE','/api/category/admin/delete/{uuid}','CategoryControlPanel','delete','session');     
         $this->addApiRoute('PUT','/api/category/admin/status','CategoryControlPanel','setStatus','session'); 
-            
         // Register events
         $this->registerEvent('category.create','Trigger after new category created');
         $this->registerEvent('category.update','Trigger after category is edited');

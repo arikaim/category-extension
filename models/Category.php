@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 
 use Arikaim\Core\Db\Model as DbModel;
 use Arikaim\Extensions\Category\Models\CategoryTranslations;
+use Arikaim\Core\Utils\File;
+use Arikaim\Core\Utils\Path;
+use Arikaim\Core\View\Html\Page;
 
 use Arikaim\Core\Db\Traits\Uuid;
 use Arikaim\Core\Db\Traits\ToggleValue;
@@ -89,7 +92,8 @@ class Category extends Model
         'branch',
         'user',
         'uuid',       
-        'title'
+        'title',
+        'thumbnail'
     ];
 
     /**
@@ -102,7 +106,8 @@ class Category extends Model
         'status',
         'parent_id',
         'branch',
-        'user_id'
+        'user_id',
+        'thumbnail'
     ];
    
     /**
@@ -346,5 +351,43 @@ class Category extends Model
         }
 
         return $filterModel;
+    }
+
+    /**
+     * Get category images path
+     *
+     * @param boolean $relative
+     * @return string
+     */
+    public function getImagesPath($relative = false)
+    {
+        $path = "category" . DIRECTORY_SEPARATOR;
+
+        return ($relative == true) ? 'public' . DIRECTORY_SEPARATOR . $path : Path::STORAGE_PUBLIC_PATH . $path;
+    }
+
+    /**
+     * Create category images path
+     *
+     * @return boolean
+     */
+    public function createImagesPath()
+    {
+        $path = $this->getImagesPath();
+        
+        return (File::exists($path) == false) ? File::makeDir($path) : true;       
+    }
+
+    /**
+     * Get hosted game url
+     *
+     * @param boolean $full
+     * @return string
+     */
+    public function getImageUrl($imageFileName = null, $full = false)
+    {
+        $image = (empty($imageFileName) == true) ? $this->thumbnail : $imageFileName;
+
+        return Page::getUrl('public/category/' . $image,$full);
     }
 }

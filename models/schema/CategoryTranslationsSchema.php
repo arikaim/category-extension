@@ -33,9 +33,12 @@ class CategoryTranslationsSchema extends Schema
     public function create($table) 
     {
         $table->tableTranslations('category_id','category',function($table) {
-            $table->slug();
+            $table->slug(true,true);
             $table->string('title')->nullable(false);
             $table->text('description')->nullable(true);
+            $table->string('meta_title')->nullable(true);
+            $table->text('meta_description')->nullable(true);
+            $table->text('meta_keywords')->nullable(true);            
         });       
     }
 
@@ -46,7 +49,16 @@ class CategoryTranslationsSchema extends Schema
      * @return void
      */
     public function update($table) 
-    {               
+    {    
+        if ($this->hasColumn('meta_title') == false) {
+            $table->string('meta_title')->nullable(true); 
+        } 
+        if ($this->hasColumn('meta_description') == false) {
+            $table->text('meta_description')->nullable(true); 
+        }
+        if ($this->hasColumn('meta_keywords') == false) {
+            $table->text('meta_keywords')->nullable(true); 
+        }           
     }
 
     /**
