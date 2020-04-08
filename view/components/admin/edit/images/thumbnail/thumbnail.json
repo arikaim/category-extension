@@ -1,6 +1,7 @@
 {
     "labels": {        
         "thumbnail": "Thumbnail",       
-        "url": "Url"        
+        "url": "Url",
+        "delete": "Delete"        
     }
 }

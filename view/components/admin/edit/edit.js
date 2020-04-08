@@ -32,7 +32,6 @@ $(document).ready(function() {
             } else {
                 arikaim.ui.show('#category_tabs_content');
             }
-           
             loadEditTabs(value,language);
         }
     });

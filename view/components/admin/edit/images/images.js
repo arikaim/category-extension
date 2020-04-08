@@ -14,7 +14,8 @@ $(document).ready(function() {
                 id: 'thumbnail',
                 params: { 
                     file_name: result.thumbnail,
-                    url: result.url 
+                    url: result.url,
+                    uuid: result.uuid
                 },
                 component: 'category::admin.edit.images.thumbnail'
             });

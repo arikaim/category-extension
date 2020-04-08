@@ -4,13 +4,22 @@
  *  @license    http://www.arikaim.com/license
  *  http://www.arikaim.com
  */
-"use strict";
+'use strict';
 
 function CategoryControlPanel() {
     var self = this;
 
-    this.delete = function(uuid,onSuccess,onError) {
+    this.delete = function(uuid, onSuccess ,onError) {
         return arikaim.delete('/api/category/admin/delete/' + uuid,onSuccess,onError);          
+    };
+
+    this.deleteImage = function(uuid, fileName, onSuccess,onError) {
+        var data = { 
+            uuid: uuid, 
+            file_name: fileName 
+        };
+
+        return arikaim.put('/api/category/admin/delete/image',data,onSuccess,onError);          
     };
 
     this.setStatus = function(uuid, status ,onSuccess, onError) {           

@@ -390,4 +390,17 @@ class Category extends Model
 
         return Page::getUrl('public/category/' . $image,$full);
     }
+
+    /**
+     * Return true if image is used
+     *
+     * @param string $fileName
+     * @return boolean
+     */
+    public function isImagUsed($fileName)
+    {
+        $model = $this->where('thumbnail','=',$fileName)->first();
+
+        return is_object($model);
+    } 
 }

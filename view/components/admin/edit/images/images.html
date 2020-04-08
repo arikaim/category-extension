@@ -4,7 +4,12 @@
 {% endif %}
 <div class="mt-2" id="form_content">       
     <div id="thumbnail">     
-        {{ component('category::admin.edit.images.thumbnail',{ url: category.getImageUrl(), file_name: category.thumbnail }) }}              
+        {{  component('category::admin.edit.images.thumbnail',{ 
+                url: category.getImageUrl(),
+                file_name: category.thumbnail,
+                uuid: uuid 
+            }) 
+        }}              
     </div>  
     <form class="ui form" id="category_images_form" enctype="multipart/form-data">
         <input type="hidden" name="uuid" id="uuid" value="{{ uuid }}">  

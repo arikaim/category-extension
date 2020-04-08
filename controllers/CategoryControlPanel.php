@@ -68,6 +68,39 @@ class CategoryControlPanel extends ControlPanelApiController
     }
 
     /**
+     * Delete category image
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
+    */
+    public function deleteImageController($request, $response, $data) 
+    {
+        $this->onDataValid(function($data) {   
+            $model = Model::Category('category')->findByid($data['uuid']);  
+            $result = $model->update([
+                'thumbnail' => null
+            ]);
+            
+            if ($model->isImagUsed($data['file_name']) == false) {
+                // delete image file
+                $fileName = $model->getImagesPath(true) . $data['file_name'];
+                if ($this->get('storage')->has($fileName) == true) {
+                    $this->get('storage')->delete($fileName);
+                }
+            };
+
+            $this->setResponse($result,function() use($model) {              
+                $this
+                    ->message('delete-image')                                 
+                    ->field('uuid',$model->uuid);   
+            },'errors.delete-image');
+        });  
+        $data->validate();      
+    }
+
+    /**
      * Upload category image
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
