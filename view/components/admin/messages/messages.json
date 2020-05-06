@@ -4,6 +4,7 @@
     "delete": "Category was deleted successfully.",
     "delete-image": "Category image was deleted successfully.",
     "status": "Category status was changed successfully.",
+    "translations": "Categories translated successfully.",
     "errors": {
         "add": "Can't create category.",
         "delete": "Can't delete category",

@@ -93,6 +93,15 @@ function CategoryControlPanel() {
         });
     };
 
+    this.translateCategories = function(language, branch, onSuccess, onError) {      
+        var data = {
+            language: language,
+            branch: branch
+        };
+
+        return arikaim.put('/api/category/admin/translate/categories',data,onSuccess,onError);      
+    };
+
     this.init = function() {    
         arikaim.ui.tab();
     };

@@ -1,14 +1,9 @@
 {% set language = getLanguage() %}
-
-{% set items = [{ 
-        id: 'language_button',
-        icon: 'list', 
-        active: true,
-        component: 'category::admin.menu',
-        params: { language: language },
-        title: labels.view           
-    }
-] %}
+{% set items = [
+    { id: 'language_button',icon: 'list',active: true,component: 'category::admin.menu',params: { language: language },title: labels.view },
+    { id: 'translations_button',icon: 'language',component: 'category::admin.translations',title: labels.translations }
+   ] 
+%}
 
 {{  component('components:tabs',{ 
         items: items,

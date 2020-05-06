@@ -6,6 +6,7 @@
         }
     },
     "labels": {
-        "view": "View"      
+        "view": "View",
+        "translations": "Translations"      
     }  
 }

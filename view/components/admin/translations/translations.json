@@ -1,0 +1,11 @@
+{
+    "title": {
+        "content": "Language Translations",
+        "icon": "language"
+    },
+    "labels": {
+        "branch": "Branch",
+        "language": "Language",
+        "error": "Translations extension not installed."
+    }
+}

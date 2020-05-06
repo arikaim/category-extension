@@ -313,7 +313,7 @@ class Category extends Model
     public function createFromArray(array $items, $parentId = null, $language = null, $branch = null)
     {
         $result = [];
-        foreach ($items as $key => $value) {       
+        foreach ($items as $key => $value) {              
             $model = $this->findTranslation('title',$value);
             if (is_object($model) == false) {                                  
                 $model = $this->create([

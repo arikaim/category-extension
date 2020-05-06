@@ -1,0 +1,29 @@
+{% component 'components:tabs.vertical.content' %}
+    {% if hasExtension('translations') == true %}
+    <div class="mt-2">
+        <div class="ui horizontal segments">
+            <div class="ui segment">
+                <h4>{{ labels.branch }}</h4>
+                {{ component('category::admin.branch',{ class: 'selection' }) }}
+            </div>
+            <div class="ui segment">
+                <h4>{{ labels.language }}</h4>
+                {{  component('components:language.dropdown',{
+                        name: 'language',
+                        id: 'choose_language',
+                        selected: language,
+                        class: 'inline search selection' 
+                    })
+                }} 
+            </div>
+        </div>      
+        <div id="translations_content">
+            {{ component('category::admin.translations.translate',{ branch: branch }) }}
+        </div>
+    </div>
+    {% else %}
+        <div class="ui error message">
+            {{ labels.error }}
+        </div>
+    {% endif %}
+{% endcomponent %}

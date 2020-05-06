@@ -1,3 +1,4 @@
+{% set language = language|default(current_language) %}
 {% set has_child = category.hasChild() %}
 {% set title = category.translation(language).title %}
 

@@ -10,6 +10,9 @@
 namespace Arikaim\Extensions\Category\Controllers;
 
 use Arikaim\Core\Db\Model;
+use Arikaim\Core\Utils\Factory;
+use Arikaim\Core\Utils\Utils;
+use Arikaim\Core\Utils\Text;
 use Arikaim\Core\Controllers\ControlPanelApiController;
 use Arikaim\Core\Controllers\Traits\FileUpload;
 
@@ -29,7 +32,59 @@ class CategoryControlPanel extends ControlPanelApiController
     {
         $this->loadMessages('category::admin.messages');
     }
-  
+    
+    /**
+     * Translate categories
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
+    */
+    public function translateCategoriesController($request, $response, $data)
+    {
+        $transalte = Factory::createController($this->getContainer(),'TranslationsControlPanel','translations');
+
+        if (is_object($transalte) == false) {
+            $this->error("Translations extension not installed");
+            return;
+        }
+        $this->onDataValid(function($data) use($transalte) {
+            $category = Model::Category('category');
+            $branch = $data->get('branch',null);
+            $language = $data->get('language');
+
+            $category = (empty($branch) == false) ? $category->where('branch','=',$branch) :  $category;
+            $categories = $category->orderBy('id')->get();
+            $createdTranslations = 0;
+            foreach($categories as $item) {
+                $translation = $item->translation($language);
+                if ($translation === false) {
+                    // get english translation
+                    $defaultTranslation = $item->translation('en');
+                    if ($defaultTranslation !== false) { 
+                        $translatedFields = $transalte->translateFields('title,description',$defaultTranslation->toArray(),$language);  
+                        if ($translatedFields['title'] != $defaultTranslation->title) {
+                            $translatedFields['title'] = Text::ucFirstUtf($translatedFields['title']);
+                            if (empty($translatedFields['title']) == false) {
+                                $translatedFields['slug'] = Utils::slug($translatedFields['title']);                              
+                                $item->saveTranslation($translatedFields,$language);                           
+                                $createdTranslations++;            
+                            }
+                        }                                                                                                            
+                    }
+                }
+            }    
+           
+            $this->setResponse(true,function() use($createdTranslations) {    
+                $this
+                    ->message('translations')
+                    ->field('translations',$createdTranslations);
+            },'errors.translations');
+        });
+        $data->validate();
+    }
+
     /**
      * Add new category
      *
