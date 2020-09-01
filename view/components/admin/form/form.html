@@ -36,7 +36,10 @@
     }}  
     <div class="field">
         <label>{{ branch.label }}</label>
-        <input type="text" name="branch" id="branch" {{ branch.placeholder|attr('placeholder') }} value="{{ category.branch }}">  
+        <div class="ui action input">
+            <input type="text" name="branch" id="branch" {{ branch.placeholder|attr('placeholder') }} value="{{ category.branch }}"> 
+            {{ component('category::admin.branch',{ class: ' compact selection',label_choice: labels.choose }) }} 
+        </div>
     </div>                   
     
     {{ component('components:form.footer') }}   

@@ -140,7 +140,7 @@ class Category extends Model
             return false;
         }
         $model = $model->where('parent_id','=',$model->id)->get();
-        if (is_object($model) == false) {
+        if (\is_object($model) == false) {
             return false;
         }
 
@@ -163,7 +163,7 @@ class Category extends Model
             $this->removeChild($id);
         }
         $model = $this->findById($id);
-        if (is_object($model) == false) {
+        if (\is_object($model) == false) {
             return false;
         }
         $relations = DbModel::CategoryRelations('category');
@@ -186,7 +186,7 @@ class Category extends Model
             return false;
         }
         $model = $model->where('parent_id','=',$model->id)->get();
-        if (is_object($model) == false) {
+        if (\is_object($model) == false) {
             return false;
         }
         foreach ($model as $item) {
@@ -208,7 +208,7 @@ class Category extends Model
     {       
         $model = (empty($id) == true) ? $this : $this->findById($id);
 
-        if (is_object($model) == false) {
+        if (\is_object($model) == false) {
             return null;
         }
 
@@ -245,7 +245,7 @@ class Category extends Model
         $model = (empty($branch) == false) ? $this->where('branch','=',$branch) : $this;       
         $model = $model->where('parent_id','=',$parentId)->get();
 
-        return (is_object($model) == true) ? $model : null;           
+        return (\is_object($model) == true) ? $model : null;           
     }
 
     /**
@@ -275,7 +275,7 @@ class Category extends Model
      */
     public function hasCategory($title, $parentId = null, $branch = null)
     { 
-        return is_object($this->findCategory($title,$parentId,$branch));
+        return \is_object($this->findCategory($title,$parentId,$branch));
     }
 
     /**
@@ -293,7 +293,7 @@ class Category extends Model
 
         foreach ($model as $item) {
             $translation = $item->translations()->getQuery()->where('title','=',$title)->first();   
-            if (is_object($translation) == true) {
+            if (\is_object($translation) == true) {
                 return $item;
             }  
         }
@@ -315,7 +315,7 @@ class Category extends Model
         $result = [];
         foreach ($items as $key => $value) {              
             $model = $this->findTranslation('title',$value);
-            if (is_object($model) == false) {                                  
+            if (\is_object($model) == false) {                                  
                 $model = $this->create([
                     'parent_id' => $parentId,
                     'branch'    => $branch
@@ -400,6 +400,6 @@ class Category extends Model
     {
         $model = $this->where('thumbnail','=',$fileName)->first();
 
-        return is_object($model);
+        return \is_object($model);
     } 
 }

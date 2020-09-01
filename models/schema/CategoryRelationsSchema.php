@@ -32,7 +32,6 @@ class CategoryRelationsSchema extends Schema
     public function create($table) 
     {
         $table->tablePolymorphicRelations('category_id','category',function($table) {
-
         });       
     }
 

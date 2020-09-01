@@ -46,6 +46,14 @@ class CategoryRelations extends Model
     ];
     
     /**
+     * With relations
+     *
+     * @var array
+     */
+    protected $with = [                    
+    ];
+
+    /**
      * Disable timestamps
      *
      * @var boolean

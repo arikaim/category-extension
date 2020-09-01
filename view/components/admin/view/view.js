@@ -16,7 +16,7 @@ function CategoryView() {
                 namespace: 'category'
             }
         });      
-        $('#branch').dropdown({
+        $('#branch_dropdown').dropdown({
             onChange: function(branch, text, choice) { 
                 var language = $('#choose_language').dropdown('get value');
                 category.loadList('category_rows',null,null,language,branch,function(result) {                   

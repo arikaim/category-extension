@@ -32,7 +32,7 @@ class Category extends ApiController
             $id = $data->get('id');
             $category = Model::Category('category')->findById($id);
             $translation = $category->translation($language);
-            $data = array_merge($translation->toArray(),$category->toArray());
+            $data = \array_merge($translation->toArray(),$category->toArray());
         });
 
         $data->validate();

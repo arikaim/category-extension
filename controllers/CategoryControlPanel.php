@@ -45,7 +45,7 @@ class CategoryControlPanel extends ControlPanelApiController
     {
         $transalte = Factory::createController($this->getContainer(),'TranslationsControlPanel','translations');
 
-        if (is_object($transalte) == false) {
+        if (\is_object($transalte) == false) {
             $this->error("Translations extension not installed");
             return;
         }
@@ -101,7 +101,7 @@ class CategoryControlPanel extends ControlPanelApiController
                                                       
             $model = $category->create($data->toArray());
 
-            if (is_object($model) == true) {                      
+            if (\is_object($model) == true) {                      
                 $result = $model->saveTranslation($data->slice(['title','description']),$data['language']);                              
             } else {
                 $result = false;

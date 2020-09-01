@@ -53,7 +53,6 @@ class CategoryTranslationsSchema extends Schema
         if ($this->hasColumn('slug') == true) {          
             $table->string('slug')->nullable(true)->change();           
         }
-
         if ($this->hasColumn('meta_title') == false) {
             $table->string('meta_title')->nullable(true); 
         } 

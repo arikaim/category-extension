@@ -19,7 +19,8 @@
     },   
     "labels": {
         "language": "Language",
-        "slug": "Slug"      
+        "slug": "Slug",
+        "choose": "Choose"      
     },
     "buttons": {
         "save": {
