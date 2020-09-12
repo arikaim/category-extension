@@ -41,4 +41,19 @@ trait CategoryRelations
         
         return $result;
     }
+
+    /**
+     * Get categories id list
+     *
+     * @return array
+     */
+    public function getCategoriesIdList()
+    {
+        $result = [];
+        foreach ($this->categories as $category) {           
+            $result[] = Arrays::toString($category->id());
+        }
+        
+        return $result;
+    }
 }

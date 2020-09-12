@@ -85,6 +85,7 @@ class Category extends Model
      * @var array
      */
     protected $visible = [
+        'id',
         'position',       
         'status',
         'parent_id',
