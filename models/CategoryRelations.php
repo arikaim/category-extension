@@ -32,7 +32,7 @@ class CategoryRelations extends Model
      *
      * @var string
      */
-    protected $table = "category_relations";
+    protected $table = 'category_relations';
 
     /**
      * Fillable columns

@@ -21,7 +21,7 @@ class CategoryRelationsSchema extends Schema
      *
      * @var string
      */
-    protected $tableName = "category_relations";
+    protected $tableName = 'category_relations';
 
     /**
      * Create table

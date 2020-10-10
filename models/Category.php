@@ -45,7 +45,7 @@ class Category extends Model
      *
      * @var string
      */
-    protected $table = "category";
+    protected $table = 'category';
 
     /**
      * Translation column ref
@@ -361,7 +361,7 @@ class Category extends Model
      */
     public function getImagesPath($relative = false)
     {
-        $path = "category" . DIRECTORY_SEPARATOR;
+        $path = 'category' . DIRECTORY_SEPARATOR;
 
         return ($relative == true) ? 'public' . DIRECTORY_SEPARATOR . $path : Path::STORAGE_PUBLIC_PATH . $path;
     }

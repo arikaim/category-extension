@@ -31,7 +31,7 @@ class CategoryTranslations extends Model
      *
      * @var string
      */
-    protected $table = "category_translations";
+    protected $table = 'category_translations';
 
     /**
      * Fillable attributes

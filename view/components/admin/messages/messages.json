@@ -6,7 +6,9 @@
     "status": "Category status was changed successfully.",
     "translations": "Categories translated successfully.",
     "errors": {
+        "translations": "Translations extension not installed.",
         "add": "Can't create category.",
+        "path": "Can't create category images directory",
         "delete": "Can't delete category",
         "delete-image": "Can't delete category image",
         "status": "Can't change category sttus",

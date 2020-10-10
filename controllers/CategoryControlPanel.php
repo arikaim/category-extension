@@ -46,7 +46,7 @@ class CategoryControlPanel extends ControlPanelApiController
         $transalte = Factory::createController($this->getContainer(),'TranslationsControlPanel','translations');
 
         if (\is_object($transalte) == false) {
-            $this->error("Translations extension not installed");
+            $this->error('errors.translations');
             return;
         }
         $this->onDataValid(function($data) use($transalte) {
@@ -116,7 +116,7 @@ class CategoryControlPanel extends ControlPanelApiController
             },'errors.add');
         });
         $data
-            ->addRule('exist:model:Category|field=id',"parent_id")
+            ->addRule('exist:model:Category|field=id','parent_id')
             ->addRule('text:min=2','title')
             ->addRule('text:min=2|max=2','language')
             ->validate();       
@@ -169,7 +169,7 @@ class CategoryControlPanel extends ControlPanelApiController
             $model = Model::Category('category')->findByid($data['uuid']);                
           
             if ($model->createImagesPath() === false) {
-                $this->error("Can't create category images directory");
+                $this->error('errors.path');
                 return;
             }
             $destinationPath = $model->getImagesPath(true);
