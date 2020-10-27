@@ -1,4 +1,4 @@
-<div class="ui menu"> 
+<div class="ui menu {{ class }}"> 
     {% if root is not empty %}
         <div class="item {{ value|ifthen(selected,'active') }}" data-value="{{ root.value }}" language="{{ language }}">
             {{ root.title }}

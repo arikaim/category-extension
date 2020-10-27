@@ -24,8 +24,8 @@ class Category extends Extension
     public function install()
     {
         // Api Routes
-        $this->addApiRoute('GET','/api/category/{id}','Category','read');  
-        $this->addApiRoute('GET','/api/category/list/[{parent_id}]','Category','readList');   
+        $this->addApiRoute('GET','/api/category/{id}','CategoryApi','read');  
+        $this->addApiRoute('GET','/api/category/list/[{parent_id}]','CategoryApi','readList');   
         // Control Panel
         $this->addApiRoute('POST','/api/category/admin/add','CategoryControlPanel','add','session');   
         $this->addApiRoute('PUT','/api/category/admin/update','CategoryControlPanel','update','session'); 

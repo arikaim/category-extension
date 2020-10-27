@@ -15,7 +15,7 @@ use Arikaim\Core\Controllers\ApiController;
 /**
  * Category api controler
 */
-class Category extends ApiController
+class CategoryApi extends ApiController
 {
     /**
      * Read category

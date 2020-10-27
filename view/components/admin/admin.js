@@ -44,7 +44,7 @@ function CategoryControlPanel() {
         },onSuccess);
     };
 
-    this.loadAddCategory = function(parentId, language) {
+    this.loadAddCategory = function(parentId, language, branch) {
         arikaim.ui.setActiveTab('#add_category','.category-tab-item');
 
         arikaim.page.loadContent({
@@ -52,6 +52,7 @@ function CategoryControlPanel() {
             component: 'category::admin.add',
             params: { 
                 parent_id: parentId,
+                branch: branch,
                 language: language 
             }
         });          

@@ -11,18 +11,19 @@
                         name: 'select_category', 
                         id: 'select_category',
                         data_type: 'uuid',
-                        class: 'inline search selection'                    
+                        menu_class: "down pointing secondary",
+                        class: 'inline search selection fluid'                    
                     }) 
                 }}
             </div>
             <div class="right aligned column">
-            {{  component('components:language.dropdown',{
-                    name: 'language',
-                    id: 'choose_language',
-                    selected: language,
-                    class: 'inline search selection' 
-                })
-            }}   
+                {{  component('components:language.dropdown',{
+                        name: 'language',
+                        id: 'choose_language',
+                        selected: language,
+                        class: 'inline search selection' 
+                    })
+                }}   
             </div>
         </div>
     </div>    

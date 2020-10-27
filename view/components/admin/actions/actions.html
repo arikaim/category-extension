@@ -10,7 +10,7 @@
             <i class="icon orange trash"></i>
             {{ buttons.delete.content }}
         </div>
-        <div class="item add-button" uuid="{{ category.uuid }}" {{ buttons.add.title|attr('title') }} parent-id="{{ category.id }}" language="{{ language }}">
+        <div class="item add-button" branch="{{ category.branch }} " uuid="{{ category.uuid }}" {{ buttons.add.title|attr('title') }} parent-id="{{ category.id }}" language="{{ language }}">
             <i class="icon plus"></i>
             {{ buttons.add.content }}
         </div>

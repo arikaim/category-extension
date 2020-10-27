@@ -44,7 +44,8 @@ function CategoryView() {
         arikaim.ui.button('.add-button',function(element) {
             var parentId = $(element).attr('parent-id');
             var language = $(element).attr('language');
-            category.loadAddCategory(parentId,language); 
+            var branch = $(element).attr('branch');
+            category.loadAddCategory(parentId,language,branch); 
         });
       
         arikaim.ui.button('.edit-button',function(element) {
@@ -77,9 +78,8 @@ function CategoryView() {
             var branch = $(element).attr('branch');
 
             category.setStatus(uuid,0,function(result) {
-                category.loadList(parentUuid,parentId,uuid,language,branch,function(result) {                  
-                    self.init();                  
-                });
+                $('#item_' + uuid).html('');
+                self.loadItems(branch,language);               
             });
         });   
         
@@ -91,9 +91,8 @@ function CategoryView() {
             var branch = $(element).attr('branch');
 
             category.setStatus(uuid,1,function(result) {
-                category.loadList(parentUuid,parentId,uuid,language,branch,function(result) {                   
-                    self.init();                    
-                });
+                $('#item_' + uuid).html('');
+                self.loadItems(branch,language);               
             });
         }); 
         
@@ -106,11 +105,40 @@ function CategoryView() {
         this.initAccordion();
     };
 
+    this.loadItems = function(branch,language) {
+        arikaim.page.loadContent({
+            id : 'category_rows',
+            component : 'category::admin.view.items',
+            params: { 
+                parent_id: null,  
+                language: language,                       
+                branch: branch 
+            }
+        },function(result) {
+            self.initRows();
+        });
+    };
+
     this.initAccordion = function(selector) {  
         selector = getDefaultValue(selector,'.ui.accordion');             
         $(selector).accordion({
             selector: {
                 trigger: '.title .dropdown'
+            },
+            onOpening: function() {
+                $(this).html('');
+            },
+            onOpen: function() {
+                var hasChild = $(this).attr('has-child');
+                if (hasChild == true) {
+                    var parentId = $(this).attr('parent-id');
+                    var branch = $('#category_rows').attr('branch');
+                    var elementId = $(this).attr('id');
+                    var uuid = $(this).attr('uuid');
+                    category.loadList(elementId,parentId,uuid,null,branch,function(result) {                   
+                        self.initRows();                    
+                    });
+                }
             }
         });        
     };

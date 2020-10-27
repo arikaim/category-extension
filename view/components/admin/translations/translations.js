@@ -1,7 +1,7 @@
 'use strict';
 
 $(document).ready(function() {
-    $('#branch').dropdown({       
+    $('#branch_dropdown').dropdown({       
         onChange: function(value) { 
             var language = $('#choose_language').dropdown('get value');
             loadTranslate(value,language);         

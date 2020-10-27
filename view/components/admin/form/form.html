@@ -3,6 +3,7 @@
     {% set category = createModel('Category','category') %}
     {% set category = category.findById(uuid) %}
     {% set parent_id = category.parent_id|default(null) %}
+    {% set branch = category.branch|default(branch) %}
 {% endif %}
 {% set parent_id = parent_id|default(null) %}
 {% set language = language|default(current_language) %}  
@@ -35,12 +36,11 @@
         }) 
     }}  
     <div class="field">
-        <label>{{ branch.label }}</label>
+        <label>{{ labels.branch.label }}</label>
         <div class="ui action input">
-            <input type="text" name="branch" id="branch" {{ branch.placeholder|attr('placeholder') }} value="{{ category.branch }}"> 
+            <input type="text" name="branch" id="branch" {{ labels.branch.placeholder|attr('placeholder') }} value="{{ branch }}"> 
             {{ component('category::admin.branch',{ class: ' compact selection',label_choice: labels.choose }) }} 
         </div>
     </div>                   
-    
     {{ component('components:form.footer') }}   
 </form>
