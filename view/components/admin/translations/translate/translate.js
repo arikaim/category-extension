@@ -3,7 +3,7 @@
 $(document).ready(function() {
     arikaim.ui.button('.translate-button',function(element) {
         var language = $('#choose_language').dropdown('get value');
-        var branch = $('#branch').dropdown('get value');
+        var branch = $('#branch_dropdown').dropdown('get value');
         
         return category.translateCategories(language,branch,function(result) {            
             arikaim.page.toastMessage(result.message);
@@ -15,12 +15,14 @@ $(document).ready(function() {
                     language: language,
                     branch: branch 
                 }
-            });             
+            }); 
+        
         },function(error) {
             arikaim.page.toastMessage({
                 message: error,
                 class: 'error'
             });          
         });
+       
     });
 });
