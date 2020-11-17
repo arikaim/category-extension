@@ -96,9 +96,9 @@ class CategoryControlPanel extends ControlPanelApiController
     public function addController($request, $response, $data) 
     {         
         $this->onDataValid(function($data) {
-            $category = Model::Category('category');
-            $data['parent_id'] = $data->get('parent_id',null);   
-                                                      
+            $category = Model::Category('category');          
+            $data['parent_id'] = (empty($data['parent_id']) == true) ? null : $data['parent_id']; 
+
             $model = $category->create($data->toArray());
 
             if (\is_object($model) == true) {                      
@@ -167,7 +167,7 @@ class CategoryControlPanel extends ControlPanelApiController
     {
         $this->onDataValid(function($data) use($request) {         
             $model = Model::Category('category')->findByid($data['uuid']);                
-          
+           
             if ($model->createImagesPath() === false) {
                 $this->error('errors.path');
                 return;
@@ -209,7 +209,8 @@ class CategoryControlPanel extends ControlPanelApiController
     public function updateDescriptionController($request, $response, $data) 
     {
         $this->onDataValid(function($data) {         
-            $model = Model::Category('category')->findByid($data['uuid']);                
+            $model = Model::Category('category')->findByid($data['uuid']);   
+        
             $result = $model->saveTranslation($data->slice(['description']),$data['language']); 
                     
             $this->setResponse($result,function() use($model) {
@@ -262,9 +263,21 @@ class CategoryControlPanel extends ControlPanelApiController
         $this->onDataValid(function($data) {
             $uuid = $data->get('uuid');
             $model = Model::Category('category')->findByid($uuid); 
-            // save parent id
-            $data['parent_id'] = $data->get('parent_id',null);                  
-            $result = $model->update($data->toArray());
+            // save parent id           
+            $data['parent_id'] = (empty($data['parent_id']) == true) ? null : $data['parent_id'];    
+            
+            $translations = Model::CategoryTranslations('category');
+            $categoryTranslation = $model->translation($data['language']);
+            // check if slug exist
+            $translation = $translations->findBySlug($data['title']);
+            if (\is_object($translation) == true && \is_object($categoryTranslation) == true) {                              
+                if ($translation->uuid != $categoryTranslation->uuid) {
+                    $this->error('errors.translations.slug');
+                    return false;
+                }                                   
+            }
+        
+            $result = $model->update($data->toArray());        
             $result = $model->saveTranslation($data->slice(['title','description']),$data['language']); 
          
             $this->setResponse($result,function() use($model) {

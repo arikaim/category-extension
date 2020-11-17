@@ -227,11 +227,16 @@ class Category extends Model
     /**
      * Get cateogry slug
      *
+     * @param string|null $language
      * @return string
      */
-    public function getSlug()
+    public function getSlug($language = null)
     {
-       return $this->translation('en')->slug;      
+        $language = $language ?? 'en';
+        $translation = $this->translation($language);
+        $translation = (\is_object($translation) == false) ? $this->translation('en') : $translation;
+        
+        return $translation->slug;      
     }
 
     /**
@@ -322,8 +327,10 @@ class Category extends Model
                     'branch'    => $branch
                 ]);
                 $model->saveTranslation(['title' => $value], $language, null); 
+                $result[] = $model->id;   
+            } else {
+                $result[] = $model->category_id;   
             }
-            $result[] = $model->id;            
         }      
 
         return $result;
