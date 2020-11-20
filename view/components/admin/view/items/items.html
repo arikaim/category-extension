@@ -13,6 +13,10 @@
         {% for category in items.getItems() %}
             {% set has_child = category.hasChild() %}
             {% set title = category.translation(language).title %}
+            {% set title = (title is empty) ? category.translation('en').title : title %}
+            {% set description = category.translation(language).description  %}
+            {% set description = (description is empty) ? category.translation('en').description : description %}
+
             <div class="title class-{{ category.uuid }} m-0">              
                 {{ component('category::admin.actions',{ category: category, language: language }) }} 
                 {% if category.status == 1 %}
@@ -29,7 +33,7 @@
                  class="content class-{{ category.uuid }}" 
                  style="padding:0px 0px 0px 20px!important;margin:0px 0px 0px 0px!important;"
                  has-child="{{ has_child }}"> 
-                <span class="ui gray text">{{ category.translation(language).description }}</span>  
+                <span class="ui gray text">{{ description }}</span>  
             </div>
         {% endfor %}
     </div>

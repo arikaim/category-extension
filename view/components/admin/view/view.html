@@ -1,8 +1,19 @@
 {% set parent_id = parent_id|default(null) %}
 {% component 'components:tabs.vertical.content' %}
     {% set class = 'sixteen wide column' %}
-    <div class="mt-8 pl-4">
-        {{ component('category::admin.branch') }}
+    <div class="ui grid segment">
+        <div class="two wide column">
+            {{ component('category::admin.branch',{ class: 'clearable top left pointing selection' }) }}
+        </div>       
+        <div class="two wide column right floated">
+            {{  component('components:language.dropdown',{
+                    name: 'language',
+                    id: 'choose_language',
+                    selected: current_language,
+                    class: 'inline search selection' 
+                })
+            }}
+        </div> 
     </div>
     <div class="mt-10" id="category_rows" component="category::admin.view.items" namespace="category" branch="{{ branch }}">
         {{ component('category::admin.view.items',{ parent_id: parent_id, language: language, branch: branch }) }}   

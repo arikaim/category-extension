@@ -16,23 +16,35 @@ function CategoryView() {
                 namespace: 'category'
             }
         });      
+
+        $('#choose_language').dropdown({
+            onChange: function(value) {
+                var branch = $('#branch_dropdown').dropdown('get value');
+                self.loadList(value,branch);       
+            }
+        }); 
+
         $('#branch_dropdown').dropdown({
             onChange: function(branch, text, choice) { 
                 var language = $('#choose_language').dropdown('get value');
-                category.loadList('category_rows',null,null,language,branch,function(result) {                   
-                    self.initRows();  
-                    paginator.clear('category',function() {
-                        paginator.init('category_rows',{
-                            name: 'category::admin.view.items',
-                            params: {
-                                namespace: 'category',
-                                branch: branch
-                            }
-                        });     
-                        paginator.reload();     
-                    });   
-                });
+                self.loadList(language,branch);
             }
+        });
+    };
+
+    this.loadList = function(language, branch) {
+        category.loadList('category_rows',null,null,language,branch,function(result) {                   
+            self.initRows();  
+            paginator.clear('category',function() {
+                paginator.init('category_rows',{
+                    name: 'category::admin.view.items',
+                    params: {
+                        namespace: 'category',
+                        branch: branch
+                    }
+                });     
+                paginator.reload();     
+            });   
         });
     };
 
