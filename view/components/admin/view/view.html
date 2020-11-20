@@ -1,24 +1,24 @@
 {% set parent_id = parent_id|default(null) %}
-{% component 'components:tabs.vertical.content' %}
-    {% set class = 'sixteen wide column' %}
-    <div class="ui grid segment">
+{% set language = language|default(current_language) %}
+<div class="ui segment">
+    <div class="ui grid">
         <div class="two wide column">
             {{ component('category::admin.branch',{ class: 'clearable top left pointing selection' }) }}
-        </div>       
-        <div class="two wide column right floated">
+        </div>     
+        <div class="two wide column right floated rigth aligned">
             {{  component('components:language.dropdown',{
                     name: 'language',
                     id: 'choose_language',
-                    selected: current_language,
+                    selected: language,
                     class: 'inline search selection' 
                 })
             }}
         </div> 
     </div>
-    <div class="mt-10" id="category_rows" component="category::admin.view.items" namespace="category" branch="{{ branch }}">
-        {{ component('category::admin.view.items',{ parent_id: parent_id, language: language, branch: branch }) }}   
-    </div>
-    <div class="mt-2" id="paginator">
-        {{ component('components:paginator',{ namespace: 'category' }) }}
-    </div>
-{% endcomponent %}
+</div>
+<div class="mt-2" id="category_rows" component="category::admin.view.items" namespace="category" branch="{{ branch }}">
+    {{ component('category::admin.view.items',{ parent_id: parent_id, language: language, branch: branch }) }}   
+</div>
+<div class="mt-2" id="paginator">
+    {{ component('components:paginator',{ namespace: 'category' }) }}
+</div>

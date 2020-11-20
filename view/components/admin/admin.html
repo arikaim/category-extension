@@ -1,4 +1,4 @@
-{% set language = getLanguage() %}
+{% set language = current_language %}
 {% set items = [
     { id: 'language_button',icon: 'list',active: true,component: 'category::admin.menu',params: { language: language },title: labels.view },
     { id: 'translations_button',icon: 'language',component: 'category::admin.translations',title: labels.translations }
