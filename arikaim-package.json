@@ -5,7 +5,7 @@
     "type": "user",
     "description": "Add, edit or remove site categories.",
     "short-description": "Manage site categories.",
-    "version": "1.4.4",
+    "version": "1.4.5",
     "repository": "https://github.com/arikaim/category-extension.git",
     "position": "2",
     "admin-menu": {        

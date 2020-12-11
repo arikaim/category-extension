@@ -5,7 +5,7 @@
 {% set page_url = page_url|default('') %}
 
 {% for item in items %} 
-    <a class="item {{ item_class }}" href="{{ url(page_url ~ item.getSlug(),true,language) }}" >
+    <a class="item {{ item_class }}" href="{{ url(page_url ~ item.getSlug(language),true,language) }}" >
         {{ item.getTitle(null,language)|string }}
     </a>
 {% endfor %}
