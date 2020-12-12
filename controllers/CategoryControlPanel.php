@@ -96,9 +96,15 @@ class CategoryControlPanel extends ControlPanelApiController
     public function addController($request, $response, $data) 
     {         
         $this->onDataValid(function($data) {
-            $category = Model::Category('category');          
+            $category = Model::Category('category');   
+            $title = $data->get('title',null);       
             $data['parent_id'] = (empty($data['parent_id']) == true) ? null : $data['parent_id']; 
 
+            if ($category->hasCategory($title,$data['parent_id']) == true) {
+                $this->error('errors.exist');
+                return false;
+            } 
+          
             $model = $category->create($data->toArray());
 
             if (\is_object($model) == true) {                      

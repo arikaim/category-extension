@@ -295,9 +295,10 @@ class Category extends Model
     public function findCategory($title, $parentId = null, $branch = null)
     {
         $model = (empty($branch) == false) ? $this->where('branch','=',$branch) : $this;     
-        $model = $model->where('parent_id','=',$parentId)->get();
+        $model = (empty($parentId) == true) ? $model->whereNull('parent_id') : $model->where('parent_id','=',$parentId);
+        $model = $model->get();
 
-        foreach ($model as $item) {
+        foreach ($model as $item) {        
             $translation = $item->translations()->getQuery()->where('title','=',$title)->first();   
             if (\is_object($translation) == true) {
                 return $item;
