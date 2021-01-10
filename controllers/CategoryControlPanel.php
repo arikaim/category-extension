@@ -284,7 +284,7 @@ class CategoryControlPanel extends ControlPanelApiController
             }
         
             $result = $model->update($data->toArray());        
-            $result = $model->saveTranslation($data->slice(['title','description']),$data['language']); 
+            $model->saveTranslation($data->slice(['title','description']),$data['language']); 
          
             $this->setResponse($result,function() use($model) {
                 $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
