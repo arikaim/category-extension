@@ -351,10 +351,12 @@ class Category extends Model
                 return $model->findBySlug($categorySlug);           
             });
         
-            $filterModel = $filterModel->whereHas('categories',function($query) use($categoryTranslations) {
-                $query->where('category_id','=',$categoryTranslations->category_id);
-            });
-
+            if (\is_object($categoryTranslations) == true) {
+                $filterModel = $filterModel->whereHas('categories',function($query) use($categoryTranslations) {               
+                    $query->where('category_id','=',$categoryTranslations->category_id);
+                });
+            }
+           
             return $filterModel;
         }
 
