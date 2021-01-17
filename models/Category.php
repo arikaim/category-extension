@@ -358,7 +358,7 @@ class Category extends Model
     {
         if (empty($categorySlug) == false) {
             echo "categorySlug: $categorySlug";
-            $categoryTranslations = DbModel::create($this->translationModelClass,'category',function($model) use($categorySlug) {                
+            $categoryTranslations = DbModel::create('CategoryTranslations','category',function($model) use($categorySlug) {                
                 return $model->findBySlug($categorySlug);                  
             });
         
