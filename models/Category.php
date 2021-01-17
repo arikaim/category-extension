@@ -62,6 +62,16 @@ class Category extends Model
     protected $translationModelClass = CategoryTranslations::class;
 
     /**
+     * Translated attributes
+     *
+     * @var array
+     */
+    protected $translatedAttributes = [
+        'title',
+        'description'      
+    ];
+
+    /**
      * Append attributes to serialization
      *
      * @var array
@@ -347,8 +357,9 @@ class Category extends Model
     public function relationsQuery($filterModel, $categorySlug)
     {
         if (empty($categorySlug) == false) {
+            echo "categorySlug: $categorySlug";
             $categoryTranslations = DbModel::create($this->translationModelClass,'category',function($model) use($categorySlug) {                
-                return $model->findBySlug($categorySlug);           
+                return $model->findBySlug($categorySlug);                  
             });
         
             var_dump($categoryTranslations);

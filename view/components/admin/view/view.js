@@ -114,6 +114,11 @@ function CategoryView() {
             category.loadCategoryRelations(uuid,language);     
         });
 
+        arikaim.ui.button('.translations-button',function(element) {
+            var uuid = $(element).attr('uuid');          
+            category.loadCategoryTranslations(uuid);     
+        });
+
         this.initAccordion();
     };
 

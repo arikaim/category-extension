@@ -1,0 +1,18 @@
+{% if uuid is not empty %}
+    {% set category = createModel('Category','category').findById(uuid) %}
+    {% set translations = createModel('CategoryTranslations','category').where('category_id','=',category.id) %}
+{% endif %}
+<div class="ui list">    
+    {% for item in translations.get() %}
+    <div class="ui item">
+        <div class="content">
+            {{ component('components:language.label',{ language: item.language, class: ' basic horizontal ' }) }}
+            
+            {{ item.title }}
+            <div class="ui right floated basic label" title="{{ labels.slug }}">
+                {{ item.slug }}
+            </div>
+        </div>      
+    </div>
+    {% endfor %}
+</div>
