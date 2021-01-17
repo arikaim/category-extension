@@ -356,14 +356,10 @@ class Category extends Model
      */
     public function relationsQuery($filterModel, $categorySlug)
     {
-        if (empty($categorySlug) == false) {
-            echo "categorySlug: $categorySlug";
+        if (empty($categorySlug) == false) {           
             $categoryTranslations = DbModel::create('CategoryTranslations','category',function($model) use($categorySlug) {                
                 return $model->findBySlug($categorySlug);                  
             });
-        
-            var_dump($categoryTranslations);
-
             $filterModel = $filterModel->whereHas('categories',function($query) use($categoryTranslations) {               
                 $query->where('category_id','=',$categoryTranslations->category_id);
             });
