@@ -112,7 +112,7 @@ class CategoryControlPanel extends ControlPanelApiController
             } else {
                 $result = false;
             }
-            $this->setResponse($result,function() use($model,$data) {                                                       
+            $this->setResponse(\is_object($result),function() use($model,$data) {                                                       
                 $this->get('event')->dispatch('category.create',$data->toArray());            
                 $this
                     ->message('add')
