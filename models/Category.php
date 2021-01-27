@@ -66,9 +66,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $translatedAttributes = [
-        'title',
-        'description'      
+    protected $translatedAttributes = [                  
     ];
 
     /**
@@ -77,6 +75,9 @@ class Category extends Model
      * @var array
      */
     protected $appends = [        
+        'title',
+        'description',
+        'slug'
     ];
 
     /**
@@ -101,8 +102,7 @@ class Category extends Model
         'parent_id',
         'branch',
         'user',
-        'uuid',       
-        'title',
+        'uuid',               
         'thumbnail'
     ];
 
@@ -127,6 +127,42 @@ class Category extends Model
      */
     public $timestamps = false;
     
+    /**
+     * title attribute
+     *
+     * @return string|null
+     */
+    public function getTitleAttribute()
+    {
+        $model = $this->translation();
+
+        return ($model !== false) ? $model->title : null;
+    }
+
+    /**
+     * description attribute
+     *
+     * @return string|null
+     */
+    public function getDescriptionAttribute()
+    {
+        $model = $this->translation();
+
+        return ($model !== false) ? $model->description : null;
+    }
+
+    /**
+     * slug attribute
+     *
+     * @return string|null
+     */
+    public function getSlugAttribute()
+    {
+        $model = $this->translation();
+
+        return ($model !== false) ? $model->slug : null;
+    }
+
     /**
      * Parent category relation
      *
@@ -215,7 +251,7 @@ class Category extends Model
      * @param array $items
      * @return array|null
      */
-    public function getTitle($id = null, $language = null, $items = [])
+    public function getTitle($id = null, $language = null, $items = []): ?array
     {       
         $model = (empty($id) == true) ? $this : $this->findById($id);
 
@@ -238,9 +274,9 @@ class Category extends Model
      * Get cateogry slug
      *
      * @param string|null $language
-     * @return string
+     * @return string|null
      */
-    public function getSlug($language = null)
+    public function getSlug(?string $language = null): ?string
     {
         $language = $language ?? 'en';
         $translation = $this->translation($language);
@@ -271,7 +307,7 @@ class Category extends Model
      * @param string|null $default
      * @return string|null
      */
-    public function getTranslationTitle($language = null, $default = null)
+    public function getTranslationTitle(?string $language = null, $default = null): ?string
     {
         $model = $this->translation($language);     
         if ($model == false) {
@@ -289,7 +325,7 @@ class Category extends Model
      * @param string|null $branch
      * @return boolean
      */
-    public function hasCategory($title, $parentId = null, $branch = null)
+    public function hasCategory($title, $parentId = null, ?string $branch = null)
     { 
         return \is_object($this->findCategory($title,$parentId,$branch));
     }

@@ -23,7 +23,7 @@ class CategoryDelete extends ConsoleCommand
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('category:delete')->setDescription('Delete categories.'); 
     }
@@ -36,35 +36,32 @@ class CategoryDelete extends ConsoleCommand
      * @return void
      */
     protected function executeCommand($input, $output)
-    {       
-        $this->style->writeLn('');
+    {               
+        $this->showTitle();
+
         $category = Model::Category('category')->all();
         $relations = Model::CategoryRelations('category');
 
-        $this->style->writeLn('Total categories: ' . $category->count());
-        $this->style->writeLn('');
+        $this->writeFieldLn('Total',$category->count());
 
         $deleted = 0;
         foreach ($category as $item) {
-            $this->style->writeLn('');
-            $this->style->writeLn('Category: ' . Arrays::toString($item->getTitle()) );    
+            $this->writeFieldLn('Category',Arrays::toString($item->getTitle()));    
             $count = $item->translations()->count();
             $rows = $relations->getRows($item->id);
 
             if ($count == 0) {
-                $this->style->writeLn('delete ...');
                 $item->remove($item->id);
                 $deleted++;
             }
             
             if ($rows->count() == 0) {               
-                $this->style->writeLn('No relations delete category');
+                $this->writeLn('No relations delete category.');
                 $item->remove($item->id);
                 $deleted++;
             }
         }
-        $this->style->writeLn('Deleted categories: ' . $deleted);
-        $this->style->writeLn('');
+        $this->writeFieldLn('Deleted',$deleted);
         
         $this->showCompleted();
     }

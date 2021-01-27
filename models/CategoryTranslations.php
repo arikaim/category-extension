@@ -65,4 +65,16 @@ class CategoryTranslations extends Model
     {
         return $this->hasOne(Category::class,'id','category_id'); 
     }
+
+    /**
+     * Find Category
+     *
+     * @param string $slug
+     * @param string $language
+     * @return Model|null
+     */
+    public function findCategory(string $slug, string $language)
+    {
+        return $this->where('slug','=',$slug)->where('language','=',$language)->first();
+    }
 }

@@ -11,10 +11,9 @@ namespace Arikaim\Extensions\Category\Controllers;
 
 use Arikaim\Core\Db\Model;
 use Arikaim\Core\Utils\Factory;
-use Arikaim\Core\Utils\Utils;
-use Arikaim\Core\Utils\Text;
 use Arikaim\Core\Controllers\ControlPanelApiController;
 use Arikaim\Core\Controllers\Traits\FileUpload;
+use Arikaim\Extensions\Category\Classes\Category;
 
 /**
  * Category control panel controler
@@ -56,30 +55,16 @@ class CategoryControlPanel extends ControlPanelApiController
 
             $category = (empty($branch) == false) ? $category->where('branch','=',$branch) :  $category;
             $categories = $category->orderBy('id')->get();
-            $createdTranslations = 0;
+            $translated = 0;
             foreach($categories as $item) {
-                $translation = $item->translation($language);
-                if ($translation === false) {
-                    // get english translation
-                    $defaultTranslation = $item->translation('en');
-                    if ($defaultTranslation !== false) { 
-                        $translatedFields = $transalte->translateFields('title,description',$defaultTranslation->toArray(),$language);  
-                        if ($translatedFields['title'] != $defaultTranslation->title) {
-                            $translatedFields['title'] = Text::ucFirstUtf($translatedFields['title']);
-                            if (empty($translatedFields['title']) == false) {
-                                $translatedFields['slug'] = Utils::slug($translatedFields['title']);                              
-                                $item->saveTranslation($translatedFields,$language);                           
-                                $createdTranslations++;            
-                            }
-                        }                                                                                                            
-                    }
-                }
+                $result = Category::translate($item,$language);
+                $translated += ($result === false) ? 0 : 1;
             }    
            
-            $this->setResponse(true,function() use($createdTranslations) {    
+            $this->setResponse(true,function() use($translated) {    
                 $this
                     ->message('translations')
-                    ->field('translations',$createdTranslations);
+                    ->field('translations',$translated);
             },'errors.translations');
         });
         $data->validate();
@@ -112,7 +97,7 @@ class CategoryControlPanel extends ControlPanelApiController
             } else {
                 $result = false;
             }
-            $this->setResponse(\is_object($result),function() use($model,$data) {                                                       
+            $this->setResponse((bool)$result,function() use($model,$data) {                                                       
                 $this->get('event')->dispatch('category.create',$data->toArray());            
                 $this
                     ->message('add')
@@ -219,7 +204,7 @@ class CategoryControlPanel extends ControlPanelApiController
         
             $result = $model->saveTranslation($data->slice(['description']),$data['language']); 
                     
-            $this->setResponse($result,function() use($model) {
+            $this->setResponse((bool)$result,function() use($model) {
                 $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
                 $this
                     ->message('update')
@@ -244,7 +229,7 @@ class CategoryControlPanel extends ControlPanelApiController
             $info = $data->slice(['meta_title','meta_description','meta_keywords']);
             $result = $model->saveTranslation($info,$data['language']); 
                     
-            $this->setResponse($result,function() use($model) {
+            $this->setResponse((bool)$result,function() use($model) {
                 $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
                 $this
                     ->message('update')
@@ -270,7 +255,7 @@ class CategoryControlPanel extends ControlPanelApiController
             $uuid = $data->get('uuid');
             $model = Model::Category('category')->findByid($uuid); 
             // save parent id           
-            $data['parent_id'] = (empty($data['parent_id']) == true) ? null : $data['parent_id'];    
+            $parentId = (empty($data['parent_id']) == true) ? null : $data['parent_id'];    
             
             $translations = Model::CategoryTranslations('category');
             $categoryTranslation = $model->translation($data['language']);
@@ -282,11 +267,15 @@ class CategoryControlPanel extends ControlPanelApiController
                     return false;
                 }                                   
             }
-        
-            $result = $model->update($data->toArray());        
-            $model->saveTranslation($data->slice(['title','description']),$data['language']); 
+            
+            $result = $model->update([
+                'parent_id' => $parentId,
+                'branch'    => $data['branch']
+            ]);     
+            
+            $result = $model->saveTranslation($data->slice(['title','description']),$data['language']); 
          
-            $this->setResponse($result,function() use($model) {
+            $this->setResponse((bool)$result,function() use($model) {
                 $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
                 $this
                     ->message('update')
