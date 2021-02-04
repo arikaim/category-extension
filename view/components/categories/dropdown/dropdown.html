@@ -1,4 +1,5 @@
 {% set parent_id = parent_id|default(null) %}
+{% set max_items = max_items|default(100) %}
 {% set id = id|default('category_dropdown') %}
 {% set page_url = page_url|default('') %}
 {% set language = language|default(current_language) %}
@@ -9,7 +10,7 @@
 {% endif %}
 {% set items = model.orderBy('position','asc').orderBy('id','asc') %}
 {% if offset is not empty %}
-    {% set items = items.offset(offset).limit(100) %}
+    {% set items = items.offset(offset).limit(max_items) %}
 {% endif %}
 
 <div class="ui dropdown {{ class }}" id="{{ id }}">
