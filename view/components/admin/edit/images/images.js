@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
+arikaim.component.onLoaded(function() {
     var fileUpload = new FileUpload('#category_images_form',{
         url: '/api/category/admin/upload/image',
         maxFiles: 1,

@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-$(document).ready(function() {   
+arikaim.component.onLoaded(function() {
     $('#branch_dropdown').dropdown({
         onChange: function(branch, text, choice) { 
             $('#branch').val(text);

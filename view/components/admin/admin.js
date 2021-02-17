@@ -123,6 +123,6 @@ function CategoryControlPanel() {
 
 var category = new CategoryControlPanel();
 
-arikaim.page.onReady(function() {
+arikaim.component.onLoaded(function() {
     category.init();
 });

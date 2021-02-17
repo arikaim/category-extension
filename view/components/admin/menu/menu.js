@@ -1,5 +1,5 @@
-"use strict";
+'use strict';
 
-$(document).ready(function() {
+arikaim.component.onLoaded(function() {
     arikaim.ui.tab('.category-tab-item','category_content',['language']);
 });

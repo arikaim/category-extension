@@ -1,7 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
-
+arikaim.component.onLoaded(function() {
     function loadEditTabs(uuid, language) {
         arikaim.page.loadContent({
             id: 'category_tabs_content',

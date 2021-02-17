@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
+arikaim.component.onLoaded(function() {
     arikaim.ui.button('.translate-button',function(element) {
         var language = $('#choose_language').dropdown('get value');
         var branch = $('#branch_dropdown').dropdown('get value');

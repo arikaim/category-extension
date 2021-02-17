@@ -4,12 +4,14 @@
  *  @license    http://www.arikaim.com/license
  *  http://www.arikaim.com
 */
-"use strict";
+'use strict';
 
 function CategoryView() {
     var self = this;
 
     this.init = function() {
+        this.loadMessages('category::admin');
+
         paginator.init('category_rows',{
             name: 'category::admin.view.items',
             params: {
@@ -48,9 +50,7 @@ function CategoryView() {
         });
     };
 
-    this.initRows = function() {
-        var component = arikaim.component.get('category::admin');
-        var removeMessage = component.getProperty('messages.remove.content');
+    this.initRows = function() {       
         $('.actions-dropdown').dropdown();
         
         arikaim.ui.button('.add-button',function(element) {
@@ -70,9 +70,9 @@ function CategoryView() {
             var uuid = $(element).attr('uuid');
             var title = $(element).attr('data-title');
 
-            var message = arikaim.ui.template.render(removeMessage,{ title: title });
+            var message = arikaim.ui.template.render(self.getMessage('remove.content'),{ title: title });
             modal.confirmDelete({ 
-                title: component.getProperty('messages.remove.title'),
+                title: self.getMessage('remove.title'),
                 description: message
             },function() {
                 category.delete(uuid,function(result) {
@@ -84,8 +84,6 @@ function CategoryView() {
       
         arikaim.ui.button('.disable-button',function(element) {
             var uuid = $(element).attr('uuid');
-            var parentUuid = $(element).attr('parent-uuid');
-            var parentId = $(element).attr('parent-id');
             var language = $(element).attr('language');
             var branch = $(element).attr('branch');
 
@@ -97,8 +95,6 @@ function CategoryView() {
         
         arikaim.ui.button('.enable-button',function(element) {
             var uuid = $(element).attr('uuid');
-            var parentUuid = $(element).attr('parent-uuid');
-            var parentId = $(element).attr('parent-id');
             var language = $(element).attr('language');
             var branch = $(element).attr('branch');
 
@@ -161,9 +157,9 @@ function CategoryView() {
     };
 }
 
-var categoryView = new CategoryView();
+var categoryView = new createObject(CategoryView,ControlPanelView);
 
-arikaim.page.onReady(function() {
+arikaim.component.onLoaded(function() {
     categoryView.init();   
     categoryView.initRows();
 });

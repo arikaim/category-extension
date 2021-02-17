@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
+arikaim.component.onLoaded(function() {
     arikaim.ui.form.onSubmit("#category_form",function() {            
         return arikaim.put('/api/category/admin/update','#category_form');
     },function(result) {

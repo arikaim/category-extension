@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-$(document).ready(function(result) {
+arikaim.component.onLoaded(function() {
     safeCall('categoryView',function(obj) {
         obj.initRows();
     },true);  

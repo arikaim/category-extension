@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
+arikaim.component.onLoaded(function() {
     arikaim.ui.button('.delete-image',function(element) {
         var uuid = $(element).attr('uuid');
         var fileName = $(element).attr('file-name');

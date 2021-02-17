@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
+arikaim.component.onLoaded(function() {
     $('#choose_language').dropdown({
         onChange: function(value) {
             $('#language').val(value);
