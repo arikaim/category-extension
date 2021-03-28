@@ -256,7 +256,7 @@ class CategoryControlPanel extends ControlPanelApiController
             $model = Model::Category('category')->findByid($uuid); 
             // save parent id           
             $parentId = (empty($data['parent_id']) == true) ? null : $data['parent_id'];    
-            
+        
             $translations = Model::CategoryTranslations('category');
             $categoryTranslation = $model->translation($data['language']);
             // check if slug exist
