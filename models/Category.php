@@ -166,7 +166,7 @@ class Category extends Model
     /**
      * Parent category relation
      *
-     * @return Model|null
+     * @return Relation|null
      */
     public function parent()
     {
@@ -176,11 +176,11 @@ class Category extends Model
     /**
      * Set child category status
      *
-     * @param integer $id
+     * @param integer|string $id
      * @param integer $status
-     * @return void
+     * @return bool
      */
-    public function setChildStatus($id, $status)
+    public function setChildStatus($id, $status): bool
     {
         $model = $this->findById($id);
         if ($model == false) {
@@ -195,16 +195,18 @@ class Category extends Model
             $item->setStatus($status);        
             $this->setChildStatus($item->id,$status);
         }   
+
+        return true;
     }
 
     /**
      * Delete category 
      *
-     * @param integer $id
+     * @param integer|string $id
      * @param boolean $removeChild
-     * @return void
+     * @return bool
      */
-    public function remove($id, $removeChild = true)
+    public function remove($id, bool $removeChild = true): bool
     {
         if ($removeChild == true) {
             $this->removeChild($id);
@@ -217,16 +219,16 @@ class Category extends Model
         $relations->deleteRelations($model->id);
         $model->removeTranslations();
 
-        return $model->delete();      
+        return (bool)$model->delete();      
     }
 
     /**
      * Remove child category
      *
-     * @param integer $id
+     * @param integer|string $id
      * @return boolean
      */
-    public function removeChild($id)
+    public function removeChild($id): bool
     {
         $model = $this->findById($id);
         if ($model == false) {
@@ -251,10 +253,10 @@ class Category extends Model
      * @param array $items
      * @return array|null
      */
-    public function getTitle($id = null, $language = null, $items = []): ?array
+    public function getTitle($id = null, ?string $language = null, $items = []): ?array
     {       
         $model = (empty($id) == true) ? $this : $this->findById($id);
-
+        $language = $language ?? 'en';
         if (\is_object($model) == false) {
             return null;
         }
@@ -288,11 +290,11 @@ class Category extends Model
     /**
      *  Get categories list
      *
-     * @param integer $parentId
+     * @param integer|null $parentId
      * @param string|null $branch
      * @return Model|null
      */
-    public function getList($parentId = null, $branch = null)
+    public function getList(?int $parentId = null, ?string $branch = null)
     {   
         $model = (empty($branch) == false) ? $this->where('branch','=',$branch) : $this;       
         $model = $model->where('parent_id','=',$parentId)->get();
@@ -309,6 +311,7 @@ class Category extends Model
      */
     public function getTranslationTitle(?string $language = null, $default = null): ?string
     {
+        $language = $language ?? 'en';
         $model = $this->translation($language);     
         if ($model == false) {
             return $default; 
@@ -325,7 +328,7 @@ class Category extends Model
      * @param string|null $branch
      * @return boolean
      */
-    public function hasCategory($title, $parentId = null, ?string $branch = null)
+    public function hasCategory(?string $title, ?int $parentId = null, ?string $branch = null): bool
     { 
         return \is_object($this->findCategory($title,$parentId,$branch));
     }
@@ -338,7 +341,7 @@ class Category extends Model
      * @param string|null $branch
      * @return Model|false
      */
-    public function findCategory($title, $parentId = null, $branch = null)
+    public function findCategory(?string $title, ?int $parentId = null, ?string $branch = null)
     {
         $model = (empty($branch) == false) ? $this->where('branch','=',$branch) : $this;     
         $model = (empty($parentId) == true) ? $model->whereNull('parent_id') : $model->where('parent_id','=',$parentId);
@@ -363,17 +366,21 @@ class Category extends Model
      * @param string|null $branch
      * @return array
      */
-    public function createFromArray(array $items, $parentId = null, $language = null, $branch = null)
+    public function createFromArray(array $items, ?int $parentId = null, ?string $language = null, ?string $branch = null): array
     {
+        $language = $language ?? 'en';
         $result = [];
-        foreach ($items as $key => $value) {              
-            $model = $this->findTranslation('title',$value);
+        foreach ($items as $key => $value) {         
+            $title = \trim($value);
+            if (empty($title) == true) continue;
+
+            $model = $this->findTranslation('title',$title);
             if (\is_object($model) == false) {                                  
                 $model = $this->create([
                     'parent_id' => $parentId,
                     'branch'    => $branch
                 ]);
-                $model->saveTranslation(['title' => $value], $language, null); 
+                $model->saveTranslation(['title' => $title], $language, null); 
                 $result[] = $model->id;   
             } else {
                 $result[] = $model->category_id;   
@@ -412,7 +419,7 @@ class Category extends Model
      * @param boolean $relative
      * @return string
      */
-    public function getImagesPath($relative = false)
+    public function getImagesPath(bool $relative = false): string
     {
         $path = 'category' . DIRECTORY_SEPARATOR;
 
@@ -434,10 +441,11 @@ class Category extends Model
     /**
      * Get hosted game url
      *
+     * @param string|null $imageFileName
      * @param boolean $full
      * @return string
      */
-    public function getImageUrl($imageFileName = null, $full = false)
+    public function getImageUrl(?string $imageFileName = null, bool $full = false): string
     {
         $image = (empty($imageFileName) == true) ? $this->thumbnail : $imageFileName;
 
@@ -450,7 +458,7 @@ class Category extends Model
      * @param string $fileName
      * @return boolean
      */
-    public function isImagUsed($fileName)
+    public function isImagUsed(string $fileName): bool
     {
         $model = $this->where('thumbnail','=',$fileName)->first();
 
