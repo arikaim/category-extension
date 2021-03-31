@@ -15,6 +15,7 @@ use Arikaim\Core\Db\Model as DbModel;
 use Arikaim\Extensions\Category\Models\CategoryTranslations;
 use Arikaim\Core\Utils\File;
 use Arikaim\Core\Utils\Path;
+use Arikaim\Core\Utils\Utils;
 use Arikaim\Core\View\Html\Page;
 
 use Arikaim\Core\Db\Traits\Uuid;
@@ -374,8 +375,10 @@ class Category extends Model
             $title = \trim($value);
             if (empty($title) == true) continue;
 
-            $model = $this->findTranslation('title',$title);
-            if (\is_object($model) == false) {                                  
+            $slug = Utils::slug($title);
+            $model = $this->findTranslation('slug',$slug,$language);
+            if (\is_object($model) == false) {  
+                                       
                 $model = $this->create([
                     'parent_id' => $parentId,
                     'branch'    => $branch
