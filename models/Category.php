@@ -290,7 +290,8 @@ class Category extends Model
 
     /**
      *  Get categories list
-     *
+     *    
+     * 
      * @param integer|null $parentId
      * @param string|null $branch
      * @return Model|null

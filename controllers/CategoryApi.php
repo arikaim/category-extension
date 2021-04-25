@@ -20,6 +20,14 @@ class CategoryApi extends ApiController
     /**
      * Read category
      *
+     * @Api(
+     *      description="Category details",    
+     *      parameters={
+     *          @ApiParameter (name="id",type="string,int",required=true,description="Category id or Uuid"),
+     *          @ApiParameter (name="language",type="string",description="Language"),        
+     *      }
+     * )
+     * 
      * @param object $request
      * @param object $response
      * @param Validator $data
@@ -29,10 +37,14 @@ class CategoryApi extends ApiController
     {
         $this->onDataValid(function($data) {
             $language = $data->get('language',null);
+            $language = $language ?? $this->getDefaultLanguage();
             $id = $data->get('id');
+         
             $category = Model::Category('category')->findById($id);
             $translation = $category->translation($language);
+            
             $data = \array_merge($translation->toArray(),$category->toArray());
+            $this->setResult($data,true);
         });
 
         $data->validate();
@@ -41,6 +53,13 @@ class CategoryApi extends ApiController
     /**
      * Read category list
      *
+     * @Api(
+     *      description="Categories list",    
+     *      parameters={          
+     *          @ApiParameter (name="language",type="string",required=true,description="Language code"),        
+     *      }
+     * )
+     * 
      * @param object $request
      * @param object $response
      * @param Validator $data
@@ -49,9 +68,14 @@ class CategoryApi extends ApiController
     public function readListController($request, $response, $data)
     { 
         $this->onDataValid(function($data) {
-            $parentId = $data->get('parent_id',null);
-            $category = Model::Category('category')->getList($parentId);
-            $this->setResult($category,true);
+            $language = $data->get('language',null);
+            $language = $language ?? $this->getDefaultLanguage();
+        
+            $translations = Model::CategoryTranslations('category');
+            $translations = $translations->where('language','=',$language);
+            $list = $translations->get()->toArray();
+            
+            $this->setResult($list,true);
         });
                
         $data->validate();

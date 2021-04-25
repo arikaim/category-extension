@@ -11,7 +11,7 @@ arikaim.component.onLoaded(function() {
         var language = $('#choose_language').dropdown('get value');       
         $('#language').val(language);
 
-        return arikaim.post('/api/category/admin/add','#category_form');
+        return arikaim.post('/api/admin/category/add','#category_form');
     },function(result) {
         arikaim.ui.form.clear('#category_form');
         arikaim.ui.form.showMessage(result.message);

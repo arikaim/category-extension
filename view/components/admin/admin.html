@@ -7,7 +7,8 @@
 
 {{  component('components:tabs',{ 
         items: items,
-        menu: { component: 'system:admin.extensions.menu.actions', extension: 'category' },
+        menu: { extension: 'category' },
+        help: { component: 'category::admin.help', extension: 'category' }, 
         content: { component: 'category::admin.menu', params: { language: language } } 
     })
 }}

@@ -8,6 +8,7 @@ arikaim.component.onLoaded(function() {
     });
 
     category.initCategoryDropDown();
+    
     arikaim.ui.form.addRules("#category_form",{
         inline: false,
         fields: {

@@ -10,7 +10,7 @@ function CategoryControlPanel() {
     var self = this;
 
     this.delete = function(uuid, onSuccess ,onError) {
-        return arikaim.delete('/api/category/admin/delete/' + uuid,onSuccess,onError);          
+        return arikaim.delete('/api/admin/category/delete/' + uuid,onSuccess,onError);          
     };
 
     this.deleteImage = function(uuid, fileName, onSuccess,onError) {
@@ -19,7 +19,7 @@ function CategoryControlPanel() {
             file_name: fileName 
         };
 
-        return arikaim.put('/api/category/admin/delete/image',data,onSuccess,onError);          
+        return arikaim.put('/api/admin/category/delete/image',data,onSuccess,onError);          
     };
 
     this.setStatus = function(uuid, status ,onSuccess, onError) {           
@@ -28,7 +28,7 @@ function CategoryControlPanel() {
             status: status 
         };
 
-        return arikaim.put('/api/category/admin/status',data,onSuccess,onError);      
+        return arikaim.put('/api/admin/category/status',data,onSuccess,onError);      
     };
 
     this.loadList = function(element, parentId, uuid, language, branch, onSuccess) { 
@@ -113,16 +113,12 @@ function CategoryControlPanel() {
             branch: branch
         };
 
-        return arikaim.put('/api/category/admin/translate/categories',data,onSuccess,onError);      
-    };
-
-    this.init = function() {    
-        arikaim.ui.tab();
-    };
+        return arikaim.put('/api/admin/category/translate/categories',data,onSuccess,onError);      
+    };  
 }
 
 var category = new CategoryControlPanel();
 
 arikaim.component.onLoaded(function() {
-    category.init();
+    arikaim.ui.tab();
 });

@@ -2,7 +2,7 @@
 
 arikaim.component.onLoaded(function() {
     var fileUpload = new FileUpload('#category_images_form',{
-        url: '/api/category/admin/upload/image',
+        url: '/api/admin/category/upload/image',
         maxFiles: 1,
         allowMultiple: false,
         acceptedFileTypes: ['image/png', 'image/jpeg', 'image/gif'],
