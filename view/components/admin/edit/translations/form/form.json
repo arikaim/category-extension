@@ -1,0 +1,16 @@
+{
+    "fields": {      
+        "display": {
+            "label": "Title",               
+            "placeholder": "Enter category title"            
+        },
+        "slug": {
+            "label": "Slug",
+            "placeholder": ""
+        },
+        "description": {
+            "label": "Description",
+            "placeholder": "Enter game descriptions"
+        }       
+    }    
+}

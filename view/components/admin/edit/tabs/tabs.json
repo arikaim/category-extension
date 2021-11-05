@@ -2,6 +2,7 @@
     "labels": {
         "details": "Details",
         "images": "Images",
+        "translations": "Language Translations",
         "description": "Description",
         "meta": "Meta Tags"       
     }

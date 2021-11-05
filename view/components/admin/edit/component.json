@@ -1,7 +1,8 @@
 {
     "include": {
         "js": [
-            "components:upload"
+            "components:upload",
+            "translations::admin"
         ]
     },
     "access": {

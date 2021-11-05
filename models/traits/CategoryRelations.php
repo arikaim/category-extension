@@ -20,7 +20,7 @@ trait CategoryRelations
     /**
      * Category relations
      *
-     * @return mixed
+     * @return Relation|null
      */
     public function categories() 
     {
@@ -32,7 +32,7 @@ trait CategoryRelations
      *
      * @return array
      */
-    public function getCategoriesList()
+    public function getCategoriesList(): array
     {
         $result = [];
         foreach ($this->categories as $category) {           
@@ -47,7 +47,7 @@ trait CategoryRelations
      *
      * @return array
      */
-    public function getCategoriesIdList()
+    public function getCategoriesIdList(): array
     {
         $result = [];
         foreach ($this->categories as $category) {           

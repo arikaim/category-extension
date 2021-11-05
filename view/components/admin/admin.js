@@ -115,6 +115,10 @@ function CategoryControlPanel() {
 
         return arikaim.put('/api/admin/category/translate/categories',data,onSuccess,onError);      
     };  
+
+    this.saveTranslation = function(formId, onSuccess, onError) {
+        return arikaim.post('/api/admin/category/save/translation',formId,onSuccess,onError);   
+    };
 }
 
 var category = new CategoryControlPanel();

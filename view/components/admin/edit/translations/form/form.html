@@ -1,0 +1,31 @@
+{% set category = createModel('Category','category') %}
+{% if uuid is not empty %}
+    {% set category = category.findById(uuid) %}  
+{% endif %}
+{% set translation = category.translation(language) %}
+<form class="ui equal width form" id="category_translaton_form">  
+    <input type="hidden" name="uuid" id="uuid" value="{{ uuid }}">    
+    <input type="hidden" name="language" id="language" value="{{ language }}">    
+    <div class="field">
+        <label>{{ fields.display.label }}</label>
+        <input type="text" name="title" id="title" {{ fields.display.placeholder|attr('placeholder') }} value="{{ translation.title }}">      
+    </div>
+    <div class="tow fields">
+        {{  component('components:form.fields.slug',{ 
+                slug_source: 'title', 
+                url_path: ''
+            }) 
+        }} 
+        <div class="field">
+            <label>{{ fields.slug.label }}</label>
+            {% if translation.slug is not empty %}
+            <div class="ui basic label">{{ translation.slug }}</div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="field">
+        <label>{{ fields.description.label }}</label>
+        <textarea rows="4" cols="4" name="description" id="description" {{ fields.description.placeholder|attr('placeholder') }}>{{ translation.description }}</textarea>
+    </div>       
+    {{ component('components:form.footer') }}   
+</form>

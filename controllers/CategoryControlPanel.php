@@ -341,4 +341,41 @@ class CategoryControlPanel extends ControlPanelApiController
             ->addRule('status','checkList:items=0,1,toggle')
             ->validate(); 
     }
+
+    /**
+     * Save language translation
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Validator $data
+     * @return Psr\Http\Message\ResponseInterface
+    */
+    public function saveTranslationController($request, $response, $data) 
+    {         
+        $this->onDataValid(function($data) { 
+            $language = $this->getPageLanguage($data);           
+            $uuid = $data->get('uuid',null);
+            $translations = Model::CategoryTranslations('category');
+            $category = Model::Category('category')->findById($uuid);
+            $categoryTranslation = $category->translation($language);
+        
+            $translation = $translations->findBySlug($data['title']);
+           
+            if (\is_object($translation) == true && \is_object($categoryTranslation) == true) {                              
+                if ($translation->uuid != $categoryTranslation->uuid) {
+                    $this->error('errors.translations.slug');
+                    return false;
+                }                                   
+            }
+           
+            $translation = $category->saveTranslation($data->toArray(),$language);
+           
+            $this->setResponse(\is_object($translation),function() use($translation) {                  
+                $this
+                    ->message('translation')
+                    ->field('uuid',$translation->uuid);                  
+            },'errors.translation');
+        });
+        $data->validate();               
+    }
 }

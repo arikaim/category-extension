@@ -4,7 +4,8 @@
         "icon": "list"              
     },
     "labels": {
-        "branch": "Branch"
+        "branch": "Branch",
+        "language": "Language"
     },
     "messages": {
         "empty": "No categories"

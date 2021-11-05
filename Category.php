@@ -32,6 +32,7 @@ class Category extends Extension
         $this->addApiRoute('PUT','/api/admin/category/update/description','CategoryControlPanel','updateDescription','session');       
         $this->addApiRoute('DELETE','/api/admin/category/delete/{uuid}','CategoryControlPanel','delete','session');     
         $this->addApiRoute('PUT','/api/admin/category/status','CategoryControlPanel','setStatus','session'); 
+        $this->addApiRoute('POST','/api/admin/category/save/translation','CategoryControlPanel','saveTranslation','session'); 
         // translations
         $this->addApiRoute('PUT','/api/admin/category/translate/categories','CategoryControlPanel','translateCategories','session'); 
         // Api Routes

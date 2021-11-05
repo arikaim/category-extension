@@ -1,12 +1,14 @@
 {
     "add": "Category was created successfully.",
     "update": "Category was saved successfully.",
+    "translation": "Category translation was saved successfully.",
     "delete": "Category was deleted successfully.",
     "delete-image": "Category image was deleted successfully.",
     "status": "Category status was changed successfully.",
     "translations": "Categories translated successfully.",
     "errors": {
         "translations": "Translations extension not installed.",
+        "translation": "Can't save category translation.",
         "add": "Can't create category.",
         "exist": "Category exisst.",
         "path": "Can't create category images directory",
