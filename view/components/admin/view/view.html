@@ -2,14 +2,10 @@
 {% set language = language|default(current_language) %}
 <div class="ui segment">
     <div class="ui grid">
-        <div class="five wide column">
-            {{ component('category::admin.branch',{ class: 'clearable top left pointing selection' }) }}
-        </div> 
-        <div class="five wide column">
-        </div>    
-        <div class="five wide column right aligned">
+        <div class="ten wide column">           
             <div class="flex flex-row items-center">
-                <span class="px-1 font-bold">{{ labels.language }}</span>
+                {{ component('category::admin.branch',{ class: 'clearable top left pointing selection' }) }}
+                <span class="ml-4 px-1 font-bold">{{ labels.language }}</span>
                 {{  component('components:language.dropdown',{
                         name: 'language',
                         id: 'choose_language',
@@ -17,7 +13,9 @@
                         class: 'inline selection' 
                     })
                 }}
-            </div>          
+            </div>    
+        </div> 
+        <div class="five wide column right aligned">                
         </div> 
         <div class="one wide column right aligned">
             {{ component('components:paginator.dropdown',{ namespace: 'category' }) }}

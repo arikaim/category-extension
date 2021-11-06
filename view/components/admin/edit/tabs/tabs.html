@@ -11,10 +11,12 @@
         <i class="align left icon blue"></i>
         {{ labels.description }}     
     </div>    
+    {% if hasExtension('translations') == true %}
     <div class="item link edit-category-tab-item" component="category::admin.edit.translations" uuid="{{ uuid }}">
         <i class="globe icon blue"></i>
         {{ labels.translations }}     
     </div>
+    {% endif %}
     <div class="item link edit-category-tab-item" component="category::admin.edit.meta" uuid="{{ uuid }}" language="{{ language }}">
         <i class="code icon blue"></i>
         {{ labels.meta }}     
