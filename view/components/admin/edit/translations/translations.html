@@ -1,4 +1,4 @@
-{% component 'components:tabs.vertical.content' %}
+{% component 'semantic~tabs.vertical.content' %}
 {% set language = language|default(current_language) %}
 {% if uuid is not empty %}
     {% set category = createModel('Category','category').findById(uuid) %}
@@ -7,7 +7,7 @@
 <div class="mt-2"> 
     <div class="ui segment">
         <h4>{{ labels.language }}</h4>
-        {{  component('components:language.dropdown',{
+        {{  component('semantic~language.dropdown',{
                 name: 'language', 
                 id: 'choose_translation_language', 
                 selected: language, 

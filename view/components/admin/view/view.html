@@ -6,7 +6,7 @@
             <div class="flex flex-row items-center">
                 {{ component('category::admin.branch',{ class: 'clearable top left pointing selection' }) }}
                 <span class="ml-4 px-1 font-bold">{{ labels.language }}</span>
-                {{  component('components:language.dropdown',{
+                {{  component('semantic~language.dropdown',{
                         name: 'language',
                         id: 'choose_language',
                         selected: language,
@@ -18,7 +18,7 @@
         <div class="five wide column right aligned">                
         </div> 
         <div class="one wide column right aligned">
-            {{ component('components:paginator.dropdown',{ namespace: 'category' }) }}
+            {{ component('semantic~paginator.dropdown',{ namespace: 'category' }) }}
         </div>
     </div>
 </div>
@@ -26,5 +26,5 @@
     {{ component('category::admin.view.items',{ parent_id: parent_id, language: language, branch: branch }) }}   
 </div>
 <div class="mt-2" id="paginator">
-    {{ component('components:paginator',{ namespace: 'category' }) }}
+    {{ component('semantic~paginator',{ namespace: 'category' }) }}
 </div>

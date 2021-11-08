@@ -1,4 +1,4 @@
-{% component 'components:tabs.vertical.content' %}
+{% component 'semantic~tabs.vertical.content' %}
 {% if uuid is not empty %}
     {% set category = createModel('Category','category').findById(uuid) %}
 {% endif %}
@@ -16,7 +16,7 @@
         <div class="field">                    
             <input name="file" id="file" type="file" accept="image/png, image/jpeg, image/gif">                                          
         </div>
-        {{ component('components:form.footer',{ button_title: labels.upload }) }}
+        {{ component('semantic~form.footer',{ button_title: labels.upload }) }}
     </form>         
 </div>   
 {% endcomponent %}

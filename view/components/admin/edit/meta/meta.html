@@ -1,4 +1,4 @@
-{% component 'components:tabs.vertical.content' %}
+{% component 'semantic~tabs.vertical.content' %}
 {% set language = language|default(current_language) %}  
 {% if uuid is not empty %}
     {% set category = createModel('Category','category').findById(uuid) %}
@@ -19,7 +19,7 @@
             <label>{{ fields.keywords.label }}</label>
             <textarea rows="7" cols="7" name="meta_keywords" id="meta_keywords" {{ fields.keywords.placeholder|attr('placeholder') }}>{{ category.translation(language).meta_keywords }}</textarea>
         </div> 
-        {{ component('components:form.footer') }}   
+        {{ component('semantic~form.footer') }}   
     </form>
 </div>   
 {% endcomponent %}

@@ -11,7 +11,7 @@
         <input type="text" name="title" id="title" {{ fields.display.placeholder|attr('placeholder') }} value="{{ translation.title }}">      
     </div>
     <div class="tow fields">
-        {{  component('components:form.fields.slug',{ 
+        {{  component('semantic~form.fields.slug',{ 
                 slug_source: 'title', 
                 url_path: ''
             }) 
@@ -27,5 +27,5 @@
         <label>{{ fields.description.label }}</label>
         <textarea rows="4" cols="4" name="description" id="description" {{ fields.description.placeholder|attr('placeholder') }}>{{ translation.description }}</textarea>
     </div>       
-    {{ component('components:form.footer') }}   
+    {{ component('semantic~form.footer') }}   
 </form>

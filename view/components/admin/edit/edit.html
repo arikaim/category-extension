@@ -1,4 +1,4 @@
-{% component 'components:tabs.vertical.content' %}
+{% component 'semantic~tabs.vertical.content' %}
 {% set class = 'sixteen wide column' %}
 {% set panel_class = '' %}
 <div class="ui equal width form mt-4">
@@ -17,7 +17,7 @@
                 }}
             </div>
             <div class="right aligned column">
-                {{  component('components:language.dropdown',{
+                {{  component('semantic~language.dropdown',{
                         name: 'language',
                         id: 'choose_language',
                         selected: language,

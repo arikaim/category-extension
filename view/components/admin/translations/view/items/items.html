@@ -6,7 +6,7 @@
     {% for item in translations.get() %}
     <div class="ui item">
         <div class="content">
-            {{ component('components:language.label',{ language: item.language, class: ' basic horizontal ' }) }}
+            {{ component('semantic~language.label',{ language: item.language, class: ' basic horizontal ' }) }}
             
             {{ item.title }}
             <div class="ui right floated basic label" title="{{ labels.slug }}">

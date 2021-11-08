@@ -27,7 +27,7 @@
         <label>{{ title.label }}</label>
         <input type="text" name="title" id="title" {{ title.placeholder|attr('placeholder') }} value="{{ category.translation(language).title }}">  
     </div>   
-    {{  component('components:form.fields.slug',{ 
+    {{  component('semantic~form.fields.slug',{ 
             slug_source: 'title',
             url_path: '',
             label: 'Slug',
@@ -41,5 +41,5 @@
             {{ component('category::admin.branch',{ class: ' compact selection',label_choice: labels.choose }) }} 
         </div>
     </div>                   
-    {{ component('components:form.footer') }}   
+    {{ component('semantic~form.footer') }}   
 </form>
