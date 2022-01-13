@@ -9,8 +9,7 @@
         "email": "info@arikaim.com",
         "homepage": "http://arikaim.com"
     }],
-    "require": {
-        "php": ">=7.1",
+    "require": {       
         "arikaim/installer": "^1.0.0"
     },
     "extra": {

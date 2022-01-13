@@ -3,13 +3,11 @@
 ![license: GPL3](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
 
-
 Arikaim CMS category extension
 
 
-
 #### Requirements 
-  * PHP 7.2, 7.3, 7.4
+  * PHP 7.3, 7.4
   * [Arikaim CMS](https://github.com/arikaim/arikaim)
   * [Translations extension](https://github.com/arikaim/translations-extension) for language translations (optional).
 
