@@ -98,7 +98,7 @@ class CategoryControlPanel extends ControlPanelApiController
                 $result = false;
             }
             $this->setResponse((bool)$result,function() use($model,$data) {                                                       
-                $this->get('event')->dispatch('category.create',$data->toArray());            
+                $this->get('event')->dispatch('category.create',$model->toArray());            
                 $this
                     ->message('add')
                     ->field('id',$model->id)

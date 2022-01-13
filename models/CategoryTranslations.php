@@ -77,4 +77,23 @@ class CategoryTranslations extends Model
     {
         return $this->where('slug','=',$slug)->where('language','=',$language)->first();
     }
+
+    /**
+     * Find translated slug
+     *
+     * @param string $engSlug
+     * @param string $language
+     * @return string
+     */
+    public function findTranslatedSlug(string $engSlug, string $language): string
+    {
+        $enTranslation = $this->where('slug','=',$engSlug)->where('language','=','en')->first();
+        if (\is_object($enTranslation) == false) {
+            return $engSlug;
+        }
+
+        $model = $this->where('language','=',$language)->where('category_id','=',$enTranslation->category_id)->first();
+
+        return (\is_object($model) == true) ? $model->slug : $engSlug;
+    }
 }
