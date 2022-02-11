@@ -1,14 +1,10 @@
-{% set language = current_language %}
-{% set items = [
-    { id: 'language_button',icon: 'list',active: true,component: 'category::admin.menu',params: { language: language },title: labels.view },
-    { id: 'translations_button',icon: 'language',component: 'category::admin.translations',title: labels.translations }
-   ] 
-%}
-
 {{  component('semantic~tabs',{ 
-        items: items,
+        items: [
+            { id: 'language_button',icon: 'list',active: true,component: 'category::admin.menu',params: { language: current_language },title: labels.view },
+            { id: 'translations_button',icon: 'language',component: 'category::admin.translations',title: labels.translations }
+        ],
         menu: { extension: 'category' },
         help: { component: 'category::admin.help', extension: 'category' }, 
-        content: { component: 'category::admin.menu', params: { language: language } } 
+        content: { component: 'category::admin.menu', params: { language: current_language } } 
     })
 }}

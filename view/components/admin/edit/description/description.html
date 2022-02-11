@@ -2,7 +2,7 @@
 {% if uuid is not empty %}
     {% set category = createModel('Category','category').findById(uuid) %}
 {% endif %}
-<div class="mt-1">
+<div class="ui segment mt-1">
     <form class="ui equal width form" id="category_description_form">  
         <input type="hidden" name="uuid" id="uuid" value="{{ uuid }}">  
         <input type="hidden" name="language" id="language" value="{{ language }}">     

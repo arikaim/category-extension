@@ -7,7 +7,6 @@ Arikaim CMS category extension
 
 
 #### Requirements 
-  * PHP 7.3, 7.4
   * [Arikaim CMS](https://github.com/arikaim/arikaim)
   * [Translations extension](https://github.com/arikaim/translations-extension) for language translations (optional).
 
@@ -15,5 +14,7 @@ Arikaim CMS category extension
 #### Installation
 
 ```sh
+
 composer require arikaim/category-extension
+
 ```

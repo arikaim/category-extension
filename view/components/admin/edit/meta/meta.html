@@ -1,9 +1,8 @@
-{% component 'semantic~tabs.vertical.content' %}
 {% set language = language|default(current_language) %}  
 {% if uuid is not empty %}
     {% set category = createModel('Category','category').findById(uuid) %}
 {% endif %}
-<div class="mt-2" id="form_content">     
+<div class="ui segment mt-2" id="form_content">     
     <form class="ui form" id="meta_tags_form">  
         <input type="hidden" name="uuid" id="uuid" value="{{ uuid }}">  
         <input type="hidden" name="language" id="language" value="{{ language }}">    
@@ -21,5 +20,4 @@
         </div> 
         {{ component('semantic~form.footer') }}   
     </form>
-</div>   
-{% endcomponent %}
+</div>

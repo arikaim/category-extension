@@ -18,9 +18,11 @@
         </div>
     </div>
 </div>
-<div class="mt-2" id="category_rows" component="category::admin.view.items" namespace="category" branch="{{ branch }}">
-    {{ component('category::admin.view.items',{ parent_id: parent_id, language: language, branch: branch }) }}   
-</div>
-<div class="mt-2" id="paginator">
-    {{ component('semantic~paginator',{ namespace: 'category' }) }}
+<div class="ui segment">
+    <div class="mt-2" id="category_rows" component="category::admin.view.items" namespace="category" branch="{{ branch }}">
+        {{ component('category::admin.view.items',{ parent_id: parent_id, language: language, branch: branch }) }}   
+    </div>
+    <div class="mt-2" id="paginator">
+        {{ component('semantic~paginator',{ namespace: 'category' }) }}
+    </div>
 </div>

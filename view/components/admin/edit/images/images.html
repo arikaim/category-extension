@@ -1,8 +1,7 @@
-{% component 'semantic~tabs.vertical.content' %}
 {% if uuid is not empty %}
     {% set category = createModel('Category','category').findById(uuid) %}
 {% endif %}
-<div class="mt-2" id="form_content">       
+<div class="ui segment mt-2" id="form_content">       
     <div id="thumbnail">     
         {{  component('category::admin.edit.images.thumbnail',{ 
                 url: category.getImageUrl(),
@@ -18,5 +17,4 @@
         </div>
         {{ component('semantic~form.footer',{ button_title: labels.upload }) }}
     </form>         
-</div>   
-{% endcomponent %}
+</div>

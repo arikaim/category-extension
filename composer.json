@@ -10,7 +10,7 @@
         "homepage": "http://arikaim.com"
     }],
     "require": {       
-        "arikaim/installer": "^1.0.0"
+        "arikaim/installer": "*"
     },
     "extra": {
         "path": "category"
