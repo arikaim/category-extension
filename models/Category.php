@@ -315,11 +315,8 @@ class Category extends Model
     {
         $language = $language ?? 'en';
         $model = $this->translation($language);     
-        if ($model == false) {
-            return $default; 
-        } 
-        
-        return (isset($model->title) == true) ? $model->title : null;
+
+        return ($model == false) ? $default : $model->title ?? null;  
     }
 
     /**
