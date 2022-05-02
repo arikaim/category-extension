@@ -79,6 +79,19 @@ class CategoryTranslations extends Model
     }
 
     /**
+     * Find Category Id
+     *
+     * @param string $slug
+     * @param string $language
+     * @return int|null
+     */
+    public function findCategoryId(string $slug, string $language = 'en'): ?int
+    {
+        $model = $this->findCategory($slug,$language);
+        return (\is_object($model) == false) ? null : $model->id;
+    }
+
+    /**
      * Find translated slug
      *
      * @param string $engSlug

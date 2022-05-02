@@ -331,25 +331,7 @@ class Category extends Model
     { 
         return \is_object($this->findCategory($title,$parentId,$branch));
     }
-
-    /**
-     * Get category id
-     *
-     * @param string $slug
-     * @param string $language
-     * @return integer|null
-     */
-    public function findCategoryId(string $slug, string $language = 'en'): ?int 
-    {
-        $model = $this->translation($language);     
-        if (\is_object($model) == false) {
-            return null;
-        }
-
-        $model = $model->where('slug','=',$slug)->first();
-        return (\is_object($model) == false) ? null : $model->id;
-    }
-
+    
     /**
      * Find category
      *
