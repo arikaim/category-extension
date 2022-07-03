@@ -38,7 +38,6 @@ class Category extends Extension
         // Api Routes
         $this->addApiRoute('GET','/api/category/{id}[/{language}]','CategoryApi','read');  
         $this->addApiRoute('GET','/api/category/list/{language}','CategoryApi','readList');     
-        
         // Register events
         $this->registerEvent('category.create','Trigger after new category created');
         $this->registerEvent('category.update','Trigger after category is edited');
