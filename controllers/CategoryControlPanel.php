@@ -107,7 +107,6 @@ class CategoryControlPanel extends ControlPanelApiController
             },'errors.add');
         });
         $data
-            ->addRule('exist:model:Category|field=id','parent_id')
             ->addRule('text:min=2','title')
             ->addRule('text:min=2|max=2','language')
             ->validate();       
