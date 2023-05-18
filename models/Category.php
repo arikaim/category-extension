@@ -283,9 +283,9 @@ class Category extends Model
     {
         $language = $language ?? 'en';
         $translation = $this->translation($language);
-        $translation = (\is_object($translation) == false) ? $this->translation('en') : $translation;
+        $translation = ($translation == null) ? $this->translation('en') : $translation;
         
-        return $translation->slug;      
+        return ($translation == null) ? null : $translation->slug;      
     }
 
     /**
