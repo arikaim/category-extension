@@ -11,7 +11,7 @@
         <i class="align left icon blue"></i>
         {{ labels.description }}     
     </div>    
-    {% if hasExtension('translations') == true %}
+    {% if hasExtension('__disabled__translations') == true %}
     <div class="item link edit-category-tab-item" component="category::admin.edit.translations" uuid="{{ uuid }}">
         <i class="globe icon blue"></i>
         {{ labels.translations }}     

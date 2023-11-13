@@ -33,44 +33,6 @@ class CategoryControlPanel extends ControlPanelApiController
     }
     
     /**
-     * Translate categories
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param Validator $data
-     * @return Psr\Http\Message\ResponseInterface
-    */
-    public function translateCategoriesController($request, $response, $data)
-    {
-        $transalte = Factory::createController($this->getContainer(),'TranslationsControlPanel','translations');
-
-        if (\is_object($transalte) == false) {
-            $this->error('errors.translations');
-            return;
-        }
-        $this->onDataValid(function($data) use($transalte) {
-            $category = Model::Category('category');
-            $branch = $data->get('branch',null);
-            $language = $data->get('language');
-
-            $category = (empty($branch) == false) ? $category->where('branch','=',$branch) :  $category;
-            $categories = $category->orderBy('id')->get();
-            $translated = 0;
-            foreach($categories as $item) {
-                $result = Category::translate($item,$language);
-                $translated += ($result === false) ? 0 : 1;
-            }    
-           
-            $this->setResponse(true,function() use($translated) {    
-                $this
-                    ->message('translations')
-                    ->field('translations',$translated);
-            },'errors.translations');
-        });
-        $data->validate();
-    }
-
-    /**
      * Add new category
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
@@ -79,37 +41,29 @@ class CategoryControlPanel extends ControlPanelApiController
      * @return Psr\Http\Message\ResponseInterface
     */
     public function addController($request, $response, $data) 
-    {         
-        $this->onDataValid(function($data) {
-            $category = Model::Category('category');   
-            $title = $data->get('title',null);  
-            $data['parent_id'] = (empty($data['parent_id']) === true) ? null : $data['parent_id'];
-            
-            if ($category->hasCategory($title,$data['parent_id']) == true) {
-                $this->error('errors.exist');
-                return false;
-            } 
-          
-            $model = $category->create($data->toArray());
-
-            if (\is_object($model) == true) {                      
-                $result = $model->saveTranslation($data->slice(['title','description']),$data['language']);                              
-            } else {
-                $result = false;
-            }
-            $this->setResponse((bool)$result,function() use($model,$data) {                                                       
-                $this->get('event')->dispatch('category.create',$model->toArray());            
-                $this
-                    ->message('add')
-                    ->field('id',$model->id)
-                    ->field('language',$data['language'])
-                    ->field('uuid',$model->uuid);           
-            },'errors.add');
-        });
+    {       
         $data
-            ->addRule('text:min=2','title')
-            ->addRule('text:min=2|max=2','language')
-            ->validate();       
+            ->addRule('text:min=2','title')           
+            ->validate(true);     
+
+        $category = Model::Category('category');   
+        $title = $data->get('title',null);  
+        $data['parent_id'] = (empty($data['parent_id']) === true) ? null : $data['parent_id'];
+        
+        if ($category->hasCategory($title,$data['parent_id']) == true) {
+            $this->error('errors.exist');
+            return false;
+        } 
+          
+        $model = $category->create($data->toArray());
+
+        $this->setResponse(($model !== false),function() use($model,$data) {                                                       
+            $this->get('event')->dispatch('category.create',$model->toArray());            
+            $this
+                ->message('add')
+                ->field('id',$model->id)              
+                ->field('uuid',$model->uuid);           
+        },'errors.add'); 
     }
 
     /**
@@ -198,19 +152,25 @@ class CategoryControlPanel extends ControlPanelApiController
     */
     public function updateDescriptionController($request, $response, $data) 
     {
-        $this->onDataValid(function($data) {         
-            $model = Model::Category('category')->findByid($data['uuid']);   
-        
-            $result = $model->saveTranslation($data->slice(['description']),$data['language']); 
-                    
-            $this->setResponse((bool)$result,function() use($model) {
-                $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
-                $this
-                    ->message('update')
-                    ->field('uuid',$model->uuid);   
-            },'errors.update');
-        });
-        $data->validate(); 
+        $data
+            ->validate(true); 
+
+        $model = Model::Category('category')->findByid($data['uuid']);   
+        if ($model == null) {
+            $this->error("Not valid cactegory id");
+            return false;
+        }
+
+        $result = $model->update([
+            'description'   => $data['description']
+        ]); 
+                
+        $this->setResponse(($result !== false),function() use($model) {
+            $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
+            $this
+                ->message('update')
+                ->field('uuid',$model->uuid);   
+        },'errors.update');  
     }
 
     /**
@@ -223,21 +183,27 @@ class CategoryControlPanel extends ControlPanelApiController
     */
     public function updateMetaTagsController($request, $response, $data) 
     {
-        $this->onDataValid(function($data) {         
-            $model = Model::Category('category')->findByid($data['uuid']);      
-            $info = $data->slice(['meta_title','meta_description','meta_keywords']);
-            $result = $model->saveTranslation($info,$data['language']); 
-                    
-            $this->setResponse((bool)$result,function() use($model) {
-                $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
-                $this
-                    ->message('update')
-                    ->field('uuid',$model->uuid);   
-            },'errors.update');
-        });
-        $data                
-            ->addRule('text:min=2|max=2','language')
-            ->validate(); 
+        $data                            
+            ->validate(true); 
+    
+        $model = Model::Category('category')->findByid($data['uuid']);  
+        if ($model == null) {
+            $this->error("Not valid cactegory id");
+            return false;
+        }
+
+        $result = $model->update([
+            'meta_title'         => $data['meta_title'],
+            'meta_description'   => $data['meta_description'],
+            'meta_keywords'      => $data['meta_keywords'],
+        ]); 
+ 
+        $this->setResponse(($result !== false),function() use($model) {
+            $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
+            $this
+                ->message('update')
+                ->field('uuid',$model->uuid);   
+        },'errors.update');  
     }
 
     /**
@@ -250,41 +216,37 @@ class CategoryControlPanel extends ControlPanelApiController
     */
     public function updateController($request, $response, $data) 
     {    
-        $this->onDataValid(function($data) {
-            $uuid = $data->get('uuid');
-            $model = Model::Category('category')->findByid($uuid); 
-            // save parent id           
-            $parentId = (empty($data['parent_id']) == true) ? null : $data['parent_id'];    
-        
-            $translations = Model::CategoryTranslations('category');
-            $categoryTranslation = $model->translation($data['language']);
-            // check if slug exist
-            $translation = $translations->findBySlug($data['title']);
-            if (\is_object($translation) == true && \is_object($categoryTranslation) == true) {                              
-                if ($translation->uuid != $categoryTranslation->uuid) {
-                    $this->error('errors.translations.slug');
-                    return false;
-                }                                   
-            }
-            
-            $result = $model->update([
-                'parent_id' => $parentId,
-                'branch'    => $data['branch']
-            ]);     
-            
-            $result = $model->saveTranslation($data->slice(['title','description']),$data['language']); 
-         
-            $this->setResponse((bool)$result,function() use($model) {
-                $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
-                $this
-                    ->message('update')
-                    ->field('uuid',$model->uuid);   
-            },'errors.update');
-        });
         $data      
-            ->addRule('text:min=2','title')
-            ->addRule('text:min=2|max=2','language')
-            ->validate();    
+            ->addRule('text:min=2','title')        
+            ->validate(true);    
+
+      
+        $uuid = $data->get('uuid');
+        $title = $data['title'];
+        $description = $data['description'];
+
+        $model = Model::Category('category')->findByid($uuid);
+        if ($model == null) {
+            $this->error('Not valid id');
+            return false;
+        }
+
+        // save parent id           
+        $parentId = (empty($data['parent_id']) == true) ? null : $data['parent_id'];    
+              
+        $result = $model->update([
+            'parent_id'     => $parentId,
+            'title'         => $title,
+            'description'   => $description,
+            'branch'        => $data['branch']
+        ]);     
+            
+        $this->setResponse(($result !== false),function() use($model) {
+            $this->get('event')->dispatch('category.update',['uuid' => $model->uuid]);   
+            $this
+                ->message('update')
+                ->field('uuid',$model->uuid);   
+        },'errors.update');
     }
   
     /**
@@ -321,60 +283,21 @@ class CategoryControlPanel extends ControlPanelApiController
     */
     public function setStatusController($request, $response, $data)
     {
-        $this->onDataValid(function($data) {
-            $status = $data->get('status',1);                
-            $uuid = $data->get('uuid');
-            $model = Model::Category('category')->findById($uuid);
-            $result = $model->setStatus($status); 
-            $model->setChildStatus($uuid,$status);
-
-            $this->setResponse($result,function() use($uuid,$status,$data) {             
-                $this->get('event')->dispatch('category.status',$data->toArray());  
-                $this
-                    ->message('status')
-                    ->field('uuid',$uuid)
-                    ->field('status',$status);
-            },'errors.status');
-        });
         $data
-            ->addRule('status','checkList:items=0,1,toggle')
-            ->validate(); 
-    }
+            ->validate(true); 
 
-    /**
-     * Save language translation
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param Validator $data
-     * @return Psr\Http\Message\ResponseInterface
-    */
-    public function saveTranslationController($request, $response, $data) 
-    {         
-        $this->onDataValid(function($data) { 
-            $language = $this->getPageLanguage($data);           
-            $uuid = $data->get('uuid',null);
-            $translations = Model::CategoryTranslations('category');
-            $category = Model::Category('category')->findById($uuid);
-            $categoryTranslation = $category->translation($language);
-        
-            $translation = $translations->findBySlug($data['title']);
-           
-            if (\is_object($translation) == true && \is_object($categoryTranslation) == true) {                              
-                if ($translation->uuid != $categoryTranslation->uuid) {
-                    $this->error('errors.translations.slug');
-                    return false;
-                }                                   
-            }
-           
-            $translation = $category->saveTranslation($data->toArray(),$language);
-           
-            $this->setResponse(\is_object($translation),function() use($translation) {                  
-                $this
-                    ->message('translation')
-                    ->field('uuid',$translation->uuid);                  
-            },'errors.translation');
-        });
-        $data->validate();               
+        $status = $data->get('status',1);                
+        $uuid = $data->get('uuid');
+        $model = Model::Category('category')->findById($uuid);
+        $result = $model->setStatus($status); 
+        $model->setChildStatus($uuid,$status);
+
+        $this->setResponse($result,function() use($uuid,$status,$data) {             
+            $this->get('event')->dispatch('category.status',$data->toArray());  
+            $this
+                ->message('status')
+                ->field('uuid',$uuid)
+                ->field('status',$status);
+        },'errors.status');
     }
 }

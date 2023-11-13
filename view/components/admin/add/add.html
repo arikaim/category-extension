@@ -1,14 +1,6 @@
 {% component 'semantic~tabs.vertical.content' %}
-<div class="ui segment">
-    <h4>{{ labels.language }}</h4>
-    {{  component('semantic~language.dropdown',{
-            name: 'language',
-            id: 'choose_language',
-            selected: language,
-            class: 'inline search selection' 
-        })
-    }}  
-    <div class="ui mt-2" id="form_content"> 
+<div class="p-2">
+    <div class="mt-2" id="form_content"> 
         {{  component('category::admin.form',{ 
                 parent_id: parent_id,
                 language: language, 

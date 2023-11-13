@@ -33,21 +33,22 @@ class CategoryApi extends ApiController
      * @param Validator $data
      * @return object
     */
-    public function readController($request, $response, $data)
+    public function read($request, $response, $data)
     {
-        $this->onDataValid(function($data) {
-            $language = $data->get('language',null);
-            $language = $language ?? $this->getDefaultLanguage();
-            $id = $data->get('id');
-         
-            $category = Model::Category('category')->findById($id);
-            $translation = $category->translation($language);
-            
-            $data = \array_merge($translation->toArray(),$category->toArray());
-            $this->setResult($data,true);
-        });
+        $data->validate(true);
 
-        $data->validate();
+        $language = $data->get('language',null);
+        $language = $language ?? $this->getDefaultLanguage();
+        $id = $data->get('id');
+        
+        $category = Model::Category('category')->findById($id);
+        if ($category == null) {
+            $this->error('Not valid category id');
+            return false;
+        }
+
+        $this
+            ->setResult($category->toArray(),true);
     }
 
     /**
@@ -65,19 +66,17 @@ class CategoryApi extends ApiController
      * @param Validator $data
      * @return object
     */
-    public function readListController($request, $response, $data)
+    public function readList($request, $response, $data)
     { 
-        $this->onDataValid(function($data) {
-            $language = $data->get('language',null);
-            $language = $language ?? $this->getDefaultLanguage();
+        $data
+            ->validate(true);
+
+        $language = $data->get('language',null);
+        $language = $language ?? $this->getDefaultLanguage();
+    
+        $category = Model::Category('category');
+        $list = $category->get()->toArray();
         
-            $translations = Model::CategoryTranslations('category');
-            $translations = $translations->where('language','=',$language);
-            $list = $translations->get()->toArray();
-            
-            $this->setResult($list,true);
-        });
-               
-        $data->validate();
+        $this->setResult($list,true);
     }
 }

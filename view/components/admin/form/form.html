@@ -5,11 +5,9 @@
     {% set branch = category.branch|default(branch) %}
 {% endif %}
 {% set parent_id = parent_id|default(null) %}
-{% set language = language|default(current_language) %}  
 
 <form class="ui equal width form" id="category_form">  
-    <input type="hidden" name="uuid" id="uuid" value="{{ uuid }}">  
-    <input type="hidden" name="language" id="language" value="{{ language }}">  
+    <input type="hidden" name="uuid" id="uuid" value="{{ uuid }}">
     <div class="field mt-4">
         <label>{{ parent.label }}</label>
         <span id="parent_category">
@@ -25,7 +23,7 @@
     </div>
     <div class="field required">
         <label>{{ title.label }}</label>
-        <input type="text" name="title" id="title" {{ title.placeholder|attr('placeholder') }} value="{{ category.translation(language).title }}">  
+        <input type="text" name="title" id="title" {{ title.placeholder|attr('placeholder') }} value="{{ category.title }}">  
     </div>   
     {{  component('semantic~form.fields.slug',{ 
             slug_source: 'title',

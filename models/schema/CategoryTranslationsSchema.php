@@ -78,10 +78,5 @@ class CategoryTranslationsSchema extends Schema
      */
     public function seeds($seed)
     { 
-        // create blog categories
-        Model::Category('category',function($model) {
-            $items = ['News','Travel','Lifestyle'];                
-            return $model->createFromArray($items,null,'en','blog');           
-        });
     }
 }

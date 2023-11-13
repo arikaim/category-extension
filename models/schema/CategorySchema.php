@@ -52,6 +52,25 @@ class CategorySchema extends Schema
      */
     public function update($table) 
     {       
+        if ($this->hasColumn('slug') == false) {
+            $table->slug(false,true);
+        }
+        if ($this->hasColumn('title') == false) {
+            $table->string('title')->nullable(false);
+        }
+        if ($this->hasColumn('description') == false) {
+            $table->text('description')->nullable(true);
+        }
+        if ($this->hasColumn('meta_title') == false) {
+            $table->string('meta_title')->nullable(true);
+        }
+        if ($this->hasColumn('meta_description') == false) {
+            $table->text('meta_description')->nullable(true);
+        }
+        if ($this->hasColumn('meta_keywords') == false) {
+            $table->text('meta_keywords')->nullable(true);   
+        }
+
         if ($this->hasColumn('branch') == false) {
             $table->string('branch')->nullable(true);
         }

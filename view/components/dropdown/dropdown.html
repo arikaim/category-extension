@@ -7,7 +7,7 @@
 {% set exclude = exclude|default([]) %}
 {% set category = createModel('Category','category') %}
 {% if selected is not empty %}
-    {% set selected_text = category.findById(selected).translation(language).title %}
+    {% set selected_text = category.findById(selected).title %}
 {% endif %}
 {% set items = category.getList() %}
 

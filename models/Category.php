@@ -67,18 +67,13 @@ class Category extends Model
      *
      * @var array
      */
-    protected $translatedAttributes = [                  
-    ];
-
-    /**
-     * Append attributes to serialization
-     *
-     * @var array
-     */
-    protected $appends = [        
+    protected $translatedAttributes = [ 
         'title',
+        'slug',
         'description',
-        'slug'
+        'meta_title',
+        'meta_description',
+        'meta_keywords'                 
     ];
 
     /**
@@ -113,7 +108,13 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'position',       
+        'position',  
+        'title',
+        'description',
+        'meta_title',
+        'meta_description',
+        'meta_keywords', 
+        'slug',     
         'status',
         'parent_id',
         'branch',
@@ -128,42 +129,6 @@ class Category extends Model
      */
     public $timestamps = false;
     
-    /**
-     * title attribute
-     *
-     * @return string|null
-     */
-    public function getTitleAttribute()
-    {
-        $model = $this->translation();
-
-        return ($model !== false) ? $model->title : null;
-    }
-
-    /**
-     * description attribute
-     *
-     * @return string|null
-     */
-    public function getDescriptionAttribute()
-    {
-        $model = $this->translation();
-
-        return ($model !== false) ? $model->description : null;
-    }
-
-    /**
-     * slug attribute
-     *
-     * @return string|null
-     */
-    public function getSlugAttribute()
-    {
-        $model = $this->translation();
-
-        return ($model !== false) ? $model->slug : null;
-    }
-
     /**
      * Parent category relation
      *
@@ -187,12 +152,12 @@ class Category extends Model
         if ($model == false) {
             return false;
         }
-        $model = $model->where('parent_id','=',$model->id)->get();
-        if (\is_object($model) == false) {
+        $items = $model->where('parent_id','=',$model->id)->get();
+        if (\is_object($items) == false) {
             return false;
         }
 
-        foreach ($model as $item) {   
+        foreach ($items as $item) {   
             $item->setStatus($status);        
             $this->setChildStatus($item->id,$status);
         }   
@@ -213,7 +178,7 @@ class Category extends Model
             $this->removeChild($id);
         }
         $model = $this->findById($id);
-        if (\is_object($model) == false) {
+        if ($model == null) {
             return false;
         }
         $relations = DbModel::CategoryRelations('category');
@@ -258,7 +223,7 @@ class Category extends Model
     {       
         $model = (empty($id) == true) ? $this : $this->findById($id);
         $language = $language ?? 'en';
-        if (\is_object($model) == false) {
+        if ($model == null) {
             return null;
         }
 
@@ -329,7 +294,7 @@ class Category extends Model
      */
     public function hasCategory(?string $title, ?int $parentId = null, ?string $branch = null): bool
     { 
-        return \is_object($this->findCategory($title,$parentId,$branch));
+        return ($this->findCategory($title,$parentId,$branch) != null);
     }
     
     /**
@@ -338,22 +303,15 @@ class Category extends Model
      * @param string $title
      * @param integer|null $parentId
      * @param string|null $branch
-     * @return Model|false
+     * @return Model|null
      */
-    public function findCategory(?string $title, ?int $parentId = null, ?string $branch = null)
+    public function findCategory(?string $title, ?int $parentId = null, ?string $branch = null): ?object
     {
         $model = (empty($branch) == false) ? $this->where('branch','=',$branch) : $this;     
         $model = (empty($parentId) == true) ? $model->whereNull('parent_id') : $model->where('parent_id','=',$parentId);
-        $model = $model->get();
-
-        foreach ($model as $item) {        
-            $translation = $item->translations()->getQuery()->where('title','=',$title)->first();   
-            if (\is_object($translation) == true) {
-                return $item;
-            }  
-        }
-        
-        return false;
+        $model = $model->where('title','=',$title)->first();
+ 
+        return $model;
     }
 
     /**

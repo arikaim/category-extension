@@ -47,22 +47,10 @@ class CategoryDelete extends ConsoleCommand
         $deleted = 0;
         foreach ($category as $item) {
             $this->writeFieldLn('Category',Arrays::toString($item->getTitle()));    
-            $count = $item->translations()->count();
-            $rows = $relations->getRows($item->id);
-
-            if ($count == 0) {
-                $item->remove($item->id);
-                $deleted++;
-            }
-            
-            if ($rows->count() == 0) {               
-                $this->writeLn('No relations delete category.');
-                $item->remove($item->id);
-                $deleted++;
-            }
+            if ($item->remove($item->id) == true) $deleted++;
         }
+
         $this->writeFieldLn('Deleted',$deleted);
-        
         $this->showCompleted();
     }
 }
