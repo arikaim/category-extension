@@ -25,17 +25,11 @@ class Category extends Extension
     {        
         // Control Panel
         $this->addApiRoute('POST','/api/admin/category/add','CategoryControlPanel','add','session');   
-        $this->addApiRoute('PUT','/api/admin/category/update','CategoryControlPanel','update','session'); 
-        $this->addApiRoute('POST','/api/admin/category/upload/image','CategoryControlPanel','uploadImage','session'); 
-        $this->addApiRoute('PUT','/api/admin/category/delete/image','CategoryControlPanel','deleteImage','session'); 
+        $this->addApiRoute('PUT','/api/admin/category/update','CategoryControlPanel','update','session');        
         $this->addApiRoute('PUT','/api/admin/category/update/meta','CategoryControlPanel','updateMetaTags','session');       
         $this->addApiRoute('PUT','/api/admin/category/update/description','CategoryControlPanel','updateDescription','session');       
         $this->addApiRoute('DELETE','/api/admin/category/delete/{uuid}','CategoryControlPanel','delete','session');     
         $this->addApiRoute('PUT','/api/admin/category/status','CategoryControlPanel','setStatus','session'); 
-       
-        // translations
-        //  $this->addApiRoute('POST','/api/admin/category/save/translation','CategoryControlPanel','saveTranslation','session'); 
-        //  $this->addApiRoute('PUT','/api/admin/category/translate/categories','CategoryControlPanel','translateCategories','session'); 
         // Api Routes
         $this->addApiRoute('GET','/api/category/{id}[/{language}]','CategoryApi','read');  
         $this->addApiRoute('GET','/api/category/list/{language}','CategoryApi','readList');     

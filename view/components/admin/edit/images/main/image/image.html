@@ -1,0 +1,17 @@
+{% if uuid is not empty %}
+    {% set category = createModel('Category','category').findById(uuid) %}
+{% endif %}
+<div class="w-64 mr-2" id="main_image_content"> 
+    {% if category.image.src is not empty %}               
+        <img class="ui image bordered rounded" src="{{ url(category.image.src) }}?t={{ today() }}">  
+        <div class="my-1">
+            <button 
+                class="ui icon mini basic button delete-image-button" 
+                uuid="{{ category.uuid }}">
+                <i class="icon trash orange"></i>
+            </button>  
+        </div>      
+    {% else %}
+        {{ component('icons~image',{ size: 'h-full w-full' },'svg') }}
+    {% endif %}
+</div>

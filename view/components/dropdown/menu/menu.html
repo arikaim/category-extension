@@ -8,7 +8,8 @@
         {% set value = (data_type == 'id') ? item.id : item.uuid %} 
         {% set disabled = (value in exclude) ? 'disabled' : '' %}  
         {% set has_child = item.hasChild() %}   
-        {% set title = item.getTitle(null,language) %}                                          
+        {% set title = item.getTitle(null,language) %}   
+                                
         <div class="ui item {{ disabled }} {{ value|ifthen(selected,'active') }}" data-value="{{ value }}" title="{{ title|string(' / ') }}" language="{{ language }}">                        
             {{ item.title|emptyLabel(item.title) }}                         
             {% if has_child == true %}

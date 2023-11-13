@@ -98,8 +98,7 @@ class Category extends Model
         'parent_id',
         'branch',
         'user',
-        'uuid',               
-        'thumbnail'
+        'uuid'                     
     ];
 
     /**
@@ -119,7 +118,7 @@ class Category extends Model
         'parent_id',
         'branch',
         'user_id',
-        'thumbnail'
+        'image_id'
     ];
    
     /**
@@ -128,6 +127,16 @@ class Category extends Model
      * @var boolean
      */
     public $timestamps = false;
+    
+    /**
+     * Image relation
+     *
+     * @return Relation|null
+     */
+    public function image()
+    {
+        return $this->belongsTo('Arikaim\\Extensions\\Image\\Models\\Image','image_id');
+    }
     
     /**
      * Parent category relation
@@ -231,9 +240,8 @@ class Category extends Model
         if (empty($model->parent_id) == false) {
            $result = $model->getTitle($model->parent_id,$language,$result);        
         }     
-        $title = $model->getTranslationTitle($language);
-        $title = (empty($title) == true) ? $model->getTranslationTitle('en') : $title;
-        $result[] = $title;
+    
+        $result[] = $model->title;
 
         return $result;
     }

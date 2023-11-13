@@ -7,13 +7,16 @@
 'use strict';
 
 function CategoryControlPanel() {
-    var self = this;
+    
+    this.update = function(formId,onSuccess,onError) {
+        arikaim.put('/api/admin/category/update',formId,onSuccess,onError);
+    };
 
     this.delete = function(uuid, onSuccess ,onError) {
         return arikaim.delete('/api/admin/category/delete/' + uuid,onSuccess,onError);          
     };
 
-    this.deleteImage = function(uuid, fileName, onSuccess,onError) {
+    this.deleteImage = function(uuid,fileName,onSuccess,onError) {
         var data = { 
             uuid: uuid, 
             file_name: fileName 
@@ -105,20 +108,7 @@ function CategoryControlPanel() {
                 $(this).children('.text').html(title);
             }
         });
-    };
-
-    this.translateCategories = function(language, branch, onSuccess, onError) {      
-        var data = {
-            language: language,
-            branch: branch
-        };
-
-        return arikaim.put('/api/admin/category/translate/categories',data,onSuccess,onError);      
-    };  
-
-    this.saveTranslation = function(formId, onSuccess, onError) {
-        return arikaim.post('/api/admin/category/save/translation',formId,onSuccess,onError);   
-    };
+    };    
 }
 
 var category = new CategoryControlPanel();

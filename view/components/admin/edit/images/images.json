@@ -1,5 +1,6 @@
 {
     "labels": {
-        "upload": "Upload"
+        "main": "Main",
+        "library": "Library"
     }
 }

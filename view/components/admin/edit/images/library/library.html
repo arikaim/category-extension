@@ -1,0 +1,6 @@
+{% set category = createModel('Category','category').findById(uuid) %}
+{{  component('image::admin.library',{ 
+        relation_id: category.id, 
+        relation_type: 'category'
+    }) 
+}}
