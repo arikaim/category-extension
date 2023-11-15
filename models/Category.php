@@ -320,7 +320,7 @@ class Category extends Model
      */
     public function createFromArray(array $items, ?int $parentId = null, ?string $branch = null): array
     {
-        $branch = $item['branch'] ?? null;
+        $branch = $branch ?? null;
         $result = [];
 
         foreach ($items as $item) {         
