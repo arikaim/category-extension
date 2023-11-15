@@ -2,7 +2,7 @@
 {% set title = category.title %}
 
 <div class="title class-{{ category.uuid }} m-0" has-child="{{ has_child }}">              
-    {{ component('category::admin.actions',{ category: category, language: language }) }} 
+    {{ component('category::admin.actions',{ category: category }) }} 
     {% if category.status == 1 %}
         <i class="icon middle aligned checkmark olive" {{ labels.enabled.title|attr('title') }}></i>
     {% else %}

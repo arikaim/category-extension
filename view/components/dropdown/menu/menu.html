@@ -1,6 +1,6 @@
 <div class="ui menu {{ class }}"> 
     {% if root is not empty %}
-        <div class="item {{ value|ifthen(selected,'active') }}" data-value="{{ root.value }}" language="{{ language }}">
+        <div class="item {{ value|ifthen(selected,'active') }}" data-value="{{ root.value }}">
             {{ root.title }}
         </div>
     {% endif %}  
@@ -8,16 +8,15 @@
         {% set value = (data_type == 'id') ? item.id : item.uuid %} 
         {% set disabled = (value in exclude) ? 'disabled' : '' %}  
         {% set has_child = item.hasChild() %}   
-        {% set title = item.getTitle(null,language) %}   
+        {% set title = item.getTitle() %}   
                                 
-        <div class="ui item {{ disabled }} {{ value|ifthen(selected,'active') }}" data-value="{{ value }}" title="{{ title|string(' / ') }}" language="{{ language }}">                        
+        <div class="ui item {{ disabled }} {{ value|ifthen(selected,'active') }}" data-value="{{ value }}" title="{{ title|string(' / ') }}">                        
             {{ item.title|emptyLabel(item.title) }}                         
             {% if has_child == true %}
                 <i class="dropdown icon"></i>     
                 {% set category = createModel('Category','category') %}
                 {% set items = category.getList(item.id) %}                
-                {{  component('category::dropdown.menu',{ 
-                        language: language, 
+                {{  component('category::dropdown.menu',{                     
                         selected: selected, 
                         items: items,
                         exclude: exclude,

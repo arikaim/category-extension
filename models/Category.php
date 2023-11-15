@@ -16,8 +16,10 @@ use Arikaim\Extensions\Category\Models\CategoryTranslations;
 use Arikaim\Core\Utils\File;
 use Arikaim\Core\Utils\Path;
 use Arikaim\Core\Utils\Utils;
+use Arikaim\Core\Collection\Arrays;
 use Arikaim\Core\View\Html\Page;
 
+use Arikaim\Core\Db\Traits\Slug;
 use Arikaim\Core\Db\Traits\Uuid;
 use Arikaim\Core\Db\Traits\ToggleValue;
 use Arikaim\Core\Db\Traits\Position;
@@ -36,6 +38,7 @@ class Category extends Model
         ToggleValue,        
         Position,
         Find,
+        Slug,
         Status,
         UserRelation,
         Translations,
@@ -223,22 +226,20 @@ class Category extends Model
     /**
      * Get full cateogry title
      *
-     * @param integer|string $id
-     * @param string|null $language
+     * @param integer|string $id  
      * @param array $items
      * @return array|null
      */
-    public function getTitle($id = null, ?string $language = null, $items = []): ?array
+    public function getTitle($id = null, $items = []): ?array
     {       
         $model = (empty($id) == true) ? $this : $this->findById($id);
-        $language = $language ?? 'en';
         if ($model == null) {
             return null;
         }
 
         $result = $items;
         if (empty($model->parent_id) == false) {
-           $result = $model->getTitle($model->parent_id,$language,$result);        
+           $result = $model->getTitle($model->parent_id,$result);        
         }     
     
         $result[] = $model->title;
@@ -247,18 +248,20 @@ class Category extends Model
     }
 
     /**
-     * Get cateogry slug
+     * Get category slug with childs
      *
-     * @param string|null $language
      * @return string|null
      */
-    public function getSlug(?string $language = null): ?string
+    public function getSlug(): ?string
     {
-        $language = $language ?? 'en';
-        $translation = $this->translation($language);
-        $translation = ($translation == null) ? $this->translation('en') : $translation;
-        
-        return ($translation == null) ? null : $translation->slug;      
+        $items = $this->getTitle();
+        if ($items === null) {
+            return null;
+        }
+
+        $title = Arrays::toString($items,'-');
+
+        return Utils::slug($title);
     }
 
     /**
@@ -275,21 +278,6 @@ class Category extends Model
         $model = $model->where('parent_id','=',$parentId)->get();
 
         return (\is_object($model) == true) ? $model : null;           
-    }
-
-    /**
-     * Get translation title
-     *
-     * @param string|null $language
-     * @param string|null $default
-     * @return string|null
-     */
-    public function getTranslationTitle(?string $language = null, $default = null): ?string
-    {
-        $language = $language ?? 'en';
-        $model = $this->translation($language);     
-
-        return ($model == false) ? $default : $model->title ?? null;  
     }
 
     /**
@@ -326,36 +314,37 @@ class Category extends Model
      * Create categories from array
      *
      * @param array $items
-     * @param integer|null $parentId
-     * @param string|null $language
+     * @param integer|null $parentId   
      * @param string|null $branch
      * @return array
      */
-    public function createFromArray(array $items, ?int $parentId = null, ?string $language = null, ?string $branch = null): array
+    public function createFromArray(array $items, ?int $parentId = null, ?string $branch = null): array
     {
-        $language = $language ?? 'en';
+        $branch = $item['branch'] ?? null;
         $result = [];
-        foreach ($items as $key => $value) {         
-            $title = \trim($value);
+
+        foreach ($items as $item) {         
+            $title = \trim($item['title'] ?? '');
+            $parentId = $item['parent_id'] ?? null;
+
             if (empty($title) == true) continue;
 
-            $slug = Utils::slug($title);
-            $model = $this->findTranslation('slug',$slug,$language);
-            if (\is_object($model) == false) {  
-                                       
+            if ($this->hasCategory($title,$parentId,$branch) == false) {      
                 $model = $this->create([
                     'parent_id' => $parentId,
+                    'title'     => $title,
                     'branch'    => $branch
                 ]);
-                $model->saveTranslation(['title' => $title], $language, null); 
-                $result[] = $model->id;   
-            } else {
-                $result[] = $model->category_id;   
-            }
+
+                if ($model !== null) {
+                    $result[] = $model->id;   
+                }
+            } 
         }      
 
         return $result;
     }
+
 
     /**
      * Build category relations query

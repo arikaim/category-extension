@@ -18,6 +18,9 @@ use Arikaim\Core\Db\Traits\Find;
 use Arikaim\Core\Db\Traits\Slug;
 use Arikaim\Core\Db\Traits\MetaTags;
 
+/**
+ * Category translations
+ */
 class CategoryTranslations extends Model  
 {
     use 
@@ -73,7 +76,7 @@ class CategoryTranslations extends Model
      * @param string $language
      * @return Model|null
      */
-    public function findCategory(string $slug, string $language)
+    public function findCategory(string $slug, string $language): ?object
     {
         return $this->where('slug','=',$slug)->where('language','=',$language)->first();
     }

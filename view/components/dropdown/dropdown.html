@@ -1,5 +1,3 @@
-
-{% set language = language|default(getLanguage()) %}
 {% set name = name|default('category') %}
 {% set data_type = data_type|default('id') %}
 {% set id = id|default('category_dropdown') %}
@@ -15,8 +13,7 @@
     <input name="{{ name }}" id="{{ name }}" type="hidden" value="{{ selected }}">
     <i class="list icon"></i>
     <div class="text">{{ (selected_text is not empty) ? selected_text : default }}</div>    
-    {{  component('category::dropdown.menu',{ 
-            language: language, 
+    {{  component('category::dropdown.menu',{           
             selected: selected, 
             items: items,
             exclude: exclude,

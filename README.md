@@ -8,7 +8,6 @@ Arikaim CMS category extension
 
 #### Requirements 
   * [Arikaim CMS](https://github.com/arikaim/arikaim)
-  * [Translations extension](https://github.com/arikaim/translations-extension) for language translations (optional).
 
 
 #### Installation

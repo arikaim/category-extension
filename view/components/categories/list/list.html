@@ -1,4 +1,3 @@
-{% set language = language|default(current_language) %}
 {% set parent_id = parent_id|default(null) %}
 {% set max_items = max_items|default(null) %}
 {% set model = createModel('Category','category').getActive().where('parent_id','=',parent_id) %}
@@ -18,8 +17,8 @@
         {%- if index <= max_items %}
             {%- set url = page_url|renderText({ slug: item.getSlug() }) -%}
             <div class="item {{- item_class -}}">      
-                <a href="{{ url(url,true,language) }}">        
-                    <span class="{{ item_text_class }}">{{ item.getTitle(null,language)|string }}</span>
+                <a href="{{ url(url,true) }}">        
+                    <span class="{{ item_text_class }}">{{ item.getTitle()|string }}</span>
                 </a>           
             </div>
             {%- set index = index + 1 -%}

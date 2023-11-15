@@ -19,23 +19,15 @@ function CategoryView() {
             }
         });      
 
-        $('#choose_language').dropdown({
-            onChange: function(value) {
-                var branch = $('#branch_dropdown').dropdown('get value');
-                self.loadList(value,branch);       
-            }
-        }); 
-
         $('#branch_dropdown').dropdown({
-            onChange: function(branch, text, choice) { 
-                var language = $('#choose_language').dropdown('get value');
-                self.loadList(language,branch);
+            onChange: function(branch, text, choice) {               
+                self.loadList(branch);
             }
         });
     };
 
-    this.loadList = function(language, branch) {
-        category.loadList('category_rows',null,null,language,branch,function(result) {                   
+    this.loadList = function(branch) {
+        category.loadList('category_rows',null,null,branch,function(result) {                   
             self.initRows();  
             paginator.clear('category',function() {
                 paginator.init('category_rows',{
@@ -55,15 +47,14 @@ function CategoryView() {
         
         arikaim.ui.button('.add-button',function(element) {
             var parentId = $(element).attr('parent-id');
-            var language = $(element).attr('language');
             var branch = $(element).attr('branch');
-            category.loadAddCategory(parentId,language,branch); 
+
+            category.loadAddCategory(parentId,branch); 
         });
       
         arikaim.ui.button('.edit-button',function(element) {
-            var uuid = $(element).attr('uuid');
-            var language = $(element).attr('language');
-            category.loadEditCategory(uuid,language);     
+            var uuid = $(element).attr('uuid');          
+            category.loadEditCategory(uuid);     
         });
     
         arikaim.ui.button('.delete-button',function(element) {
@@ -84,30 +75,28 @@ function CategoryView() {
       
         arikaim.ui.button('.disable-button',function(element) {
             var uuid = $(element).attr('uuid');
-            var language = $(element).attr('language');
             var branch = $(element).attr('branch');
 
             category.setStatus(uuid,0,function(result) {
                 $('#item_' + uuid).html('');
-                self.loadItems(branch,language);               
+                self.loadItems(branch);               
             });
         });   
         
         arikaim.ui.button('.enable-button',function(element) {
             var uuid = $(element).attr('uuid');
-            var language = $(element).attr('language');
             var branch = $(element).attr('branch');
 
             category.setStatus(uuid,1,function(result) {
                 $('#item_' + uuid).html('');
-                self.loadItems(branch,language);               
+                self.loadItems(branch);               
             });
         }); 
         
         arikaim.ui.button('.relations-button',function(element) {
             var uuid = $(element).attr('uuid');
-            var language = $(element).attr('language');
-            category.loadCategoryRelations(uuid,language);     
+          
+            category.loadCategoryRelations(uuid);     
         });
 
         arikaim.ui.button('.translations-button',function(element) {
@@ -118,13 +107,12 @@ function CategoryView() {
         this.initAccordion();
     };
 
-    this.loadItems = function(branch,language) {
+    this.loadItems = function(branch) {
         arikaim.page.loadContent({
             id : 'category_rows',
             component : 'category::admin.view.items',
             params: { 
-                parent_id: null,  
-                language: language,                       
+                parent_id: null,       
                 branch: branch 
             }
         },function(result) {
@@ -148,7 +136,7 @@ function CategoryView() {
                     var branch = $('#category_rows').attr('branch');
                     var elementId = $(this).attr('id');
                     var uuid = $(this).attr('uuid');
-                    category.loadList(elementId,parentId,uuid,null,branch,function(result) {                   
+                    category.loadList(elementId,parentId,uuid,branch,function(result) {                   
                         self.initRows();                    
                     });
                 }

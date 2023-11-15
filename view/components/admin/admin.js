@@ -34,20 +34,19 @@ function CategoryControlPanel() {
         return arikaim.put('/api/admin/category/status',data,onSuccess,onError);      
     };
 
-    this.loadList = function(element, parentId, uuid, language, branch, onSuccess) { 
+    this.loadList = function(element, parentId, uuid, branch, onSuccess) { 
         return arikaim.page.loadContent({
             id : element,
             component : 'category::admin.view.items',
             params: { 
-                parent_id: parentId,
-                language: language,
+                parent_id: parentId,           
                 uuid: uuid,
                 branch: branch 
             }
         },onSuccess);
     };
 
-    this.loadAddCategory = function(parentId, language, branch) {
+    this.loadAddCategory = function(parentId, branch) {
         arikaim.ui.setActiveTab('#add_category','.category-tab-item');
 
         arikaim.page.loadContent({
@@ -55,21 +54,19 @@ function CategoryControlPanel() {
             component: 'category::admin.add',
             params: { 
                 parent_id: parentId,
-                branch: branch,
-                language: language 
+                branch: branch
             }
         });          
     };
 
-    this.loadCategoryRelations = function(uuid, language) {
+    this.loadCategoryRelations = function(uuid) {
         arikaim.ui.setActiveTab('#relations','.category-tab-item');
              
         arikaim.page.loadContent({
             id: 'category_content',
             component: 'category::admin.relations',
             params: { 
-                uuid: uuid,
-                language: language 
+                uuid: uuid
             }
         });  
     };
@@ -86,15 +83,13 @@ function CategoryControlPanel() {
         });  
     };
 
-
-    this.loadEditCategory = function(uuid, language) {
+    this.loadEditCategory = function(uuid) {
         arikaim.ui.setActiveTab('#edit_category','.category-tab-item')      
         arikaim.page.loadContent({
             id: 'category_content',
             component: 'category::admin.edit',
             params: { 
-                uuid: uuid,
-                language: language 
+                uuid: uuid
             }
         });  
     };

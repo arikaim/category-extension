@@ -31,8 +31,7 @@ class Category extends Extension
         $this->addApiRoute('DELETE','/api/admin/category/delete/{uuid}','CategoryControlPanel','delete','session');     
         $this->addApiRoute('PUT','/api/admin/category/status','CategoryControlPanel','setStatus','session'); 
         // Api Routes
-        $this->addApiRoute('GET','/api/category/{id}[/{language}]','CategoryApi','read');  
-        $this->addApiRoute('GET','/api/category/list/{language}','CategoryApi','readList');     
+        $this->addApiRoute('GET','/api/category/{id}[/]','CategoryApi','read');        
         // Register events
         $this->registerEvent('category.create','Trigger after new category created');
         $this->registerEvent('category.update','Trigger after category is edited');
@@ -44,7 +43,6 @@ class Category extends Extension
         $this->createDbTable('CategoryRelationsSchema');
         // console
         $this->registerConsoleCommand('CategoryDelete');
-        $this->registerConsoleCommand('TranslateCategories');
     } 
     
     /**

@@ -1,8 +1,7 @@
 {
     "labels": {
         "details": "Details",
-        "images": "Images",
-        "translations": "Language Translations",
+        "images": "Images",        
         "description": "Description",
         "meta": "Meta Tags"       
     }

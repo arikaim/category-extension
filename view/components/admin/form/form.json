@@ -14,7 +14,6 @@
         "root": "Root"
     },   
     "labels": {
-        "language": "Language",
         "slug": "Slug",
         "choose": "Choose",
         "branch": {

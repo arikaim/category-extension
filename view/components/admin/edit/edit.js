@@ -1,29 +1,21 @@
 'use strict';
 
 arikaim.component.onLoaded(function() {
-    function loadEditTabs(uuid, language) {
+    function loadEditTabs(uuid) {
         arikaim.page.loadContent({
             id: 'category_tabs_content',
             component: 'category::admin.edit.tabs',
             params: { 
-                uuid: uuid,
-                language: language 
+                uuid: uuid           
             }
         });  
     }
-
-    $('#choose_language').dropdown({
-        onChange: function(value) {
-            var uuid = $('#select_category').dropdown('get value');                    
-            loadEditTabs(uuid,value);           
-        }
-    }); 
 
     $('#select_category').dropdown({
         allowCategorySelection: true,
         onChange: function(value, text, choice) { 
             var title = $(choice).attr('title');
-            var language = $(choice).attr('language');            
+            
             $(this).children('.text').html(title);
            
             if (isEmpty(value) == true) {
@@ -31,7 +23,7 @@ arikaim.component.onLoaded(function() {
             } else {
                 arikaim.ui.show('#category_tabs_content');
             }
-            loadEditTabs(value,language);
+            loadEditTabs(value);
         }
     });
 });

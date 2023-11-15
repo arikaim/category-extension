@@ -3,7 +3,6 @@
         "content": "Add Category",
         "icon": "plus"        
     },
-    "labels": {
-        "language": "Language"
+    "labels": {       
     }
 }

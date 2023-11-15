@@ -63,7 +63,7 @@ class SitemapSubscriber extends EventSubscriber implements EventSubscriberInterf
         });
 
         foreach ($category as $item) {
-            $slug = $this->getSlug($item,$language);
+            $slug = $item->getSlug($item);
 
             if (empty($slug) == false) {
                 $url = Route::getRouteUrl($route['pattern'],[
@@ -75,25 +75,5 @@ class SitemapSubscriber extends EventSubscriber implements EventSubscriberInterf
 
         return $pages;
     }
-
-    /**
-     * Get slug
-     *
-     * @param object $model
-     * @param string $language
-     * @return string|null
-     */
-    protected function getSlug($model, $language)
-    {
-        $translation = $model->translation($language);
-        $slug = (\is_object($translation) == true) ? $translation->slug : null;
-     
-        if (empty($slug) == true) {
-            // get en
-            $translation = $model->translation('en');
-            $slug = (\is_object($translation) == true) ? $translation->slug : null;
-        }
-
-        return $slug;
-    }
+    
 }

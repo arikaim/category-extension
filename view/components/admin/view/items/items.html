@@ -10,7 +10,7 @@
     {{ uuid|attr('id') }}>
     {% for category in items.getItems() %}
         <div class="title class-{{ category.uuid }} m-0">  
-            {{ component('category::admin.actions',{ category: category, language: language }) }} 
+            {{ component('category::admin.actions',{ category: category }) }} 
             {% if category.status == 1 %}
                 <i class="icon middle aligned checkmark olive" {{ labels.enabled.title|attr('title') }}></i>
             {% else %}

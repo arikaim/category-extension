@@ -6,8 +6,7 @@
         <div class="ui two column grid">
             <div class="column">               
                 {{  component("category::dropdown",{ 
-                        selected: uuid, 
-                        language: language, 
+                        selected: uuid,                      
                         name: 'select_category', 
                         id: 'select_category',
                         data_type: 'uuid',
@@ -23,7 +22,7 @@
 </div>
 <div class="mt-4" id="category_tabs_content">     
     {% if uuid is not empty %}
-        {{ component('category::admin.edit.tabs',{ uuid: uuid, language: language }) }}
+        {{ component('category::admin.edit.tabs',{ uuid: uuid }) }}
     {% endif %}
 </div>
 {% endcomponent %}

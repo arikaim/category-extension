@@ -34,15 +34,21 @@ class CategorySchema extends Schema
         // columns    
         $table->id();
         $table->parentId();
-        $table->prototype('uuid');       
+        $table->prototype('uuid');      
+        $table->string('title')->nullable(false); 
+        $table->text('description')->nullable(true);
+        $table->string('meta_title')->nullable(true);
+        $table->text('meta_description')->nullable(true);
+        $table->text('meta_keywords')->nullable(true);   
         $table->string('branch')->nullable(true);
-        $table->status();
+        $table->status();      
         $table->position();      
         $table->userId();  
-        $table->relation('image_id','image');
-        
+        $table->slug(false,true);
+        $table->relation('image_id','image',true);
         // index
         $table->index('branch');
+        $table->unique(['slug','parent_id']);        
     }
 
     /**
@@ -52,10 +58,16 @@ class CategorySchema extends Schema
      * @return void
      */
     public function update($table) 
-    {       
+    {     
         if ($this->hasColumn('slug') == false) {
             $table->slug(false,true);
+            $table->unique(['slug','parent_id']);        
         }
+
+        if ($this->hasColumn('title') == false) {
+            $table->string('title')->nullable(false);
+        }
+
         if ($this->hasColumn('title') == false) {
             $table->string('title')->nullable(false);
         }
@@ -76,7 +88,7 @@ class CategorySchema extends Schema
             $table->string('branch')->nullable(true);
         }
         if ($this->hasColumn('image_id') == false) {
-            $table->relation('image_id','images');
+            $table->relation('image_id','image',true);
         }
     }
 }
