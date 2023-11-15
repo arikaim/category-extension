@@ -28,6 +28,7 @@ use Arikaim\Core\Db\Traits\Find;
 use Arikaim\Core\Db\Traits\Status;
 use Arikaim\Core\Db\Traits\UserRelation;
 use Arikaim\Core\Db\Traits\Translations;
+use Arikaim\Core\Db\Traits\MetaTags;
 
 /**
  * Category class
@@ -42,6 +43,7 @@ class Category extends Model
         Status,
         UserRelation,
         Translations,
+        MetaTags,
         Tree;
     
     /**
