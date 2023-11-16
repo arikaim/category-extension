@@ -326,12 +326,16 @@ class Category extends Model
         $result = [];
 
         foreach ($items as $item) {         
+            // set title
             $title = \trim($item['title'] ?? '');
-            $parentId = $item['parent_id'] ?? null;
+            $title = (empty($title) == true) ? $item : $title;
+            // set parent
+            $parent = $item['parent_id'] ?? null;
+            $parent = (empty($parent) == true) ? $parentId : $parent;
 
             if (empty($title) == true) continue;
 
-            if ($this->hasCategory($title,$parentId,$branch) == false) {      
+            if ($this->hasCategory($title,$parent,$branch) == false) {      
                 $model = $this->create([
                     'parent_id' => $parentId,
                     'title'     => $title,
