@@ -134,6 +134,27 @@ class Category extends Model
     public $timestamps = false;
     
     /**
+     * Get categories id's
+     *
+     * @param array       $items
+     * @param integer|null $parentId
+     * @param string|null  $branch
+     * @return array
+     */
+    public function getCategoryIds(array $items, ?int $parentId, ?string $branch = null): array
+    {
+        $result = [];
+        foreach($items as $title) {
+            $model = $this->findCategory($title,$parentId,$branch);
+            if ($model !== null) {
+                $result[] = $model->id;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Image relation
      *
      * @return Relation|null
@@ -415,15 +436,13 @@ class Category extends Model
     }
 
     /**
-     * Return true if image is used
+     * Return true category has image
      *
      * @param string $fileName
      * @return boolean
      */
-    public function isImagUsed(string $fileName): bool
+    public function hasImage(): bool
     {
-        $model = $this->where('thumbnail','=',$fileName)->first();
-
-        return \is_object($model);
+        return (empty($this->image_id) == false);
     } 
 }
