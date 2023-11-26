@@ -13,11 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use Arikaim\Core\Db\Model as DbModel;
 use Arikaim\Extensions\Category\Models\CategoryTranslations;
-use Arikaim\Core\Utils\File;
-use Arikaim\Core\Utils\Path;
 use Arikaim\Core\Utils\Utils;
 use Arikaim\Core\Collection\Arrays;
-use Arikaim\Core\View\Html\Page;
 
 use Arikaim\Core\Db\Traits\Slug;
 use Arikaim\Core\Db\Traits\Uuid;
@@ -29,6 +26,7 @@ use Arikaim\Core\Db\Traits\Status;
 use Arikaim\Core\Db\Traits\UserRelation;
 use Arikaim\Core\Db\Traits\Translations;
 use Arikaim\Core\Db\Traits\MetaTags;
+use Arikaim\Extensions\Image\Models\Traits\ImageRelation;
 
 /**
  * Category class
@@ -43,6 +41,7 @@ class Category extends Model
         Status,
         UserRelation,
         Translations,
+        ImageRelation,
         MetaTags,
         Tree;
     
@@ -154,15 +153,6 @@ class Category extends Model
         return $result;
     }
 
-    /**
-     * Image relation
-     *
-     * @return Relation|null
-     */
-    public function image()
-    {
-        return $this->belongsTo('Arikaim\\Extensions\\Image\\Models\\Image','image_id');
-    }
     
     /**
      * Parent category relation
@@ -371,78 +361,4 @@ class Category extends Model
 
         return $result;
     }
-
-
-    /**
-     * Build category relations query
-     *
-     * @param Model $filterModel
-     * @param string $categorySlug
-     * @return Model
-     */
-    public function relationsQuery($filterModel, $categorySlug)
-    {
-        if (empty($categorySlug) == false) {           
-            $categoryTranslations = DbModel::create('CategoryTranslations','category',function($model) use($categorySlug) {                
-                return $model->findBySlug($categorySlug);                  
-            });
-            $filterModel = $filterModel->whereHas('categories',function($query) use($categoryTranslations) {               
-                $query->where('category_id','=',$categoryTranslations->category_id);
-            });
-                    
-            return $filterModel;
-        }
-
-        return $filterModel;
-    }
-
-    /**
-     * Get category images path
-     *
-     * @param boolean $relative
-     * @return string
-     */
-    public function getImagesPath(bool $relative = false): string
-    {
-        $path = 'category' . DIRECTORY_SEPARATOR;
-
-        return ($relative == true) ? 'public' . DIRECTORY_SEPARATOR . $path : Path::STORAGE_PUBLIC_PATH . $path;
-    }
-
-    /**
-     * Create category images path
-     *
-     * @return boolean
-     */
-    public function createImagesPath()
-    {
-        $path = $this->getImagesPath();
-        
-        return (File::exists($path) == false) ? File::makeDir($path) : true;       
-    }
-
-    /**
-     * Get hosted game url
-     *
-     * @param string|null $imageFileName
-     * @param boolean $full
-     * @return string
-     */
-    public function getImageUrl(?string $imageFileName = null, bool $full = false): string
-    {
-        $image = (empty($imageFileName) == true) ? $this->thumbnail : $imageFileName;
-
-        return Page::getUrl('public/category/' . $image,$full);
-    }
-
-    /**
-     * Return true category has image
-     *
-     * @param string $fileName
-     * @return boolean
-     */
-    public function hasImage(): bool
-    {
-        return (empty($this->image_id) == false);
-    } 
 }

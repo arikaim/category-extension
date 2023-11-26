@@ -1,14 +1,13 @@
-{% set params = { uuid: uuid } %}
-{{  component('semantic~tabs.vertical',{ 
-        items: [ 
-            { title: labels.main, component: 'category::admin.edit.images.main', icon: 'image', active: true, params : params },           
-        ], 
-        menu: { id: 'category_menu' }, 
-        item_class: 'category-images-tab-item',
-        content: { 
-            id: 'category_images_content',
-            component: 'category::admin.edit.images.main',
-            params: params 
-        } 
-    })
-}}
+{% if uuid is not empty %}
+    {% set category = createModel('Category','category').findById(uuid) %}
+{% endif %}
+<div>
+    {{  component('image::admin.library',{
+            model: category,
+            relation_id: category.id,
+            relation_type: 'post',
+            extension: 'category',
+            model_class: 'Category'
+        }) 
+    }}
+</div>
