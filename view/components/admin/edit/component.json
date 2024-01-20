@@ -1,8 +1,7 @@
 {
     "include": {
         "js": [
-            "semantic~upload",
-            "translations::admin"
+            "semantic~upload"
         ]
     },
     "access": {

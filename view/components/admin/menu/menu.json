@@ -3,7 +3,6 @@
         "view":  "View",                      
         "add": "Add",          
         "edit": "Edit",
-        "relations": "Relations",
-        "translations": "Translations"
+        "relations": "Relations"
     }
 }

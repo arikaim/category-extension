@@ -70,19 +70,7 @@ function CategoryControlPanel() {
             }
         });  
     };
-
-    this.loadCategoryTranslations = function(uuid) {
-        arikaim.ui.setActiveTab('#translations','.category-tab-item');
-             
-        arikaim.page.loadContent({
-            id: 'category_content',
-            component: 'category::admin.translations.view',
-            params: { 
-                uuid: uuid              
-            }
-        });  
-    };
-
+    
     this.loadEditCategory = function(uuid) {
         arikaim.ui.setActiveTab('#edit_category','.category-tab-item')      
         arikaim.page.loadContent({
