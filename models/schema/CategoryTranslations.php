@@ -10,12 +10,11 @@
 namespace Arikaim\Extensions\Category\Models\Schema;
 
 use Arikaim\Core\Db\Schema;
-use Arikaim\Core\Db\Model;
 
 /**
  * Category translations table
  */
-class CategoryTranslationsSchema extends Schema  
+class CategoryTranslations extends Schema  
 {    
     /**
      * Table name

@@ -14,7 +14,7 @@ use Arikaim\Core\Db\Schema;
 /**
  * Category relations table
  */
-class CategoryRelationsSchema extends Schema  
+class CategoryRelations extends Schema  
 {    
     /**
      * Table name

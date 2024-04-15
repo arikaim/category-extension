@@ -50,7 +50,8 @@ class CategoryRelations extends Model
      *
      * @var array
      */
-    protected $with = [                    
+    protected $with = [  
+        'related'                  
     ];
 
     /**

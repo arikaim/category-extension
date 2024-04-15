@@ -38,9 +38,9 @@ class Category extends Extension
         $this->registerEvent('category.delete','Trigger after category is deleted');
         $this->registerEvent('category.status','Trigger after category status changed');
         // Create db tables
-        $this->createDbTable('CategorySchema');
-        $this->createDbTable('CategoryTranslationsSchema');
-        $this->createDbTable('CategoryRelationsSchema');
+        $this->createDbTable('Category');
+        $this->createDbTable('CategoryTranslations');
+        $this->createDbTable('CategoryRelations');
         // console
         $this->registerConsoleCommand('CategoryDelete');
         // Relation map 

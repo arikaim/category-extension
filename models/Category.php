@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use Arikaim\Core\Db\Model as DbModel;
 use Arikaim\Extensions\Category\Models\CategoryTranslations;
+use Arikaim\Extensions\Category\Models\CategoryRelations;
 use Arikaim\Core\Utils\Utils;
 use Arikaim\Core\Collection\Arrays;
 
@@ -133,6 +134,16 @@ class Category extends Model
     public $timestamps = false;
     
     /**
+     * Get category relations
+     *
+     * @return Relation|null
+     */
+    public function relations()
+    {
+        return $this->hasMany(CategoryRelations::class,'category_id')->without('category');
+    }
+
+    /**
      * Get categories id's
      *
      * @param array       $items
@@ -153,7 +164,6 @@ class Category extends Model
         return $result;
     }
 
-    
     /**
      * Parent category relation
      *
@@ -263,18 +273,16 @@ class Category extends Model
     /**
      * Get category slug with childs
      *
-     * @return string|null
+     * @return string
      */
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         $items = $this->getTitle();
         if ($items === null) {
             return null;
         }
 
-        $title = Arrays::toString($items,'-');
-
-        return Utils::slug($title);
+        return Utils::slug(Arrays::toString($items,'-'));
     }
 
     /**
@@ -288,9 +296,7 @@ class Category extends Model
     public function getList(?int $parentId = null, ?string $branch = null)
     {   
         $model = (empty($branch) == false) ? $this->where('branch','=',$branch) : $this;       
-        $model = $model->where('parent_id','=',$parentId)->get();
-
-        return (\is_object($model) == true) ? $model : null;           
+        return $model->where('parent_id','=',$parentId)->get();
     }
 
     /**
@@ -318,7 +324,10 @@ class Category extends Model
     {
         $model = (empty($branch) == false) ? $this->where('branch','=',$branch) : $this;     
         $model = (empty($parentId) == true) ? $model->whereNull('parent_id') : $model->where('parent_id','=',$parentId);
-        $model = $model->where('title','=',$title)->first();
+        $model = $model
+            ->where('title','=',$title)
+            ->orWhere('slug','=',$title)
+            ->first();
  
         return $model;
     }
