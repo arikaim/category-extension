@@ -15,7 +15,7 @@ use Arikaim\Extensions\Category\Models\Category;
  * Image relation trait
  *      
 */
-trait CategoryRelation 
+trait CategoryRelation
 {    
     /**
      * Get category column relation name
