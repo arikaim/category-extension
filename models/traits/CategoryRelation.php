@@ -34,7 +34,7 @@ trait CategoryRelation
      */
     public function unsetCategory(): bool
     {
-        return $this->setImage(null);
+        return $this->setCategory(null);
     }
 
     /**

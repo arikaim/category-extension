@@ -40,14 +40,20 @@ class CategoryDelete extends ConsoleCommand
         $this->showTitle();
 
         $category = Model::Category('category')->all();
-        $relations = Model::CategoryRelations('category');
-
+       
         $this->writeFieldLn('Total',$category->count());
 
         $deleted = 0;
         foreach ($category as $item) {
-            $this->writeFieldLn('Category',Arrays::toString($item->getTitle()));    
-            if ($item->remove($item->id) == true) $deleted++;
+            $this->writeFieldLn('Category',Arrays::toString($item->getTitle()));   
+            
+            try {
+                if ($item->remove($item->id) == true) {
+                    $deleted++;
+                }
+            } catch (\Exception $e) {
+                $this->showError($e->getMessage());
+            }
         }
 
         $this->writeFieldLn('Deleted',$deleted);

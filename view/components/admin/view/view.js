@@ -69,6 +69,11 @@ function CategoryView() {
                 category.delete(uuid,function(result) {
                     $('#' + uuid).remove();
                     $('.class-' + uuid).remove();                   
+                },function(errors) {                   
+                    arikaim.page.toastMessage({
+                        class: 'error',
+                        message: errors[0]
+                    });
                 });
             });
         });

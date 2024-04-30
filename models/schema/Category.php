@@ -41,6 +41,7 @@ class Category extends Schema
         $table->text('meta_description')->nullable(true);
         $table->text('meta_keywords')->nullable(true);   
         $table->string('branch')->nullable(true);
+        $table->string('icon')->nullable(true);
         $table->status();      
         $table->position();      
         $table->userId();  
@@ -59,6 +60,10 @@ class Category extends Schema
      */
     public function update($table) 
     {     
+        if ($this->hasColumn('icon') == false) {
+            $table->string('icon')->nullable(true);
+        }
+
         if ($this->hasColumn('slug') == false) {
             $table->slug(false,true);
             $table->unique(['slug','parent_id']);        
@@ -71,15 +76,19 @@ class Category extends Schema
         if ($this->hasColumn('title') == false) {
             $table->string('title')->nullable(false);
         }
+
         if ($this->hasColumn('description') == false) {
             $table->text('description')->nullable(true);
         }
+
         if ($this->hasColumn('meta_title') == false) {
             $table->string('meta_title')->nullable(true);
         }
+        
         if ($this->hasColumn('meta_description') == false) {
             $table->text('meta_description')->nullable(true);
         }
+
         if ($this->hasColumn('meta_keywords') == false) {
             $table->text('meta_keywords')->nullable(true);   
         }
@@ -87,6 +96,7 @@ class Category extends Schema
         if ($this->hasColumn('branch') == false) {
             $table->string('branch')->nullable(true);
         }
+        
         if ($this->hasColumn('image_id') == false) {
             $table->relation('image_id','image',true);
         }

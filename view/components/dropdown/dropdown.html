@@ -5,14 +5,21 @@
 {% set exclude = exclude|default([]) %}
 {% set category = createModel('Category','category') %}
 {% if selected is not empty %}
-    {% set selected_text = category.findById(selected).title %}
+    {% set selected_text = category.findById(selected).getFullTitle() %}
 {% endif %}
 {% set items = category.getList() %}
 
 <div class="ui icon top left pointing dropdown {{ class }}" id="{{ id }}">
-    <input name="{{ name }}" id="{{ name }}" type="hidden" value="{{ selected }}">
+    <input 
+        rule="{{ rule }}"
+        name="{{ name }}" 
+        id="{{ name }}" 
+        type="hidden" 
+        value="{{ selected }}">
     <i class="list icon"></i>
-    <div class="text">{{ (selected_text is not empty) ? selected_text : default }}</div>    
+    <div class="text" title="{{ selected_text }}">
+        {{ (selected_text is not empty) ? selected_text : default }}
+    </div>    
     {{  component('category::dropdown.menu',{           
             selected: selected, 
             items: items,

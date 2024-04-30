@@ -27,6 +27,7 @@ use Arikaim\Core\Db\Traits\Status;
 use Arikaim\Core\Db\Traits\UserRelation;
 use Arikaim\Core\Db\Traits\Translations;
 use Arikaim\Core\Db\Traits\MetaTags;
+use Arikaim\Core\Db\Traits\Errors;
 use Arikaim\Extensions\Image\Models\Traits\ImageRelation;
 
 /**
@@ -44,6 +45,7 @@ class Category extends Model
         Translations,
         ImageRelation,
         MetaTags,
+        Errors,
         Tree;
     
     /**
@@ -246,6 +248,18 @@ class Category extends Model
         return true;
     }
 
+    /**
+     * Get full category title
+     *
+     * @param string $separator
+     * @return string
+     */
+    public function getFullTitle(string $separator = '/'): string
+    {
+        $items = $this->getTitle();
+        return ($items == null) ? '' : Arrays::toString($items,$separator);
+    }
+    
     /**
      * Get full cateogry title
      *
