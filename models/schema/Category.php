@@ -73,10 +73,6 @@ class Category extends Schema
             $table->string('title')->nullable(false);
         }
 
-        if ($this->hasColumn('title') == false) {
-            $table->string('title')->nullable(false);
-        }
-
         if ($this->hasColumn('description') == false) {
             $table->text('description')->nullable(true);
         }
