@@ -43,6 +43,7 @@ class Category extends Extension
         $this->createDbTable('CategoryRelations');
         // console
         $this->registerConsoleCommand('CategoryDelete');
+        $this->registerConsoleCommand('CategoryCopyTranslations');
         // Relation map 
         $this->addRelationMap('category','Category');
     } 
