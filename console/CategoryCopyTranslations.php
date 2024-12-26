@@ -27,7 +27,7 @@ class CategoryCopyTranslations extends ConsoleCommand
     {
         $this
             ->setName('category:copy:translations')
-            ->setDescription('Copy sluyg & title from translation.'); 
+            ->setDescription('Copy slug & title from translation.'); 
     }
 
     /**
