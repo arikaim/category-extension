@@ -167,16 +167,6 @@ class Category extends Model
     }
 
     /**
-     * Parent category relation
-     *
-     * @return Relation|null
-     */
-    public function parent()
-    {
-        return $this->belongsTo(Category::class,'parent_id');
-    }
-    
-    /**
      * Set child category status
      *
      * @param integer|string $id
