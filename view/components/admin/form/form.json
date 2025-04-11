@@ -1,8 +1,11 @@
 {
     "title": {
         "label": "Title",               
-        "placeholder": "Category title"
-        
+        "placeholder": "Category title"  
+    },
+    "icon": {
+        "label": "SVG Icon",               
+        "placeholder": "Svg component name"  
     },
     "description": {
         "label": "Description",

@@ -75,7 +75,7 @@ class Category extends Model
      * @var array
      */
     protected $translatedAttributes = [ 
-        'title',
+        'title',       
         'slug',
         'description',
         'meta_title',
@@ -100,6 +100,7 @@ class Category extends Model
      */
     protected $visible = [
         'id',
+        'icon',
         'position',       
         'status',
         'parent_id',
@@ -116,6 +117,7 @@ class Category extends Model
     protected $fillable = [
         'position',  
         'title',
+        'icon',
         'description',
         'meta_title',
         'meta_description',

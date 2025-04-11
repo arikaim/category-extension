@@ -132,7 +132,7 @@ class CategoryControlPanel extends ControlPanelApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param Validator $data
-     * @return Psr\Http\Message\ResponseInterface
+     * @return mixed
     */
     public function updateController($request, $response, $data) 
     {    
@@ -140,7 +140,6 @@ class CategoryControlPanel extends ControlPanelApiController
             ->addRule('text:min=2','title')        
             ->validate(true);    
 
-      
         $uuid = $data->get('uuid');
       
         if (isset($data['image_id']) == true) {
