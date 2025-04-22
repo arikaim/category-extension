@@ -5,10 +5,10 @@
     "type": "user",
     "description": "Add, edit or remove site categories.",
     "short-description": "Manage site categories.",
-    "version": "1.8.16",
+    "version": "1.8.17",
     "repository": "https://github.com/arikaim/category-extension.git",
     "position": "2",
-    "install-order": 1,
+    "install-order": 10,
     "require": {
         "extensions": [
             "translations:optional"                      
