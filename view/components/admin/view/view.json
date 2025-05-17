@@ -3,6 +3,9 @@
         "content": "View",
         "icon": "list"              
     },
+    "create": {
+        "create": "New category"
+    },
     "labels": {
         "branch": "Branch"
     },

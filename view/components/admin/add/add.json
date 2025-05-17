@@ -1,8 +1,6 @@
 {   
-    "title": {
-        "content": "Add Category",
-        "icon": "plus"        
-    },
+    "title":"Add Category",   
+    "icon": "plus",
     "labels": {       
     }
 }

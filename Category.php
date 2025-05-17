@@ -37,10 +37,6 @@ class Category extends Extension
         $this->registerEvent('category.update','Trigger after category is edited');
         $this->registerEvent('category.delete','Trigger after category is deleted');
         $this->registerEvent('category.status','Trigger after category status changed');
-        // Create db tables
-        $this->createDbTable('Category');
-        $this->createDbTable('CategoryTranslations');
-        $this->createDbTable('CategoryRelations');
         // console
         $this->registerConsoleCommand('CategoryDelete');
         $this->registerConsoleCommand('CategoryCopyTranslations');
@@ -48,6 +44,18 @@ class Category extends Extension
         $this->addRelationMap('category','Category');
     } 
     
+    /**
+     * Create db tables
+     * @return void
+     */
+    public function dbInstall(): void 
+    {
+        // Create db tables
+        $this->createDbTable('Category');
+        $this->createDbTable('CategoryTranslations');
+        $this->createDbTable('CategoryRelations');
+    }
+
     /**
      * UnInstall extension
      *

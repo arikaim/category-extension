@@ -11,6 +11,10 @@ function CategoryView() {
 
     this.init = function() {
         this.loadMessages('category::admin');
+        arikaim.ui.loadComponentButton('.create-category');
+
+        arikaim.events.on('category.create',function(uuid) {
+        });
 
         paginator.init('category_rows',{
             name: 'category::admin.view.items',
@@ -26,8 +30,21 @@ function CategoryView() {
         });
     };
 
+    this.loadItemsList = function(element, parentId, uuid, branch, onSuccess) { 
+        return arikaim.page.loadContent({
+            id : element,
+            component : 'category::admin.view.items',
+            params: { 
+                parent_id: parentId,           
+                uuid: uuid,
+                branch: branch 
+            }
+        },onSuccess);
+    };
+
+
     this.loadList = function(branch) {
-        category.loadList('category_rows',null,null,branch,function(result) {                   
+        self.loadItemsList('category_rows',null,null,branch,function(result) {                   
             self.initRows();  
             paginator.clear('category',function() {
                 paginator.init('category_rows',{
@@ -43,20 +60,10 @@ function CategoryView() {
     };
 
     this.initRows = function() {       
+        arikaim.ui.loadComponentButton('.category-action');
+        
         $('.actions-dropdown').dropdown();
         
-        arikaim.ui.button('.add-button',function(element) {
-            var parentId = $(element).attr('parent-id');
-            var branch = $(element).attr('branch');
-
-            category.loadAddCategory(parentId,branch); 
-        });
-      
-        arikaim.ui.button('.edit-button',function(element) {
-            var uuid = $(element).attr('uuid');          
-            category.loadEditCategory(uuid);     
-        });
-    
         arikaim.ui.button('.delete-button',function(element) {
             var uuid = $(element).attr('uuid');
             var title = $(element).attr('data-title');
@@ -136,7 +143,7 @@ function CategoryView() {
                     var branch = $('#category_rows').attr('branch');
                     var elementId = $(this).attr('id');
                     var uuid = $(this).attr('uuid');
-                    category.loadList(elementId,parentId,uuid,branch,function(result) {                   
+                    self.loadItemsList(elementId,parentId,uuid,branch,function(result) {                   
                         self.initRows();                    
                     });
                 }

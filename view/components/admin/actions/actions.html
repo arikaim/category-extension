@@ -2,15 +2,29 @@
 <div class="ui dropdown actions-dropdown">
     <i class="ellipsis vertical icon"></i>
     <div class="menu">                 
-        <div class="item edit-button" uuid="{{ category.uuid }}" {{ buttons.edit.title|attr('title') }}>
+        <div 
+            mountTo="category_details"
+            component="category::admin.edit"
+            params="uuid:{{ category.uuid }}"
+            class="item category-action" 
+            {{ buttons.edit.title|attr('title') }}>
             <i class="icon edit"></i>
             {{ buttons.edit.content }}
         </div>
-        <div class="item delete-button" uuid="{{ category.uuid }}" {{ buttons.delete.title|attr('title') }}  data-title="{{ full_title|string(' / ') }}">
+        <div 
+            class="item delete-button" 
+            uuid="{{ category.uuid }}" 
+            {{ buttons.delete.title|attr('title') }}  
+            data-title="{{ full_title|string(' / ') }}">
             <i class="icon orange trash"></i>
             {{ buttons.delete.content }}
         </div>
-        <div class="item add-button" branch="{{ category.branch }} " uuid="{{ category.uuid }}" {{ buttons.add.title|attr('title') }} parent-id="{{ category.id }}">
+        <div 
+            mountTo="category_details"
+            component="category::admin.add"
+            params="parent_id:{{ category.id }},branch:{{ category.branch }}"
+            class="item category-action"          
+            {{ buttons.add.title|attr('title') }}>
             <i class="icon plus"></i>
             {{ buttons.add.content }}
         </div>
@@ -25,9 +39,14 @@
             {{ buttons.enable.content }}
         </div>
         {% endif %}
-        <div class="item relations-button" uuid="{{ category.uuid }}" {{ buttons.relations.title|attr('title') }}>
-            <i class="icon linkify"></i>
-            {{ buttons.relations.content }}
+        <div 
+            mountTo="category_details"
+            component="category::admin.details"
+            class="item category-action" 
+            params="uuid:{{ category.uuid }}" 
+            {{ buttons.details.title|attr('title') }}>
+            <i class="icon info"></i>
+            {{ buttons.details.content }}
         </div>       
     </div>
 </div>     

@@ -10,7 +10,14 @@ arikaim.component.onLoaded(function() {
         }
     });
 
-    category.initCategoryDropDown();
+    $('#category_dropdown').dropdown({
+        allowCategorySelection: true,
+        
+        onChange: function(value, text, choice) { 
+            var title = $(choice).attr('title');
+            $(this).children('.text').html(title);
+        }
+    });
     
     arikaim.ui.form.addRules("#category_form",{
         inline: false,

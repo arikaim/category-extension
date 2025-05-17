@@ -6,7 +6,15 @@ arikaim.component.onLoaded(function() {
     },function(result) {
         arikaim.ui.form.clear('#category_form');
         arikaim.ui.form.showMessage(result.message);
-        // load edit category       
-        category.loadEditCategory(result.uuid);
+
+        arikaim.events.emit('category.create',result.uuid);
+
+        arikaim.page.loadContent({
+            id: 'category_details',
+            component: 'category::admin.edit',
+            params: { 
+                uuid: result.uuid
+            }
+        });  
     });
 });

@@ -1,0 +1,16 @@
+{
+    "title": "Category Details",
+    "icon": "info",
+    "labels": {
+        "uuid": "Uuid",
+        "title": "Title",
+        "slug": "Slug",
+        "image": "Image",
+        "status": "Status",
+        "relations": "Relations",
+        "description": "Description",
+        "icon": "Icon",
+        "user": "User",
+        "branch": "Branch"
+    }
+}

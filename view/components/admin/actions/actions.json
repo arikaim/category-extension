@@ -4,9 +4,9 @@
             "title": "Edit Category",
             "content": "Edit"
         },
-        "relations": {               
-            "title": "Category Relations",
-            "content": "Relations"
+        "details": {               
+            "title": "Category Details",
+            "content": "Details"
         },
         "delete": {               
             "title": "Delete Category",
