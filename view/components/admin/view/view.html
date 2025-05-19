@@ -1,21 +1,21 @@
 <div class="ui segment">
-    <div class="ui grid">
-        <div class="two wide column">
-            <button 
-                mountTo="category_details"
-                component="category::admin.add"
-                title="{{ tooltip.create }}"
-                class="ui mini curcular green icon button create-category">
-                <i class="icon plus"></i>
-            </button>
-        </div>
-        <div class="ten wide column pt-1">   
-            <div class="flex flex-row items-center" >
-                <div class="px-2 font-bold">
-                    {{ labels.branch }}
-                </div>
-                {{ component('category::admin.branch',{ class: 'clearable top left pointing selection mini' }) }} 
-            </div>  
+    <div class="ui grid">       
+        <div class="twelve wide column pt-1">  
+            <div class="flex flex-row items-center">
+                <button 
+                    mountTo="category_details"
+                    component="category::admin.add"
+                    title="{{ tooltip.create }}"
+                    class="ui mini curcular green icon button create-category">
+                    <i class="icon plus"></i>
+                </button>
+                <div class="flex flex-row items-center" >
+                    <div class="px-2 font-bold">
+                        {{ labels.branch }}
+                    </div>
+                    {{ component('category::admin.branch',{ class: 'clearable top left pointing selection mini' }) }} 
+                </div>  
+            </div>           
         </div>               
         <div class="four wide column right aligned px-1 pt-1">
             {{ component('semantic~paginator.dropdown',{ class: 'mini', namespace: 'category' }) }}

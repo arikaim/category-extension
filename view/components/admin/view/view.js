@@ -13,7 +13,12 @@ function CategoryView() {
         this.loadMessages('category::admin');
         arikaim.ui.loadComponentButton('.create-category');
 
-        arikaim.events.on('category.create',function(uuid) {
+        arikaim.events.on('category.create',function(uuid) {          
+            self.loadList();
+        });
+
+        arikaim.events.on('category.update',function(uuid) {          
+            self.loadList();
         });
 
         paginator.init('category_rows',{
@@ -28,6 +33,8 @@ function CategoryView() {
                 self.loadList(branch);
             }
         });
+
+        this.initRows();
     };
 
     this.loadItemsList = function(element, parentId, uuid, branch, onSuccess) { 
@@ -75,7 +82,8 @@ function CategoryView() {
             },function() {
                 category.delete(uuid,function(result) {
                     $('#' + uuid).remove();
-                    $('.class-' + uuid).remove();                   
+                    $('.class-' + uuid).remove();      
+                    arikaim.page.toastMessage(result.message);
                 },function(errors) {                   
                     arikaim.page.toastMessage({
                         class: 'error',
@@ -107,7 +115,6 @@ function CategoryView() {
         
         arikaim.ui.button('.relations-button',function(element) {
             var uuid = $(element).attr('uuid');
-          
             category.loadCategoryRelations(uuid);     
         });
 
@@ -155,6 +162,5 @@ function CategoryView() {
 var categoryView = new createObject(CategoryView,ControlPanelView);
 
 arikaim.component.onLoaded(function() {
-    categoryView.init();   
-    categoryView.initRows();
+    categoryView.init();      
 });

@@ -5,5 +5,6 @@ arikaim.component.onLoaded(function() {
         return arikaim.put('/api/admin/category/update/description','#category_description_form');
     },function(result) {
         arikaim.ui.form.showMessage(result.message);
+        arikaim.events.emit('category.update',result.uuid);
     });
 });
