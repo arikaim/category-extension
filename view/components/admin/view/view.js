@@ -6,10 +6,10 @@
 */
 'use strict';
 
-function CategoryView() {
-    var self = this;
+class CategoryView  extends View {
+    self = this;
 
-    this.init = function() {
+    init() {
         this.loadMessages('category::admin');
         arikaim.ui.loadComponentButton('.create-category');
 
@@ -20,24 +20,17 @@ function CategoryView() {
         arikaim.events.on('category.update',function(uuid) {          
             self.loadList();
         });
-
-        paginator.init('category_rows',{
-            name: 'category::admin.view.items',
-            params: {
-                namespace: 'category'
-            }
-        });      
-
+        
+        /*
         $('#branch_dropdown').dropdown({
             onChange: function(branch, text, choice) {               
                 self.loadList(branch);
             }
         });
-
-        this.initRows();
+        */        
     };
 
-    this.loadItemsList = function(element, parentId, uuid, branch, onSuccess) { 
+    loadItemsList(element, parentId, uuid, branch, onSuccess) { 
         return arikaim.page.loadContent({
             id : element,
             component : 'category::admin.view.items',
@@ -50,7 +43,7 @@ function CategoryView() {
     };
 
 
-    this.loadList = function(branch) {
+    loadList(branch) {
         self.loadItemsList('category_rows',null,null,branch,function(result) {                   
             self.initRows();  
             paginator.clear('category',function() {
@@ -66,10 +59,10 @@ function CategoryView() {
         });
     };
 
-    this.initRows = function() {       
+    initRows() {       
         arikaim.ui.loadComponentButton('.category-action');
         
-        $('.actions-dropdown').dropdown();
+      //  $('.actions-dropdown').dropdown();
         
         arikaim.ui.button('.delete-button',function(element) {
             var uuid = $(element).attr('uuid');
@@ -118,10 +111,10 @@ function CategoryView() {
             category.loadCategoryRelations(uuid);     
         });
 
-        this.initAccordion();
+        this.initAccordion('#category_tree');
     };
 
-    this.loadItems = function(branch) {
+    loadItems(branch) {
         arikaim.page.loadContent({
             id : 'category_rows',
             component : 'category::admin.view.items',
@@ -134,8 +127,24 @@ function CategoryView() {
         });
     };
 
-    this.initAccordion = function(selector) {  
-        selector = getDefaultValue(selector,'.ui.accordion');             
+    initAccordion(selector) {  
+        selector = getDefaultValue(selector,'.accordion');            
+        
+        var el = document.querySelector(selector);
+
+      //  var tr = new HSTreeView(el);
+
+      //  console.log(tr);
+
+         console.log(HSTreeView);
+        console.log(selector);
+           console.log(el);
+        //const tree = new HSTreeView(document.querySelector(selector));
+
+        var tree = HSTreeView.getInstance(selector,true);
+        console.log(tree);
+
+        /*
         $(selector).accordion({
             selector: {
                 trigger: '.title .dropdown'
@@ -155,12 +164,15 @@ function CategoryView() {
                     });
                 }
             }
-        });        
+        });  
+        */      
     };
 }
 
-var categoryView = new createObject(CategoryView,ControlPanelView);
+var categoryView = new CategoryView();
 
 arikaim.component.onLoaded(function() {
     categoryView.init();      
+
+
 });

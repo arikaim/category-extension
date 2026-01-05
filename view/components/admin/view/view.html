@@ -1,44 +1,41 @@
-<div class="ui segment">
-    <div class="ui grid">       
-        <div class="twelve wide column pt-1">  
-            <div class="flex flex-row items-center">
-                <button 
-                    mountTo="category_details"
-                    component="category::admin.add"
-                    title="{{ tooltip.create }}"
-                    class="ui mini curcular green icon button create-category">
-                    <i class="icon plus"></i>
-                </button>
-                <div class="flex flex-row items-center" >
-                    <div class="px-2 font-bold">
-                        {{ labels.branch }}
-                    </div>
-                    {{ component('category::admin.branch',{ class: 'clearable top left pointing selection mini' }) }} 
-                </div>  
-            </div>           
-        </div>               
-        <div class="four wide column right aligned px-1 pt-1">
-            {{ component('semantic~paginator.dropdown',{ class: 'mini', namespace: 'category' }) }}
+<div class="flex flex-row items-center {{ theme.panel }}">  
+    <button 
+        mountTo="category_details"
+        component="category::admin.add"
+        title="{{ tooltip.create }}"
+        class="{{ theme.buttons.green }} create-category">
+        {{ buttons.create }}
+    </button>
+    <div class="ml-4 flex flex-row items-center">
+        <div class="px-2 font-bold">
+            {{ labels.branch }}
         </div>
-    </div>
+        {{  component('category::admin.branch',{ 
+                class: 'select-sm' 
+            }) 
+        }} 
+    </div>    
 </div>
-<div class="flex flex-row items-start">
+
+<div class="mt-4 flex flex-row items-start">
     <div 
         class="w-2/3 hidden" 
         id="category_details">
     </div>
-    <div class="ml-2 w-full">
-        <div class="ui segment">
-            <div id="category_rows" component="category::admin.view.items" namespace="category" branch="{{ branch }}">
-                {{  component('category::admin.view.items',{ 
-                        parent_id: parent_id|default(null), 
-                        branch: branch 
-                    }) 
-                }}   
-            </div>
-            <div class="mt-2" id="paginator">
-                {{ component('semantic~paginator',{ namespace: 'category' }) }}
-            </div>
-        </div>   
+    <div class="ml-2 w-full">       
+        <div 
+            id="category_rows" 
+            component="category::admin.view.items" 
+            namespace="category" 
+            branch="{{ branch }}">
+            {{  component('category::admin.view.items',{ 
+                    parent_id: parent_id|default(null), 
+                    id: 'category_tree',
+                    branch: branch 
+                }) 
+            }}   
+        </div>
+        <div class="mt-2" id="paginator">
+        </div>
     </div>   
 </div>

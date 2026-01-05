@@ -1,8 +1,17 @@
-{{  component('semantic~tabs',{ 
+{{  component('system:admin.tabs',{ 
         items: [
-            { icon: 'list',active: true,component: 'category::admin.view',params: { language: current_language },title: labels.view }
+            { 
+                svg_icon: 'icons~list',
+                active: true,
+                component: 'category::admin.view',
+                title: labels.view 
+            }
         ],
-        menu: { extension: 'category' }, 
-        content: { component: 'category::admin.view' } 
+        menu: { 
+            extension: 'category' 
+        }, 
+        content: { 
+            component: 'category::admin.view' 
+        } 
     })
 }}

@@ -12,26 +12,18 @@ function CategoryControlPanel() {
     };
 
     this.deleteImage = function(uuid,fileName,onSuccess,onError) {
-        var data = { 
+        return arikaim.put('/api/admin/category/delete/image',{ 
             uuid: uuid, 
             file_name: fileName 
-        };
-
-        return arikaim.put('/api/admin/category/delete/image',data,onSuccess,onError);          
+        },onSuccess,onError);          
     };
 
     this.setStatus = function(uuid, status ,onSuccess, onError) {           
-        var data = { 
+        return arikaim.put('/api/admin/category/status',{ 
             uuid: uuid, 
             status: status 
-        };
-
-        return arikaim.put('/api/admin/category/status',data,onSuccess,onError);      
+        },onSuccess,onError);      
     };   
 }
 
 var category = new CategoryControlPanel();
-
-arikaim.component.onLoaded(function() {
-    arikaim.ui.tab();
-});

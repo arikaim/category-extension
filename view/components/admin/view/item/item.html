@@ -1,20 +1,50 @@
 {% set has_child = category.hasChild() %}
 {% set title = category.title %}
 
-<div class="title class-{{ category.uuid }} m-0" has-child="{{ has_child }}">              
-    {{ component('category::admin.actions',{ category: category }) }} 
+<div 
+    role="treeitem" 
+    aria-expanded="true"
+    class="accordion-item class-{{ category.uuid }}" 
+    has-child="{{ has_child }}"
+    data-tree-view-item='{
+        "value": "assets",
+        "isDir": {{ has_child }}
+    }'>              
+
+    <div 
+        class="accordion-heading tree-view-selected:bg-base-300/40 flex w-full items-center gap-x-0.5 rounded-md py-0.5" >
+        <button class="accordion-toggle btn btn-sm btn-circle btn-text" aria-expanded="true" aria-controls="basic-tree-view-collapse-one" >
+            {{ component('icons~plus',theme.icons.gray,'svg') }}
+        </button>
+
+    {# component('category::admin.actions',{ category: category }) #} 
     {% if category.status == 1 %}
-        <i class="icon middle aligned checkmark olive" {{ labels.enabled.title|attr('title') }}></i>
+        {{ component('icons~check',theme.icons.green,'svg') }}      
     {% else %}
-        <i class="icon middle aligned ban grey" {{ labels.disabled.title|attr('title') }}></i>
+        {{ component('icons~close',theme.icons.delete,'svg') }}     
     {% endif %}
-    <i class="dropdown icon"></i>
-    <span>
-        {{ category.image.thumbnail(64,64).src }}
-    </span>
-    <img src="{{ category.image.thumbnail(64,64).src }}">  
-    <span class="font-bold">{{ title }}</span>    
+        <div class="tree-view-selected:bg-base-300/40 grow cursor-pointer rounded-md px-1.5">
+            <div class="flex flex-row items-center gap-x-3">
+                {{ component('icons~folder',theme.icons.gray,'svg') }}
+                <div class="grow">                   
+                    <span class="text-base-content">
+                        {{ title }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div 
+        id="basic-tree-view-collapse-one" 
+        class="accordion-content w-full overflow-hidden transition-[height] duration-300" 
+        role="group" 
+        aria-labelledby="basic-tree-view-heading-one" >
+        {{ category.description }}
+
+        {% if has_child == true %}
+            <div class="tree-view-space">
+                ... childs 
+            </div>
+        {% endif %}
+    </div>
 </div>     
-<div class="content {{ has_child|ifthen(1,'ml-4') }} class-{{ category.uuid }} m-0"> 
-    <span class="ui gray text">{{ category.description }}</span>  
-</div>

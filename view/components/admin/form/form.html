@@ -22,7 +22,13 @@
     </div>
     <div class="field required">
         <label>{{ title.label }}</label>
-        <input type="text" name="title" id="title" {{ title.placeholder|attr('placeholder') }} value="{{ category.title }}">  
+        <input 
+            rule="empty"
+            type="text" 
+            name="title" 
+            id="title" 
+            {{ title.placeholder|attr('placeholder') }} 
+            value="{{ category.title }}">  
     </div>   
     {{  component('semantic~form.fields.slug',{ 
             slug_source: 'title',

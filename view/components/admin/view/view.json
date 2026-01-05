@@ -1,10 +1,6 @@
 {
-    "title": {
-        "content": "View",
-        "icon": "list"              
-    },
-    "create": {
-        "create": "New category"
+    "buttons": {
+        "create": "Create"
     },
     "labels": {
         "branch": "Branch"

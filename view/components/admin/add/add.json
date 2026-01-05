@@ -1,6 +1,4 @@
 {   
     "title":"Add Category",   
-    "icon": "plus",
-    "labels": {       
-    }
+    "icon": "icons~plus"
 }

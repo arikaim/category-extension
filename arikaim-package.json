@@ -5,7 +5,7 @@
     "type": "user",
     "description": "Add, edit or remove site categories.",
     "short-description": "Manage site categories.",
-    "version": "1.9.0",
+    "version": "2.0.0",
     "repository": "https://github.com/arikaim/category-extension.git",
     "position": "2",
     "install-order": 3,
@@ -16,9 +16,9 @@
     },
     "admin-menu": {        
         "title": "Categories",
-        "icon": "list",
+        "svg_icon": "icons~list",
         "page-title": "Categories",
-        "page-icon": "list",       
+        "page-icon": "icons~list",       
         "component": "category::admin"
     }
 }
