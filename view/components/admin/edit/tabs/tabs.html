@@ -1,21 +1,41 @@
-<div class="ui stackable tabular menu category-edit-tabs">      
-    <div class="item link active edit-category-tab-item" component="category::admin.edit.details" uuid="{{ uuid }}">
-        <i class="icon stream blue"></i>
-        {{ labels.details }}     
-    </div>  
-    <div class="item link edit-category-tab-item" component="category::admin.edit.images" uuid="{{ uuid }}">
-        <i class="images outline icon blue"></i>
-        {{ labels.images }}     
-    </div>  
-    <div class="item link edit-category-tab-item" component="category::admin.edit.description" uuid="{{ uuid }}">
-        <i class="align left icon blue"></i>
-        {{ labels.description }}     
-    </div>       
-    <div class="item link edit-category-tab-item" component="category::admin.edit.meta" uuid="{{ uuid }}">
-        <i class="code icon blue"></i>
-        {{ labels.meta }}     
-    </div> 
+{{  component('system:admin.tabs',{ 
+        id: 'product_edit_tab',
+        items: [ 
+            { 
+                title: labels.details, 
+                component: 'category::admin.edit.details',
+                params: 'uuid:' ~ uuid,
+                svg_icon: 'icons~info', 
+                active: true 
+            },
+            { 
+                title: labels.images, 
+                component: 'category::admin.edit.images', 
+                params: 'uuid:' ~ uuid,
+                svg_icon: 'icons~image' 
+            },  
+            { 
+                title: labels.description, 
+                component: 'category::admin.edit.description', 
+                params: 'uuid:' ~ uuid,
+                svg_icon: 'icons~info' 
+            },            
+            { 
+                title: labels.meta, 
+                component: 'category::admin.edit.meta', 
+                params: 'uuid:' ~ uuid,
+                svg_icon: 'icons~code' 
+            }            
+        ],
+        content: { 
+            id: 'category_edit_content',
+            component: 'category::admin.edit.details',
+            params: {
+                uuid: uuid
+            }
+        } 
+    })
+}}
+
+<div class="mt-4" id="category_edit_content">    
 </div>
-<div class="ui active tab" id="category_edit_content">     
-    {{ component('category::admin.edit.details',{ uuid: uuid }) }}          
-</div>     

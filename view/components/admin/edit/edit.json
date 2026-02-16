@@ -1,6 +1,6 @@
 {
     "title":"Edit Category",  
-    "icon": "edit",
+    "icon": "icons~edit",
     "labels": {
         "category": "Category"       
     }

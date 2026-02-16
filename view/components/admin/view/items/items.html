@@ -5,15 +5,10 @@
     {% set items = items.where('branch','=',branch) %}
 {% endif %}
 {% set items = paginate(items,'category') %}  
-
-{{ component_id }}
-<div 
-    id="{{ component_id }}"
+<div     
     aria-orientation="vertical"
-    data-tree-view
-    role="tree"  
-    class="rounded-sm accordion">
-    {% for category in items.getItems() %}
-        {{ component('category::admin.view.item',{ category: category }) }}
+    class="--prevent-on-load-init hs-accordion-group">
+    {% for item in items.getItems() %}
+        {{ component('category::admin.view.item',{ item: item }) }}
     {% endfor %}
 </div>

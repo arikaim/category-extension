@@ -17,13 +17,13 @@
         "root": "Root"
     },   
     "labels": {
-        "slug": "Slug",
-        "choose": "Choose",
+        "root": "Root",
+        "slug": "Slug",     
         "branch": {
             "label": "Branch",
             "placeholder": "Enter category branch"
         }      
-    },
+    },   
     "buttons": {
         "save": {
             "content": "Save"

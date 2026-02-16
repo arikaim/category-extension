@@ -1,50 +1,71 @@
-{% set has_child = category.hasChild() %}
-{% set title = category.title %}
-
+{% set has_child = item.hasChild() %}
+{% set title = item.title %}
 <div 
-    role="treeitem" 
-    aria-expanded="true"
-    class="accordion-item class-{{ category.uuid }}" 
-    has-child="{{ has_child }}"
-    data-tree-view-item='{
-        "value": "assets",
-        "isDir": {{ has_child }}
-    }'>              
-
-    <div 
-        class="accordion-heading tree-view-selected:bg-base-300/40 flex w-full items-center gap-x-0.5 rounded-md py-0.5" >
-        <button class="accordion-toggle btn btn-sm btn-circle btn-text" aria-expanded="true" aria-controls="basic-tree-view-collapse-one" >
-            {{ component('icons~plus',theme.icons.gray,'svg') }}
+    class="hs-accordion" 
+    id="{{ item.id }}">
+    <div class="flex flex-row items-center gap-4">   
+        <button 
+            has-child="{{ has_child }}"
+            uuid="{{ item.uuid }}"
+            parent-id="{{ item.id }}"
+            class="{{ item_heading_class }} item-toggle hs-accordion-toggle hs-accordion-active:text-primary-active hover:text-muted-foreground-1 focus:outline-hidden focus:text-muted-foreground-1 disabled:opacity-50 disabled:pointer-events-none" 
+            aria-expanded="false" 
+            aria-controls="{{ item.uuid ~ '_content' }}">      
+            {{ component('icons~plus',theme.icons.gray,'svg') }}                  
         </button>
-
-    {# component('category::admin.actions',{ category: category }) #} 
-    {% if category.status == 1 %}
-        {{ component('icons~check',theme.icons.green,'svg') }}      
-    {% else %}
-        {{ component('icons~close',theme.icons.delete,'svg') }}     
-    {% endif %}
-        <div class="tree-view-selected:bg-base-300/40 grow cursor-pointer rounded-md px-1.5">
-            <div class="flex flex-row items-center gap-x-3">
-                {{ component('icons~folder',theme.icons.gray,'svg') }}
-                <div class="grow">                   
-                    <span class="text-base-content">
-                        {{ title }}
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+        <div class="flex flex-row items-center gap-2">
+                {% if item.status == 1 %}
+                    {{ component('icons~check',theme.icons.green,'svg') }}      
+                {% else %}
+                    {{ component('icons~close',theme.icons.delete,'svg') }}     
+                {% endif %}
+                <button 
+                    mountTo="category_details"
+                    component="category::admin.add"
+                    params="parent_id:{{ item.id }}"
+                    class="{{ theme.butons.icon }} item-action" 
+                    {{ labels.add|attr('title') }}>
+                    {{ component('icons~plus',theme.icons.menu,'svg') }}
+                </button> 
+                <button 
+                    mountTo="category_details"
+                    component="category::admin.edit"
+                    params="uuid:{{ item.uuid }}"
+                    class="{{ theme.butons.icon }} item-action" 
+                    {{ labels.edit|attr('title') }}>
+                    {{ component('icons~edit',theme.icons.menu,'svg') }}
+                </button> 
+                <button 
+                    class="{{ theme.butons.icon }} delete-item" 
+                    {{ buttons.delete.title|attr('title') }} 
+                    uuid="{{ item.uuid }}" 
+                    data-title="{{ item.name }}">
+                    {{ component('icons~trash',theme.icons.delete,'svg') }}
+                </button> 
+        </div>    
+        <div class="flex-grow w-full">         
+            {{ item.title }}
+        </div>  
+    </div>  
     <div 
-        id="basic-tree-view-collapse-one" 
-        class="accordion-content w-full overflow-hidden transition-[height] duration-300" 
-        role="group" 
-        aria-labelledby="basic-tree-view-heading-one" >
-        {{ category.description }}
-
-        {% if has_child == true %}
-            <div class="tree-view-space">
-                ... childs 
-            </div>
-        {% endif %}
+        id="{{ item.uuid ~ '_content' }}" 
+        class="{{ item_class|default('pl-4') }} hs-accordion-content hidden overflow-hidden transition-[height] duration-300" 
+        role="region" 
+        aria-labelledby="{{ item.id }}">
+        <div
+            id="{{ item.uuid ~ '_child_content' }}" 
+            class="w-full">
+            <div class="flex flex-row items-center">
+                <div>
+                    
+                </div>
+                <p class="flex-grow px-4 text-foreground">                  
+                    {{ item.description|default('...') }}
+                </p>
+            </div>   
+        </div>
+                     
     </div>
-</div>     
+</div>
+
+     

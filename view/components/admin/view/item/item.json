@@ -1,5 +1,7 @@
 {
     "labels": {
+        "add": "Create category",
+        "edit": "Edit category",
         "disable": "Disabled",
         "empty": ".. (no title)"
     }

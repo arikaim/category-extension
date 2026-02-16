@@ -1,10 +1,10 @@
 {% set model = createModel('Category','category') %}
 {% set items = model.selectRaw('distinct branch as branch').get() %}
 
-
 <select 
-    class="select {{ class }}" 
+    class="{{ theme.form.select }} {{ class }}" 
     id="{{ id|default('branch_dropdown') }}" 
+    name="{{ name|default('branch_dropdown') }}"
     aria-placeholder="{{ labels.choose }}"
     title="{{ labels.branch }}">
     <option 

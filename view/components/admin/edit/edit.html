@@ -1,7 +1,4 @@
-{% component 'semantic~panel' %}  
-    <div class="mt-4" id="category_tabs_content">     
-        {% if uuid is not empty %}
-            {{ component('category::admin.edit.tabs',{ uuid: uuid }) }}
-        {% endif %}
-    </div>
+{% component 'system:admin.panel' %}  
+    {% set size = 'w-full min-w-full' %}
+    {{ component('category::admin.edit.tabs',{ uuid: uuid }) }}
 {% endcomponent %}

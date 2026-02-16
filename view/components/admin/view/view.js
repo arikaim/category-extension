@@ -10,6 +10,8 @@ class CategoryView  extends View {
     self = this;
 
     init() {
+        self = this;
+
         this.loadMessages('category::admin');
         arikaim.ui.loadComponentButton('.create-category');
 
@@ -21,6 +23,8 @@ class CategoryView  extends View {
             self.loadList();
         });
         
+        HSAccordion.autoInit();
+
         /*
         $('#branch_dropdown').dropdown({
             onChange: function(branch, text, choice) {               
@@ -44,8 +48,9 @@ class CategoryView  extends View {
 
 
     loadList(branch) {
-        self.loadItemsList('category_rows',null,null,branch,function(result) {                   
+        this.loadItemsList('category_rows',null,null,branch,function(result) {                   
             self.initRows();  
+            /*
             paginator.clear('category',function() {
                 paginator.init('category_rows',{
                     name: 'category::admin.view.items',
@@ -56,15 +61,37 @@ class CategoryView  extends View {
                 });     
                 paginator.reload();     
             });   
+            */
+
         });
     };
 
-    initRows() {       
-        arikaim.ui.loadComponentButton('.category-action');
-        
-      //  $('.actions-dropdown').dropdown();
-        
-        arikaim.ui.button('.delete-button',function(element) {
+    initRows() {   
+        HSAccordion.autoInit();
+        arikaim.ui.loadComponentButton('.item-action');
+
+        arikaim.ui.button('.item-toggle',function(btn) {
+            console.log('load items');
+
+            var hasChild = $(btn).attr('has-child');
+            var uuid = $(btn).attr('uuid');
+
+            console.log(hasChild);
+            console.log(uuid);
+
+            if (hasChild == true) {
+                var parentId = $(btn).attr('parent-id');
+                var branch = $('#category_rows').attr('branch');
+               // var elementId = $(btn).attr('id');
+             
+                self.loadItemsList(uuid + '_child_content',parentId,uuid,branch,function(result) {                   
+                    self.initRows();                    
+                });
+            }
+
+        });
+     
+        arikaim.ui.button('.delete-item',function(element) {
             var uuid = $(element).attr('uuid');
             var title = $(element).attr('data-title');
 
@@ -111,7 +138,7 @@ class CategoryView  extends View {
             category.loadCategoryRelations(uuid);     
         });
 
-        this.initAccordion('#category_tree');
+      //  this.initAccordion('#category_tree');
     };
 
     loadItems(branch) {
