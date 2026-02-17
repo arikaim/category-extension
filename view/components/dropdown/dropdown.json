@@ -1,5 +1,5 @@
 {   
     "name": "category",
-    "default": "Choose Category",
+    "default": "Select Category",
     "hide_root": true
 }

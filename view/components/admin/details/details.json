@@ -1,6 +1,6 @@
 {
     "title": "Category Details",
-    "icon": "info",
+    "icon": "icons~info",
     "labels": {
         "uuid": "Uuid",
         "title": "Title",

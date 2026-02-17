@@ -12,11 +12,11 @@
 {% set page_url = page_url|default('{{ slug }}') %}
 {% set index = 1 %}
 
-<div class="ui list {{ class }}">
+<div class="divide-base-content/25 w-96 divide-y *:p-3 {{ class }}">
     {% for item in items %} 
         {%- if index <= max_items %}
             {%- set url = page_url|renderText({ slug: item.getSlug() }) -%}
-            <div class="item {{- item_class -}}">      
+            <div class="{{- item_class -}}">      
                 <a href="{{ url(url,true) }}">        
                     <span class="{{ item_text_class }}">{{ item.getTitle()|string }}</span>
                 </a>           

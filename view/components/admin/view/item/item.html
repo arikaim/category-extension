@@ -2,49 +2,78 @@
 {% set title = item.title %}
 <div 
     class="hs-accordion" 
-    id="{{ item.id }}">
+    id="{{ item.uuid }}">
     <div class="flex flex-row items-center gap-4">   
-        <button 
-            has-child="{{ has_child }}"
-            uuid="{{ item.uuid }}"
-            parent-id="{{ item.id }}"
-            class="{{ item_heading_class }} item-toggle hs-accordion-toggle hs-accordion-active:text-primary-active hover:text-muted-foreground-1 focus:outline-hidden focus:text-muted-foreground-1 disabled:opacity-50 disabled:pointer-events-none" 
-            aria-expanded="false" 
-            aria-controls="{{ item.uuid ~ '_content' }}">      
-            {{ component('icons~plus',theme.icons.gray,'svg') }}                  
-        </button>
+        {{ component('icons~chevron.right',{ 
+                size: 'h-5 w-5', 
+                color: 'text-gray-500',
+                class: 'hs-accordion-active:hidden block'
+            },'svg') 
+        }} 
+        
+        {{  component('icons~chevron.down',{ 
+                size: 'h-5 w-5', 
+                color: 'text-gray-500',
+                class: 'hs-accordion-active:block hidden'
+            },'svg') 
+        }}         
         <div class="flex flex-row items-center gap-2">
+            <button 
+                class="{{ theme.buttons.icon }} status-button" 
+                uuid="{{ item.uuid }}" 
+                status="{{ (item.status == 1) ? 0 : 1 }}"
+                {{ buttons.disable.title|attr('title') }} 
+                parent-id="{{ item.parent_id }}" 
+                parent-uuid="{{ item.parent.uuid }}">
                 {% if item.status == 1 %}
-                    {{ component('icons~check',theme.icons.green,'svg') }}      
+                    {{ component('icons~check',theme.icons.green,'svg') }}     
                 {% else %}
                     {{ component('icons~close',theme.icons.delete,'svg') }}     
                 {% endif %}
-                <button 
-                    mountTo="category_details"
-                    component="category::admin.add"
-                    params="parent_id:{{ item.id }}"
-                    class="{{ theme.butons.icon }} item-action" 
-                    {{ labels.add|attr('title') }}>
-                    {{ component('icons~plus',theme.icons.menu,'svg') }}
-                </button> 
-                <button 
-                    mountTo="category_details"
-                    component="category::admin.edit"
-                    params="uuid:{{ item.uuid }}"
-                    class="{{ theme.butons.icon }} item-action" 
-                    {{ labels.edit|attr('title') }}>
-                    {{ component('icons~edit',theme.icons.menu,'svg') }}
-                </button> 
-                <button 
-                    class="{{ theme.butons.icon }} delete-item" 
-                    {{ buttons.delete.title|attr('title') }} 
-                    uuid="{{ item.uuid }}" 
-                    data-title="{{ item.name }}">
-                    {{ component('icons~trash',theme.icons.delete,'svg') }}
-                </button> 
+            </button> 
+            <button 
+                mountTo="category_details"
+                component="category::admin.details"
+                params="uuid:{{ item.uuid }}"
+                class="{{ theme.butons.icon }} item-action" 
+                {{ labels.details|attr('title') }}>
+                {{ component('icons~info',theme.icons.menu,'svg') }}
+            </button>
+            <button 
+                mountTo="category_details"
+                component="category::admin.add"
+                params="parent_id:{{ item.id }},branch:{{ item.branch }}"
+                class="{{ theme.butons.icon }} item-action" 
+                {{ labels.add|attr('title') }}>
+                {{ component('icons~plus',theme.icons.menu,'svg') }}
+            </button> 
+            <button 
+                mountTo="category_details"
+                component="category::admin.edit"
+                params="uuid:{{ item.uuid }}"
+                class="{{ theme.butons.icon }} item-action" 
+                {{ labels.edit|attr('title') }}>
+                {{ component('icons~edit',theme.icons.menu,'svg') }}
+            </button> 
+            <button 
+                class="{{ theme.butons.icon }} delete-item" 
+                {{ buttons.delete.title|attr('title') }} 
+                uuid="{{ item.uuid }}" 
+                data-title="{{ item.title }}">
+                {{ component('icons~trash',theme.icons.delete,'svg') }}
+            </button> 
         </div>    
-        <div class="flex-grow w-full">         
-            {{ item.title }}
+        <div class="flex-grow w-full">            
+            <button 
+                has-child="{{ has_child }}"
+                uuid="{{ item.uuid }}"
+                parent-id="{{ item.id }}"
+                class="{{ item_heading_class }} 
+                {{ (has_child == true) ? 'item-toggle' : '' }} hs-accordion-toggle hs-accordion-active:text-primary-active hover:text-muted-foreground-1 focus:outline-hidden focus:text-muted-foreground-1 disabled:opacity-50 disabled:pointer-events-none" 
+                aria-expanded="false" 
+                aria-controls="{{ item.uuid ~ '_content' }}">      
+                {{ item.title }}       
+            </button>                 
         </div>  
     </div>  
     <div 

@@ -1,8 +1,17 @@
-{% set uuid|default(null) %}
-{% set title = createModel('Category','category').findById(uuid).getTitle() %}
-<div class="ui breadcrumb">      
-    {% for item in title %}
-        <div class="divider">/</div>    
-        <div class="section">{{ title }}</div>
+{% if uuid is not empty  %}
+    {% set category = createModel('Category','category').findById(uuid) %}
+{% endif %}
+{% set title = category.getTitle() %}
+
+<div class="breadcrumbs">    
+    <ul>
+    {% for item in title %}          
+        <li>
+            {{ item }}
+        </li>
+        <li class="breadcrumbs-separator">
+            {{ component('icons~chevron.right',theme.icons.gray,'svg') }}
+        </li>  
     {% endfor %}
+    </ul>
 </div>

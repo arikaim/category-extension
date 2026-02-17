@@ -6,6 +6,7 @@
         class="{{ theme.buttons.green }} create-category">
         {{ buttons.create }}
     </button>
+    {{  component('category::test',{}) }}
     <div class="ml-4 flex flex-row items-center">
         <div class="px-2 font-bold">
             {{ labels.branch }}
@@ -18,7 +19,7 @@
 </div>
 
 <div class="mt-4 flex flex-row items-start w-full"> 
-    <div class="w-2/3 "> 
+    <div class="w-2/3"> 
         <div 
             id="category_rows" 
             component="category::admin.view.items" 

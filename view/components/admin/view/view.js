@@ -11,7 +11,6 @@ class CategoryView  extends View {
 
     init() {
         self = this;
-
         this.loadMessages('category::admin');
         arikaim.ui.loadComponentButton('.create-category');
 
@@ -25,13 +24,10 @@ class CategoryView  extends View {
         
         HSAccordion.autoInit();
 
-        /*
-        $('#branch_dropdown').dropdown({
-            onChange: function(branch, text, choice) {               
-                self.loadList(branch);
-            }
-        });
-        */        
+        $('#branch_dropdown').on('change', function() {
+            var selected = $(this).val();            
+            self.loadList(selected);          
+        });    
     };
 
     loadItemsList(element, parentId, uuid, branch, onSuccess) { 
@@ -50,19 +46,6 @@ class CategoryView  extends View {
     loadList(branch) {
         this.loadItemsList('category_rows',null,null,branch,function(result) {                   
             self.initRows();  
-            /*
-            paginator.clear('category',function() {
-                paginator.init('category_rows',{
-                    name: 'category::admin.view.items',
-                    params: {
-                        namespace: 'category',
-                        branch: branch
-                    }
-                });     
-                paginator.reload();     
-            });   
-            */
-
         });
     };
 
@@ -71,18 +54,12 @@ class CategoryView  extends View {
         arikaim.ui.loadComponentButton('.item-action');
 
         arikaim.ui.button('.item-toggle',function(btn) {
-            console.log('load items');
-
             var hasChild = $(btn).attr('has-child');
             var uuid = $(btn).attr('uuid');
-
-            console.log(hasChild);
-            console.log(uuid);
 
             if (hasChild == true) {
                 var parentId = $(btn).attr('parent-id');
                 var branch = $('#category_rows').attr('branch');
-               // var elementId = $(btn).attr('id');
              
                 self.loadItemsList(uuid + '_child_content',parentId,uuid,branch,function(result) {                   
                     self.initRows();                    
@@ -96,43 +73,29 @@ class CategoryView  extends View {
             var title = $(element).attr('data-title');
 
             var message = arikaim.ui.template.render(self.getMessage('remove.content'),{ title: title });
-            modal.confirmDelete({ 
-                title: self.getMessage('remove.title'),
-                description: message
-            },function() {
+            
+            arikaim.ui.getComponent('confirm_delete').open(
+            function() {
                 category.delete(uuid,function(result) {
-                    $('#' + uuid).remove();
-                    $('.class-' + uuid).remove();      
-                    arikaim.page.toastMessage(result.message);
-                },function(errors) {                   
-                    arikaim.page.toastMessage({
-                        class: 'error',
-                        message: errors[0]
-                    });
+                    $('#' + uuid).remove(); 
+                    arikaim.ui.getComponent('toast').show(result.message);                   
+                },function(errors) {          
+                    arikaim.ui.getComponent('toast').show(errors[0]);                              
                 });
-            });
+            },message);
         });
       
-        arikaim.ui.button('.disable-button',function(element) {
+        arikaim.ui.button('.status-button',function(element) {
             var uuid = $(element).attr('uuid');
+            var status = $(element).attr('status');
             var branch = $(element).attr('branch');
 
-            category.setStatus(uuid,0,function(result) {
+            category.setStatus(uuid,status,function(result) {
                 $('#item_' + uuid).html('');
                 self.loadItems(branch);               
             });
         });   
-        
-        arikaim.ui.button('.enable-button',function(element) {
-            var uuid = $(element).attr('uuid');
-            var branch = $(element).attr('branch');
-
-            category.setStatus(uuid,1,function(result) {
-                $('#item_' + uuid).html('');
-                self.loadItems(branch);               
-            });
-        }); 
-        
+     
         arikaim.ui.button('.relations-button',function(element) {
             var uuid = $(element).attr('uuid');
             category.loadCategoryRelations(uuid);     

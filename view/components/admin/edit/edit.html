@@ -1,4 +1,18 @@
+{% if uuid is not empty %}
+    {% set category = createModel('Category','category').findById(uuid) %}
+{% endif %}
+
+
 {% component 'system:admin.panel' %}  
-    {% set size = 'w-full min-w-full' %}
+    {% if category.uuid is not empty %}
+        <div class="my-2">
+            <label class="{{ theme.form.label }}">
+                {{ labels.category }}
+            </label>
+            <div class="px-1">
+                {{ component('category::name',{ category: category }) }}               
+            </div>
+        </div>
+    {% endif %}
     {{ component('category::admin.edit.tabs',{ uuid: uuid }) }}
 {% endcomponent %}

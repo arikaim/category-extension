@@ -1,58 +1,57 @@
 {% if uuid is not empty %}
     {% set category = createModel('Category','category').findById(uuid) %}
 {% endif %}
-{% component 'semantic~panel' %}
-    {{ component('semantic~view.image',{ model: category }) }} 
-    <table class="ui very basic definition table">
+{% component 'system:admin.panel' %}
+    {{ component('system:admin.view.image',{ model: category }) }} 
+    <table class="{{ theme.table.details }}">
         <tbody>
             <tr>
-                <td class="right aligned">{{ labels.uuid }}</td>
+                <td class="{{ theme.table.field.label }}">{{ labels.uuid }}</td>
                 <td>
-                    <div class="ui basic label">{{ category.id }}</div>
-                    {{ category.uuid }}
+                    {{ component('system:admin.view.id',{ model: category }) }}                     
                 </td>
             </tr>
             <tr>
-                <td class="right aligned">{{ labels.status }}</td>
+                <td class="{{ theme.table.field.label }}">{{ labels.status }}</td>
                 <td>
                     {{ component('semantic~status.label',{ status: category.status }) }}
                 </td>
             </tr>    
             <tr>
-                <td class="right aligned">{{ labels.title }}</td>
+                <td class="{{ theme.table.field.label }}">{{ labels.title }}</td>
                 <td>{{ category.title }}</td>
             </tr>
             {% if category.description is not empty %}
             <tr>
-                <td class="right aligned">{{ labels.description }}</td>
+                <td class="{{ theme.table.field.label }}">{{ labels.description }}</td>
                 <td>{{ category.description }}</td>
             </tr>
             {% endif %}
             {% if category.branch is not empty %}
             <tr>
-                <td class="right aligned">{{ labels.branch }}</td>
+                <td class="{{ theme.table.field.label }}">{{ labels.branch }}</td>
                 <td>{{ category.branch }}</td>
             </tr>
             {% endif %}
             
             <tr>
-                <td class="right aligned">{{ labels.slug }}</td>
+                <td class="{{ theme.table.field.label }}">{{ labels.slug }}</td>
                 <td>{{ category.slug }}</td>
             </tr>
             <tr>
-                <td class="right aligned">{{ labels.icon }}</td>
+                <td class="{{ theme.table.field.label }}">{{ labels.icon }}</td>
                 <td>
                     {{ category.icon }}                    
                 </td>
             </tr>
             <tr>
-                <td class="right aligned">{{ labels.user }}</td>
+                <td class="{{ theme.table.field.label }}">{{ labels.user }}</td>
                 <td>{{ category.user.username_or_email }}</td>
             </tr>
         </tbody>
     </table>   
     
-    <h4 class="mt-4">
+    <h4 class="mt-4 font-bold">
         {{ labels.relations }}
     </h4>
     {{  component('system:admin.orm.relations.view',{ 
@@ -63,5 +62,5 @@
         }) 
     }}
 
-    {{ component('semantic~view.metatags',{ model: category }) }}    
+    {{ component('system:admin.view.metatags',{ model: category }) }}    
 {% endcomponent %}

@@ -21,7 +21,7 @@
         "slug": "Slug",     
         "branch": {
             "label": "Branch",
-            "placeholder": "Enter category branch"
+            "placeholder": "Enter branch"
         }      
     },   
     "buttons": {
