@@ -5,8 +5,7 @@
         title="{{ tooltip.create }}"
         class="{{ theme.buttons.green }} create-category">
         {{ buttons.create }}
-    </button>
-    {{  component('category::test',{}) }}
+    </button>   
     <div class="ml-4 flex flex-row items-center">
         <div class="px-2 font-bold">
             {{ labels.branch }}
@@ -15,7 +14,12 @@
                 class: 'select-sm' 
             }) 
         }} 
-    </div>    
+    </div> 
+    
+    {{  component('category::dropdown',{ 
+                class: 'select-sm' 
+            }) 
+        }} 
 </div>
 
 <div class="mt-4 flex flex-row items-start w-full"> 
@@ -31,9 +35,7 @@
                     branch: branch 
                 }) 
             }}   
-        </div>
-        <div class="mt-2" id="paginator">
-        </div>
+        </div>       
     </div>   
     <div 
         class="w-1/2 hidden ml-4" 

@@ -94,22 +94,6 @@ class Category extends Model
     ];
     
     /**
-     * Visible columns
-     *
-     * @var array
-     */
-    protected $visible = [
-        'id',
-        'icon',
-        'position',       
-        'status',
-        'parent_id',
-        'branch',
-        'user',
-        'uuid'                     
-    ];
-
-    /**
      * Fillable attributes
      *
      * @var array

@@ -9,24 +9,22 @@
 {% endif %}
 {% set items = category.getList() %}
 
-<div class="ui icon top left pointing dropdown {{ class }}" id="{{ id }}">
+{% set tree = category.getTree() %}
+
+
+<div 
+    class=" {{ class }}" 
+    id="{{ component_id }}">
     <input 
         rule="{{ rule }}"
         name="{{ name }}" 
         id="{{ name }}" 
         type="hidden" 
-        value="{{ selected }}">
-    <i class="list icon"></i>
+        value="{{ selected }}"> 
     <div class="text" title="{{ selected_text }}">
         {{ (selected_text is not empty) ? selected_text : default }}
     </div>    
-    {{  component('category::dropdown.menu',{           
-            selected: selected, 
-            items: items,
-            exclude: exclude,
-            data_type: data_type,
-            class: menu_class,
-            root: root
-        }) 
-    }}
+    
+
+    {{ component('system:admin.view.tree',{ items: tree }) }}
 </div>
