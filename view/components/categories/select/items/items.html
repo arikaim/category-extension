@@ -1,0 +1,12 @@
+
+
+{% for item in items %}
+    {{  component('category::categories.select.item',{ 
+            space: space,
+            item: item,
+            data_field: data_field          
+        }) 
+    }}
+{% endfor %}
+
+

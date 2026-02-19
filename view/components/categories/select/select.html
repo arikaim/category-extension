@@ -1,0 +1,27 @@
+{% set category = createModel('Category','category') %}
+{% if branch is not empty %}
+    {% set category = category.where('branch','=',branch) %}
+{% endif %}
+{% set tree = category.getTree() %}
+<select 
+    data-hs-select='{
+        "placeholder": "{{ placeholder }}",
+        "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+        "toggleClasses": "{{ theme.form.select }} pt-1.5 hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative  flex text-nowrap w-full cursor-pointer bg-layer border border-gray-200 hover:bg-layer-hover focus:outline-hidden focus:bg-layer-focus",
+        "dropdownClasses": "z-50 w-full max-h-72 space-y-0.5 bg-white border border-gray-200 rounded-md overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-none [&::-webkit-scrollbar-track]:bg-scrollbar-track [&::-webkit-scrollbar-thumb]:bg-scrollbar-thumb",
+        "dropdownVerticalFixedPlacement": "bottom",
+        "optionClasses": "hs-selected:bg-select-item-active py-2 px-4 w-full text-sm text-select-item-foreground cursor-pointer hover:bg-select-item-hover rounded-lg focus:outline-hidden focus:bg-select-item-focus hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50",
+        "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span class=\"hs-selected:font-semibold hs-selected:bg-gray-100 text-sm text-foreground\" data-title></span><span class=\"hidden hs-selected:block\"></span></div>",
+        "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-muted-foreground-1\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+    }'
+    rule="{{ rule }}"
+    name="{{ name|default('category') }}"
+    class="w-full {{ class }}" 
+    id="{{ component_id }}">
+    {{  component('category::categories.select.items',{
+            space: 0,
+            items: tree,
+            data_field: data_field|default('uuid')
+        }) 
+    }}
+</select>

@@ -5,7 +5,7 @@
 
 {% set page_url = page_url|default('') %}
 
-<div class="ui {{ class }}">
+<div class="{{ class }}">
     {% for item in items %}       
         {{ content }}
     {% endfor %}

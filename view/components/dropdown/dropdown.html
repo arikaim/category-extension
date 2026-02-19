@@ -1,30 +1,42 @@
-{% set name = name|default('category') %}
-{% set data_type = data_type|default('id') %}
-{% set id = id|default('category_dropdown') %}
-{% set selected = selected|default(null) %}
-{% set exclude = exclude|default([]) %}
 {% set category = createModel('Category','category') %}
 {% if selected is not empty %}
     {% set selected_text = category.findById(selected).getFullTitle() %}
 {% endif %}
-{% set items = category.getList() %}
-
 {% set tree = category.getTree() %}
 
-
-<div 
-    class=" {{ class }}" 
-    id="{{ component_id }}">
-    <input 
-        rule="{{ rule }}"
-        name="{{ name }}" 
-        id="{{ name }}" 
-        type="hidden" 
-        value="{{ selected }}"> 
-    <div class="text" title="{{ selected_text }}">
-        {{ (selected_text is not empty) ? selected_text : default }}
-    </div>    
-    
-
-    {{ component('system:admin.view.tree',{ items: tree }) }}
+<div
+    id="{{ component_id|default('category_dropdown') }}"    
+    class="hs-dropdown relative {{ class }}">
+    <div       
+        class="join">
+        <input 
+            class="dropdown-value"
+            rule="{{ rule }}"
+            name="{{ name|default('category') }}" 
+            type="hidden">
+        <input 
+            readonly           
+            class="dropdown-label join-item {{ theme.form.input }} input-sm pointer-events-none"           
+            type="text" 
+            value="{{ (selected_text is not empty) ? selected_text : default }}">
+        <button        
+            type="button" 
+            class="join-item hs-dropdown-toggle btn btn-outline btn-sm" 
+            aria-haspopup="menu" 
+            aria-expanded="false" 
+            aria-label="{{ label }}">
+            {{ component('icons~chevron.down',theme.icons.gray,'svg') }}
+        </button>     
+    </div>
+    <div        
+        class="py-2 bg-white border border-gray-100 hs-dropdown-menu hs-dropdown-open:opacity-100 hidden min-w-60 shadow" 
+        role="menu" 
+        aria-orientation="vertical"> 
+        {{  component('system:admin.view.tree',{ 
+                id: 'category_tree',
+                data_field: data_field|default('id'),
+                items: tree 
+            }) 
+        }}
+    </div>
 </div>

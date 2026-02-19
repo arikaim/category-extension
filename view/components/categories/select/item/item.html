@@ -1,0 +1,11 @@
+<option value="{{ item[data_field] }}"> 
+    {{ '&nbsp'|strRepeat(0) }} {{ item.title }}
+</option>
+{% if item.items|length > 0 %}                    
+    {{  component('category::categories.select.items',{ 
+            items: item.items,
+            data_field: data_field,
+            space: space + 4 
+        }) 
+    }}                                        
+{% endif %}
