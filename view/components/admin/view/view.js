@@ -12,6 +12,7 @@ class CategoryView  extends View {
     init() {
         self = this;
         this.loadMessages('category::admin');
+        
         arikaim.ui.loadComponentButton('.create-category');
 
         arikaim.events.on('category.create',function(uuid) {          

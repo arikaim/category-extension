@@ -3,16 +3,15 @@
     {% set selected_text = category.findById(selected).getFullTitle() %}
 {% endif %}
 {% set tree = category.getTree() %}
-
-<div
-    id="{{ component_id|default('category_dropdown') }}"    
-    class="hs-dropdown relative {{ class }}">
-    <div       
-        class="join">
+<div 
+    id="{{ component_id|default('category_dropdown') }}"          
+    class="hs-dropdown flex flex-col items-start [--offset:2] [--placement:top-start] [--strategy:absolute] {{ class }}">
+    <div class="join w-full">
         <input 
             class="dropdown-value"
             rule="{{ rule }}"
             name="{{ name|default('category') }}" 
+            value="{{ selected }}"
             type="hidden">
         <input 
             readonly           
@@ -26,17 +25,18 @@
             aria-expanded="false" 
             aria-label="{{ label }}">
             {{ component('icons~chevron.down',theme.icons.gray,'svg') }}
-        </button>     
+        </button> 
     </div>
     <div        
-        class="py-2 bg-white border border-gray-100 hs-dropdown-menu hs-dropdown-open:opacity-100 hidden min-w-60 shadow" 
+        class="relative top-0 hidden w-full flex-grow py-2 bg-white border border-gray-200 hs-dropdown-menu hs-dropdown-open:opacity-100   shadow" 
         role="menu" 
         aria-orientation="vertical"> 
         {{  component('system:admin.view.tree',{ 
                 id: 'category_tree',
+                class: 'w-full',
                 data_field: data_field|default('id'),
                 items: tree 
             }) 
         }}
-    </div>
-</div>
+    </div>    
+</div>    
